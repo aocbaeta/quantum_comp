@@ -46,6 +46,7 @@ Demonstrar a correspondência entre:
 14. Montar a matriz de Gor'kov em base Nambu e seu traço espectral.
 15. Medir ocupações em Qiskit Aer com shots ideais e ruído depolarizante.
 16. Estimar energia por decomposição Pauli usando shots.
+17. Aplicar extrapolação zero-noise linear para mitigar energia ruidosa.
 
 ## Execução
 
@@ -66,6 +67,7 @@ python experiments/12_bcs_gorkov_anomalous_green.py
 python experiments/13_bcs_gorkov_nambu_matrix.py
 python experiments/14_bcs_qiskit_shots_noise.py
 python experiments/15_bcs_qiskit_energy_shots.py
+python experiments/16_bcs_qiskit_error_mitigation.py
 ```
 
 ## Estrutura de código
@@ -101,6 +103,8 @@ Dinâmica:
   Qiskit Aer e compara shots ideais com ruído depolarizante.
 - `experiments/15_bcs_qiskit_energy_shots.py`: mede cada termo de Pauli do
   Hamiltoniano e soma `E=sum_k c_k <P_k>`.
+- `experiments/16_bcs_qiskit_error_mitigation.py`: aumenta artificialmente o
+  ruído depolarizante e extrapola linearmente a energia para ruído zero.
 
 ## Observáveis de paper
 
@@ -120,6 +124,7 @@ Além de energia e fidelidade, a implementação mede:
 - `n_i` medido: ocupação estimada por contagens computacionais em Qiskit.
 - ruído depolarizante: modelo simples para comparar circuito ideal e ruidoso.
 - energia por shots: estimativa termo a termo por mudança de base Pauli.
+- mitigação zero-noise: ajuste linear `E(lambda)` e extrapolação para `lambda=0`.
 
 ## Resultados esperados
 
@@ -144,6 +149,8 @@ O script imprime um relatório comparativo com:
 - comparação statevector vs shots ideais vs shots ruidosos.
 - energia por shots ideal/ruidosa;
 - erro absoluto de energia contra statevector e evolução exata.
+- energia mitigada por extrapolação zero-noise;
+- comparação de erro antes/depois da mitigação.
 
 ## Observações técnicas
 

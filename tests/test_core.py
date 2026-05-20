@@ -31,7 +31,9 @@ from bcs import (
 from bcs_qiskit import simulate_bcs_trotter_circuit
 from bcs_qiskit import (
     counts_pair_observables,
+    linear_zero_noise_extrapolation,
     pauli_expectation_from_counts,
+    scaled_depolarizing_noise_model,
     statevector_pair_observables,
     statevector_pauli_energy,
 )
@@ -211,3 +213,14 @@ def test_statevector_pauli_energy_matches_matrix_expectation() -> None:
     state = computational_basis_state(4, [0, 1])
     hamiltonian = reduced_bcs_matrix(xi, g=0.8)
     assert abs(statevector_pauli_energy(state, terms) - np.real(expectation(state, hamiltonian))) < 1e-12
+
+
+def test_linear_zero_noise_extrapolation() -> None:
+    zne = linear_zero_noise_extrapolation([1.0, 2.0, 3.0], [2.0, 1.5, 1.0])
+    assert abs(zne["mitigated_energy"] - 2.5) < 1e-12
+    assert zne["fit_rmse"] < 1e-12
+
+
+def test_scaled_depolarizing_noise_model_builds() -> None:
+    model = scaled_depolarizing_noise_model(2.0)
+    assert model is not None

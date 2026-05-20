@@ -30,6 +30,7 @@ python experiments/12_bcs_gorkov_anomalous_green.py
 python experiments/13_bcs_gorkov_nambu_matrix.py
 python experiments/14_bcs_qiskit_shots_noise.py
 python experiments/15_bcs_qiskit_energy_shots.py
+python experiments/16_bcs_qiskit_error_mitigation.py
 ```
 
 Ou, para a suíte completa:
@@ -52,6 +53,7 @@ scripts/run_research_suite.sh
 - `results/tables/bcs_gorkov_nambu_spectral_trace.csv`;
 - `results/tables/bcs_qiskit_shots_noise.csv`;
 - `results/tables/bcs_qiskit_energy_shots.csv`;
+- `results/tables/bcs_qiskit_error_mitigation.csv`;
 - `results/figures/bcs_trotter_error.png`;
 - `results/figures/bcs_gap_condensate_time.png`;
 - `results/figures/bcs_pair_occupations_time.png`;
@@ -67,6 +69,8 @@ scripts/run_research_suite.sh
 - `results/figures/bcs_qiskit_shots_noise_occupations.png`.
 - `results/figures/bcs_qiskit_energy_shots_values.png`;
 - `results/figures/bcs_qiskit_energy_shots_error.png`.
+- `results/figures/bcs_qiskit_error_mitigation_zne.png`;
+- `results/figures/bcs_qiskit_error_mitigation_errors.png`.
 
 ## Observáveis
 
@@ -87,3 +91,5 @@ scripts/run_research_suite.sh
 - Comparação entre statevector, shots ideais e ruído depolarizante simples.
 - Energia por decomposição Pauli `E=sum_k c_k <P_k>`.
 - Erro absoluto da energia por shots ideal e ruidosa.
+- Extrapolação zero-noise linear com escalas de ruído depolarizante.
+- Erro antes/depois de mitigação.

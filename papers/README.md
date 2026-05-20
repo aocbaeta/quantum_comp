@@ -30,4 +30,5 @@ python experiments/12_bcs_gorkov_anomalous_green.py
 python experiments/13_bcs_gorkov_nambu_matrix.py
 python experiments/14_bcs_qiskit_shots_noise.py
 python experiments/15_bcs_qiskit_energy_shots.py
+python experiments/16_bcs_qiskit_error_mitigation.py
 ```

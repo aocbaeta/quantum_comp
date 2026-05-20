@@ -110,6 +110,7 @@ python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0
 - `experiments/13_bcs_gorkov_nambu_matrix.py` — matriz de Gor'kov em base Nambu e traço espectral;
 - `experiments/14_bcs_qiskit_shots_noise.py` — medição Qiskit por shots e ruído depolarizante simples;
 - `experiments/15_bcs_qiskit_energy_shots.py` — energia BCS por decomposição Pauli medida com shots;
+- `experiments/16_bcs_qiskit_error_mitigation.py` — extrapolação zero-noise linear para energia por shots;
 - `quantum_languages/tutorials/bcs.md` — tutorial técnico para mapeamento BCS → qubits;
 - `docs/BCS_QC.pdf` — referência teórica associada.
 - `papers/bcs_quantum_simulation.md` — rascunho de paper com figuras e resultados.

@@ -17,7 +17,8 @@ ocupações de pares, matriz de correlação `C_ij=<b_i^\dagger b_j>`, autovalor
 condensado, um proxy efetivo de gap, uma função de Green retardada de pares e
 um canal anômalo de Gor'kov organizado em uma matriz de resposta Nambu.
 Também é avaliada uma versão medida do circuito em Qiskit Aer, com amostragem
-por shots, ruído depolarizante simples e estimativa de energia termo a termo.
+por shots, ruído depolarizante simples, estimativa de energia termo a termo e
+mitigação por extrapolação zero-noise.
 Para o caso de quatro qubits estudado, a
 Trotterização de segunda ordem com 64 passos atinge fidelidade `0.9999989` em
 `t=2.5`, e a série temporal até `t=6.0` preserva o número total de pares com erro
@@ -122,6 +123,7 @@ Além de energia, fidelidade e número total de pares, são extraídos:
 - ocupações de pares estimadas por contagens de medição em Qiskit Aer;
 - comparação entre statevector, shots ideais e ruído depolarizante.
 - energia por decomposição Pauli `E=sum_k c_k <P_k>` estimada por shots.
+- energia mitigada por extrapolação zero-noise linear.
 
 Esses observáveis permitem discutir coerência coletiva dos pares mesmo em um
 modelo pequeno.
@@ -308,6 +310,27 @@ enquanto o erro ruidoso ficou em `2.40108`.
 
 ![Figura 15: erro absoluto da energia por shots.](../results/figures/bcs_qiskit_energy_shots_error.png)
 
+## 5.11 Mitigação por extrapolação zero-noise
+
+Como demonstração de mitigação simples, a energia ruidosa foi medida em três
+escalas artificiais de ruído depolarizante: `lambda=1,2,3`, com base
+`p1=0.0005` para portas de um qubit e `p2=0.005` para portas de dois qubits.
+Um ajuste linear `E(lambda)=a lambda + b` foi usado para estimar o limite de
+ruído zero `b`.
+
+A Figura 16 mostra os pontos ruidosos e a extrapolação linear. Para `4096` shots
+por termo de Pauli, a energia ruidosa em `lambda=1` foi `1.42524`, enquanto a
+energia mitigada foi `1.85809`. O valor de statevector Trotterizado é `2.61166`.
+
+![Figura 16: extrapolação zero-noise linear da energia BCS.](../results/figures/bcs_qiskit_error_mitigation_zne.png)
+
+A Figura 17 compara o erro antes/depois da mitigação. O erro contra o
+statevector foi reduzido de `1.18642` para `0.75357`. A melhora é clara, mas
+ainda limitada, indicando que o regime de ruído não é perfeitamente linear e que
+técnicas mais robustas podem ser investigadas.
+
+![Figura 17: erro de energia antes e depois da mitigação.](../results/figures/bcs_qiskit_error_mitigation_errors.png)
+
 # 6. Discussão
 
 Os resultados mostram três pontos principais. Primeiro, a conservação do número
@@ -329,8 +352,9 @@ qubits, incluindo dinâmica exata, Trotterização, circuito Qiskit e observáve
 físicos de pares. O código produz tabelas e figuras reprodutíveis para análise
 de erro, estrutura condensada, resposta retardada, canal anômalo de Gor'kov,
 matriz Nambu completa, medições por shots e estimativa de energia por
-decomposição Pauli. A etapa seguinte natural é aplicar técnicas simples de
-mitigação de erro e alocação adaptativa de shots por termo.
+decomposição Pauli, incluindo uma primeira mitigação zero-noise. A etapa
+seguinte natural é aplicar mitigação de leitura e alocação adaptativa de shots
+por termo.
 
 # 8. Arquivos principais
 
@@ -344,6 +368,7 @@ mitigação de erro e alocação adaptativa de shots por termo.
 - `experiments/13_bcs_gorkov_nambu_matrix.py`;
 - `experiments/14_bcs_qiskit_shots_noise.py`;
 - `experiments/15_bcs_qiskit_energy_shots.py`;
+- `experiments/16_bcs_qiskit_error_mitigation.py`;
 - `docs/bcs_paper_reproducibility.md`;
 - `results/tables/bcs_paper_observables.csv`.
 - `results/tables/bcs_pair_green_retarded.csv`.
@@ -354,6 +379,7 @@ mitigação de erro e alocação adaptativa de shots por termo.
 - `results/tables/bcs_gorkov_nambu_spectral_trace.csv`.
 - `results/tables/bcs_qiskit_shots_noise.csv`.
 - `results/tables/bcs_qiskit_energy_shots.csv`.
+- `results/tables/bcs_qiskit_error_mitigation.csv`.
 
 # Referências iniciais
 

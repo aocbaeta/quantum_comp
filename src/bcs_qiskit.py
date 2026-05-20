@@ -191,6 +191,32 @@ def depolarizing_noise_model(p1: float = 0.002, p2: float = 0.02) -> NoiseModel:
     return noise_model
 
 
+def scaled_depolarizing_noise_model(
+    scale: float,
+    base_p1: float = 0.002,
+    base_p2: float = 0.02,
+) -> NoiseModel:
+    return depolarizing_noise_model(
+        p1=min(max(scale * base_p1, 0.0), 1.0),
+        p2=min(max(scale * base_p2, 0.0), 1.0),
+    )
+
+
+def linear_zero_noise_extrapolation(noise_scales: list[float], energies: list[float]) -> dict[str, float]:
+    if len(noise_scales) != len(energies):
+        raise ValueError("noise_scales and energies must have the same length")
+    if len(noise_scales) < 2:
+        raise ValueError("at least two points are required")
+    slope, intercept = np.polyfit(np.asarray(noise_scales, dtype=float), np.asarray(energies, dtype=float), 1)
+    fitted = slope * np.asarray(noise_scales, dtype=float) + intercept
+    residual = float(np.sqrt(np.mean((np.asarray(energies, dtype=float) - fitted) ** 2)))
+    return {
+        "mitigated_energy": float(intercept),
+        "noise_slope": float(slope),
+        "fit_rmse": residual,
+    }
+
+
 def run_counts(
     circuit: QuantumCircuit,
     shots: int,
