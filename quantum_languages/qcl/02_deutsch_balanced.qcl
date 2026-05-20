@@ -1,0 +1,26 @@
+// Deutsch algorithm with a balanced oracle g(x)=x.
+
+qufunct G(quconst x, quvoid y) {
+  CNot(y, x);
+}
+
+operator U(qureg x, qureg y) {
+  Not(y);
+  H(x & y);
+  G(x, y);
+  H(x);
+}
+
+procedure deutschbalanced() {
+  qureg x[1];
+  qureg y[1];
+  int m;
+
+  reset;
+  U(x, y);
+  measure x, m;
+  print "balanced oracle g(0) xor g(1) =", m;
+  reset;
+}
+
+deutschbalanced();

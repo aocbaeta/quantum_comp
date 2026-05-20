@@ -1,0 +1,5 @@
+model,ground_energy,pauli_terms,pauli_sum
+spinless_hubbard_2site,-1.0,6,"SparsePauliOp(['II', 'IZ', 'XX', 'YY', 'ZI', 'ZZ'],
+              coeffs=[ 0.5+0.j, -0.5+0.j, -0.5+0.j, -0.5+0.j, -0.5+0.j,  0.5+0.j])"
+bcs_pair_2mode,-0.07703296142690082,5,"SparsePauliOp(['II', 'IZ', 'XX', 'YY', 'ZI'],
+              coeffs=[ 1. +0.j, -0.5+0.j, -0.2+0.j,  0.2+0.j, -0.5+0.j])"

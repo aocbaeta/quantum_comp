@@ -1,0 +1,6 @@
+qureg q[2];
+
+H(q[0]);
+CNot(q[1], q[0]);
+dump;
+measure q;

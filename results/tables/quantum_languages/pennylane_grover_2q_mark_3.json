@@ -1,0 +1,12 @@
+{
+  "amplitudes": [
+    {
+      "amplitude": [
+        -0.9999999999999996,
+        0.0
+      ],
+      "basis": "11"
+    }
+  ],
+  "circuit": "2-qubit Grover marked |11>"
+}

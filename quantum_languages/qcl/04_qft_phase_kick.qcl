@@ -1,0 +1,26 @@
+// QFT/DFT demo: prepare a computational basis state and apply dft.
+
+include "dft.qcl";
+
+qufunct xreg(qureg a, int value) {
+  int i;
+  for i = 0 to #a - 1 {
+    if bit(value, i) {
+      Not(a[i]);
+    }
+  }
+}
+
+procedure qftbasisstate(int value) {
+  qureg q[3];
+  reset;
+  xreg(q, value);
+  print "Before dft, basis value =", value;
+  dump;
+  dft(q);
+  print "After dft";
+  dump;
+  reset;
+}
+
+qftbasisstate(3);

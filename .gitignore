@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Python packaging
+*.egg-info/
+.eggs/
+*.egg
+dist/
+build/
+
+# Logs and local files
+*.log
+*.sqlite3
+*.db
+
+# MacOS
+.DS_Store
+
+# Pytest cache
+.pytest_cache/
+
+# Distribution packages
+*.whl
+*.tar.gz
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# Results and figures may be generated but should be versioned if intentional
+# If specific auto-generated files must be ignored, add them here.

@@ -1,0 +1,22 @@
+// Toy Hamiltonian simulation: U(t)=exp(-i Z t) on one qubit up to global phase.
+//
+// In QCL, RotZ(phi) applies a relative phase rotation. This demo prepares
+// |+>, evolves it under a Z-like phase, and dumps the resulting amplitudes.
+
+operator evolvez(real time, qureg q) {
+  RotZ(2 * time, q);
+}
+
+procedure diagonalhamiltoniandemo(real time) {
+  qureg q[1];
+  reset;
+  H(q);
+  print "Initial |+> state";
+  dump;
+  evolvez(time, q);
+  print "After Z phase evolution, time =", time;
+  dump;
+  reset;
+}
+
+diagonalhamiltoniandemo(pi / 4);

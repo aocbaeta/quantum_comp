@@ -1,0 +1,27 @@
+// Bell state and Pauli checks in QCL.
+
+procedure bell() {
+  qureg q[2];
+  H(q[0]);
+  CNot(q[1], q[0]);
+  dump;
+  reset;
+}
+
+procedure paulixydemo() {
+  qureg q[1];
+
+  print "Apply X then Y to |0>";
+  Not(q[0]);
+  RotZ(pi, q[0]);
+  dump;
+  reset;
+
+  print "Apply Y then X to |0>";
+  RotZ(pi, q[0]);
+  Not(q[0]);
+  dump;
+  reset;
+}
+
+bell();

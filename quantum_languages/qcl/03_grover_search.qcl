@@ -1,0 +1,48 @@
+// Grover search using the same oracle style as QCL's standard examples.
+
+qufunct query(qureg x, quvoid f, int target) {
+  int i;
+  for i = 0 to #x - 1 {
+    if not bit(target, i) {
+      Not(x[i]);
+    }
+  }
+  CNot(f, x);
+  for i = 0 to #x - 1 {
+    if not bit(target, i) {
+      !Not(x[i]);
+    }
+  }
+}
+
+operator diffuse(qureg q) {
+  H(q);
+  Not(q);
+  CPhase(pi, q);
+  !Not(q);
+  !H(q);
+}
+
+procedure groverfixed(int target, int qubits) {
+  int i;
+  int measured;
+  int iterations = floor(pi / 4 * sqrt(2^qubits));
+  qureg q[qubits];
+  qureg f[1];
+
+  print "target =", target, "qubits =", qubits, "iterations =", iterations;
+  reset;
+  H(q);
+  for i = 1 to iterations {
+    query(q, f, target);
+    CPhase(pi, f);
+    !query(q, f, target);
+    diffuse(q);
+  }
+  dump;
+  measure q, measured;
+  print "measured =", measured;
+  reset;
+}
+
+groverfixed(5, 3);
