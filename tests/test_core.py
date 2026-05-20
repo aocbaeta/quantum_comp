@@ -10,7 +10,9 @@ import numpy as np
 
 from algebra import X, Y, Z, anticommutator, commutator, is_hermitian, is_unitary
 from bcs import (
+    anomalous_gorkov_green_series,
     bcs_dynamics_row,
+    bcs_product_state,
     bcs_time_observables,
     condensate_eigenvalue,
     computational_basis_state,
@@ -119,6 +121,21 @@ def test_bcs_pair_green_spectrum_shape() -> None:
     spectrum = green_spectral_density([row["time"] for row in rows], values)
     assert len(spectrum) == 4
     assert spectrum[0]["omega"] < spectrum[-1]["omega"]
+
+
+def test_bcs_product_state_and_anomalous_green_are_nontrivial() -> None:
+    state = bcs_product_state([1.0, 1.0], [0.5, 0.25j])
+    assert abs(np.vdot(state, state) - 1.0) < 1e-12
+    rows = anomalous_gorkov_green_series(
+        xi=[-1.0, -0.35],
+        g=0.8,
+        u=[1.0, 1.0],
+        v=[0.5, 0.25j],
+        i=0,
+        j=0,
+        times=[0.0, 0.2, 0.4],
+    )
+    assert max(row["F_ann_ann_abs"] for row in rows) > 1e-8
 
 
 def test_bcs_trotter_improves_with_more_steps() -> None:

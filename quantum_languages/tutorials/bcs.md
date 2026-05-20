@@ -42,6 +42,7 @@ Demonstrar a correspondência entre:
 10. Reproduzir a Trotterização como circuito Qiskit.
 11. Medir correlações de pares, autovalor condensado e proxy de gap efetivo.
 12. Calcular função de Green retardada de pares e densidade espectral aproximada.
+13. Calcular função de Green anômala de Gor'kov em um estado produto BCS.
 
 ## Execução
 
@@ -58,6 +59,7 @@ python experiments/08_bcs_dynamics_trotter.py
 python experiments/09_bcs_qiskit_trotter_circuit.py
 python experiments/10_bcs_paper_observables.py
 python experiments/11_bcs_pair_green_function.py
+python experiments/12_bcs_gorkov_anomalous_green.py
 ```
 
 ## Estrutura de código
@@ -85,6 +87,8 @@ Dinâmica:
   ocupação, proxy de gap, autovalor condensado e mapas de correlação de pares.
 - `experiments/11_bcs_pair_green_function.py`: salva `G^R_00(t)` e uma densidade
   espectral aproximada por FFT.
+- `experiments/12_bcs_gorkov_anomalous_green.py`: salva `F^R_00(t)` e espectro
+  anômalo aproximado para um estado produto BCS com fase de ordem.
 
 ## Observáveis de paper
 
@@ -97,6 +101,8 @@ Além de energia e fidelidade, a implementação mede:
   comparar dinâmica exata e circuito Trotterizado.
 - `G^R_ij(t)=-i theta(t)<[b_i(t),b_j^\dagger(0)]>`: resposta retardada de pares.
 - `-Im G^R(omega)/pi`: densidade espectral aproximada da resposta de pares.
+- `F^R_ij(t)=-i theta(t)<[b_i(t),b_j(0)]>`: resposta anômala de Gor'kov.
+- `-Im F^R(omega)/pi`: densidade espectral anômala aproximada.
 
 ## Resultados esperados
 
@@ -113,6 +119,8 @@ O script imprime um relatório comparativo com:
 - mapas finais de `|<b_i^\dagger b_j>|`.
 - função de Green retardada no tempo;
 - espectro aproximado da resposta de pares.
+- função de Green anômala de Gor'kov;
+- espectro anômalo aproximado.
 
 ## Observações técnicas
 

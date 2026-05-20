@@ -52,6 +52,7 @@ As seguintes lacunas foram endereçadas na implementação posterior:
 - observáveis físicos de pares: ocupações, matriz `C_ij=<b_i^\dagger b_j>`,
   autovalor condensado e proxy de gap efetivo.
 - função de Green retardada de pares e densidade espectral aproximada.
+- função de Green anômala de Gor'kov em estado produto BCS.
 
 ## Conclusão
 
@@ -67,7 +68,7 @@ A abordagem teórica de `BCS_QC.pdf` é compatível com o escopo prático do pro
 Para aumentar o alinhamento entre teoria e código, recomenda-se:
 
 - expandir o tutorial `quantum_languages/tutorials/bcs.md` com a derivação do mapeamento de pseudospins e das relações de anticomutação;
-- derivar funções de Green mais completas, incluindo versões anômalas e
-  equações de Gor'kov;
+- derivar equações de Gor'kov matriciais completas e comparação entre canais
+  normal/anômalo;
 - derivar observáveis BCS adicionais de resposta linear com ruído e shots;
 - referenciar `docs/BCS_QC.pdf` diretamente nas seções teóricas do projeto.

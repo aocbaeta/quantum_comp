@@ -110,6 +110,23 @@ def computational_basis_state(n_qubits: int, occupied: list[int]) -> Array:
     return state
 
 
+def bcs_product_state(
+    u: list[complex] | Array,
+    v: list[complex] | Array,
+) -> Array:
+    u_array = np.asarray(u, dtype=complex)
+    v_array = np.asarray(v, dtype=complex)
+    if len(u_array) != len(v_array):
+        raise ValueError("u and v must have the same length")
+    local_states = []
+    for u_i, v_i in zip(u_array, v_array):
+        norm = np.sqrt(abs(u_i) ** 2 + abs(v_i) ** 2)
+        if norm == 0:
+            raise ValueError("each local BCS factor must have nonzero norm")
+        local_states.append(np.array([u_i / norm, v_i / norm], dtype=complex))
+    return kron_all(*local_states)
+
+
 def expectation(state: Array, operator: Array) -> complex:
     return np.vdot(state, operator @ state)
 
@@ -207,16 +224,29 @@ def pair_retarded_green_value(
     time: float,
     eta: float = 0.0,
 ) -> complex:
+    n_qubits = int(np.log2(hamiltonian.shape[0]))
+    return retarded_green_value(
+        hamiltonian=hamiltonian,
+        state=state,
+        operator_a=pair_annihilation_operator(n_qubits, i),
+        operator_b=pair_creation_operator(n_qubits, j),
+        time=time,
+        eta=eta,
+    )
+
+
+def retarded_green_value(
+    hamiltonian: Array,
+    state: Array,
+    operator_a: Array,
+    operator_b: Array,
+    time: float,
+    eta: float = 0.0,
+) -> complex:
     if time < 0:
         return 0.0j
-    n_qubits = int(np.log2(hamiltonian.shape[0]))
-    annihilator_t = heisenberg_operator(
-        pair_annihilation_operator(n_qubits, i),
-        hamiltonian,
-        time,
-    )
-    creator = pair_creation_operator(n_qubits, j)
-    comm = annihilator_t @ creator - creator @ annihilator_t
+    operator_a_t = heisenberg_operator(operator_a, hamiltonian, time)
+    comm = operator_a_t @ operator_b - operator_b @ operator_a_t
     damping = np.exp(-float(eta) * float(time))
     return -1j * expectation(state, comm) * damping
 
@@ -252,6 +282,48 @@ def pair_retarded_green_series(
                 "abs": float(abs(value)),
             }
         )
+    return rows
+
+
+def anomalous_gorkov_green_series(
+    xi: list[float] | Array,
+    g: float,
+    u: list[complex] | Array,
+    v: list[complex] | Array,
+    i: int,
+    j: int,
+    times: list[float] | Array,
+    eta: float = 0.02,
+) -> list[dict[str, float]]:
+    hamiltonian = reduced_bcs_matrix(xi, g)
+    state = bcs_product_state(u, v)
+    n_qubits = len(xi)
+    channels = {
+        "F_ann_ann": (
+            pair_annihilation_operator(n_qubits, i),
+            pair_annihilation_operator(n_qubits, j),
+        ),
+        "Fdag_cre_cre": (
+            pair_creation_operator(n_qubits, i),
+            pair_creation_operator(n_qubits, j),
+        ),
+    }
+    rows = []
+    for time in np.asarray(times, dtype=float):
+        row = {"time": float(time), "i": float(i), "j": float(j)}
+        for name, (operator_a, operator_b) in channels.items():
+            value = retarded_green_value(
+                hamiltonian=hamiltonian,
+                state=state,
+                operator_a=operator_a,
+                operator_b=operator_b,
+                time=float(time),
+                eta=eta,
+            )
+            row[f"{name}_real"] = float(np.real(value))
+            row[f"{name}_imag"] = float(np.imag(value))
+            row[f"{name}_abs"] = float(abs(value))
+        rows.append(row)
     return rows
 
 

@@ -26,6 +26,7 @@ python experiments/08_bcs_dynamics_trotter.py
 python experiments/09_bcs_qiskit_trotter_circuit.py
 python experiments/10_bcs_paper_observables.py
 python experiments/11_bcs_pair_green_function.py
+python experiments/12_bcs_gorkov_anomalous_green.py
 ```
 
 Ou, para a suíte completa:
@@ -42,6 +43,8 @@ scripts/run_research_suite.sh
 - `results/tables/bcs_paper_observables.csv`;
 - `results/tables/bcs_pair_green_retarded.csv`;
 - `results/tables/bcs_pair_green_spectral_density.csv`;
+- `results/tables/bcs_gorkov_anomalous_time.csv`;
+- `results/tables/bcs_gorkov_anomalous_spectrum.csv`;
 - `results/figures/bcs_trotter_error.png`;
 - `results/figures/bcs_gap_condensate_time.png`;
 - `results/figures/bcs_pair_occupations_time.png`;
@@ -49,6 +52,8 @@ scripts/run_research_suite.sh
 - `results/figures/bcs_pair_correlation_trotter_final.png`.
 - `results/figures/bcs_pair_green_time.png`;
 - `results/figures/bcs_pair_green_spectrum.png`.
+- `results/figures/bcs_gorkov_anomalous_time.png`;
+- `results/figures/bcs_gorkov_anomalous_spectrum.png`.
 
 ## Observáveis
 
@@ -61,3 +66,5 @@ scripts/run_research_suite.sh
 - Proxy de gap efetivo `Delta_eff=g sqrt(lambda_max(C))`.
 - Função de Green retardada de pares `G^R_ij(t)=-i theta(t)<[b_i(t),b_j^\dagger(0)]>`.
 - Densidade espectral aproximada `-Im G^R(omega)/pi`.
+- Função de Green anômala `F^R_ij(t)=-i theta(t)<[b_i(t),b_j(0)]>`.
+- Espectro anômalo aproximado `-Im F^R(omega)/pi`.

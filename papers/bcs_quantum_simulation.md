@@ -14,7 +14,8 @@ segunda ordem. A implementação compara a dinâmica matricial com uma realizaç
 em circuito Qiskit, mede conservação do número de pares e extrai observáveis
 físicos úteis para análise de supercondutividade em espaço de Hilbert pequeno:
 ocupações de pares, matriz de correlação `C_ij=<b_i^\dagger b_j>`, autovalor
-condensado, um proxy efetivo de gap e uma função de Green retardada de pares.
+condensado, um proxy efetivo de gap, uma função de Green retardada de pares e
+um canal anômalo de Gor'kov.
 Para o caso de quatro qubits estudado, a
 Trotterização de segunda ordem com 64 passos atinge fidelidade `0.9999989` em
 `t=2.5`, e a série temporal até `t=6.0` preserva o número total de pares com erro
@@ -110,6 +111,9 @@ Além de energia, fidelidade e número total de pares, são extraídos:
 - função de Green retardada de pares
   `G^R_ij(t)=-i theta(t)<[b_i(t),b_j^\dagger(0)]>`;
 - densidade espectral aproximada `-Im G^R(omega)/pi`.
+- função de Green anômala de Gor'kov
+  `F^R_ij(t)=-i theta(t)<[b_i(t),b_j(0)]>`;
+- densidade espectral anômala aproximada `-Im F^R(omega)/pi`.
 
 Esses observáveis permitem discutir coerência coletiva dos pares mesmo em um
 modelo pequeno.
@@ -202,6 +206,29 @@ resposta linear e abre caminho para versões anômalas e equações de Gor'kov.
 
 ![Figura 7: densidade espectral aproximada da resposta de pares.](../results/figures/bcs_pair_green_spectrum.png)
 
+## 5.7 Canal anômalo de Gor'kov
+
+Para acessar uma resposta diretamente supercondutora, também calculamos
+
+```text
+F^R_ij(t) = -i theta(t) <[b_i(t), b_j(0)]>.
+```
+
+Em um estado de número fixo essa quantidade tende a zerar por conservação de
+número. Por isso, o experimento usa um estado produto BCS
+`prod_i (u_i|0> + v_i|1>)`, com fases relativas nos coeficientes `v_i`, que
+representa uma ordem de fase efetiva em espaço pequeno.
+
+A Figura 8 mostra o canal local `F^R_00(t)`. Para os parâmetros usados, a
+amplitude máxima foi `|F|=0.27904`.
+
+![Figura 8: função de Green anômala de Gor'kov no tempo.](../results/figures/bcs_gorkov_anomalous_time.png)
+
+A Figura 9 mostra o espectro anômalo aproximado. O pico principal aparece em
+`omega=3.1329`, com peso espectral aproximado `0.23245`.
+
+![Figura 9: espectro anômalo aproximado de Gor'kov.](../results/figures/bcs_gorkov_anomalous_spectrum.png)
+
 # 6. Discussão
 
 Os resultados mostram três pontos principais. Primeiro, a conservação do número
@@ -221,9 +248,9 @@ robustez dos observáveis contra ruído ou medições finitas.
 Foi construída uma implementação integrada do Hamiltoniano BCS reduzido em
 qubits, incluindo dinâmica exata, Trotterização, circuito Qiskit e observáveis
 físicos de pares. O código produz tabelas e figuras reprodutíveis para análise
-de erro, estrutura condensada e resposta retardada. A etapa seguinte natural é
-adicionar funções de Green anômalas, equações de Gor'kov e simulação com ruído
-ou amostragem por shots.
+de erro, estrutura condensada, resposta retardada e canal anômalo de Gor'kov. A
+etapa seguinte natural é montar a matriz de Gor'kov completa e simular ruído ou
+amostragem por shots.
 
 # 8. Arquivos principais
 
@@ -233,10 +260,13 @@ ou amostragem por shots.
 - `experiments/09_bcs_qiskit_trotter_circuit.py`;
 - `experiments/10_bcs_paper_observables.py`;
 - `experiments/11_bcs_pair_green_function.py`;
+- `experiments/12_bcs_gorkov_anomalous_green.py`;
 - `docs/bcs_paper_reproducibility.md`;
 - `results/tables/bcs_paper_observables.csv`.
 - `results/tables/bcs_pair_green_retarded.csv`.
 - `results/tables/bcs_pair_green_spectral_density.csv`.
+- `results/tables/bcs_gorkov_anomalous_time.csv`.
+- `results/tables/bcs_gorkov_anomalous_spectrum.csv`.
 
 # Referências iniciais
 
