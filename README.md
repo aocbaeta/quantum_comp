@@ -107,6 +107,7 @@ python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0
 - `experiments/10_bcs_paper_observables.py` — observáveis físicos para figuras do paper;
 - `experiments/11_bcs_pair_green_function.py` — função de Green retardada de pares e espectro aproximado;
 - `experiments/12_bcs_gorkov_anomalous_green.py` — função de Green anômala de Gor'kov em estado produto BCS;
+- `experiments/13_bcs_gorkov_nambu_matrix.py` — matriz de Gor'kov em base Nambu e traço espectral;
 - `quantum_languages/tutorials/bcs.md` — tutorial técnico para mapeamento BCS → qubits;
 - `docs/BCS_QC.pdf` — referência teórica associada.
 - `papers/bcs_quantum_simulation.md` — rascunho de paper com figuras e resultados.

@@ -181,6 +181,7 @@ python experiments/09_bcs_qiskit_trotter_circuit.py
 python experiments/10_bcs_paper_observables.py
 python experiments/11_bcs_pair_green_function.py
 python experiments/12_bcs_gorkov_anomalous_green.py
+python experiments/13_bcs_gorkov_nambu_matrix.py
 ```
 
 ## Objetivo
@@ -196,6 +197,7 @@ Validar a correspondência entre:
   autovalor condensado e proxy de gap efetivo.
 - função de Green retardada de pares e espectro aproximado.
 - função de Green anômala de Gor'kov e espectro anômalo aproximado.
+- matriz de Gor'kov em base Nambu e traço espectral.
 
 ## Figuras e tabelas
 
@@ -213,6 +215,8 @@ results/figures/bcs_pair_green_time.png
 results/figures/bcs_pair_green_spectrum.png
 results/figures/bcs_gorkov_anomalous_time.png
 results/figures/bcs_gorkov_anomalous_spectrum.png
+results/figures/bcs_gorkov_nambu_channels.png
+results/figures/bcs_gorkov_nambu_spectral_trace.png
 ```
 
 ## Roteiro de paper

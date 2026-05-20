@@ -183,11 +183,12 @@ conservação do número de pares e extrai observáveis físicos úteis para
 análise de supercondutividade em espaço de Hilbert pequeno: ocupações de
 pares, matriz de correlação <code>C_ij=&lt;b_i^\dagger b_j&gt;</code>,
 autovalor condensado, um proxy efetivo de gap, uma função de Green
-retardada de pares e um canal anômalo de Gor’kov. Para o caso de quatro
-qubits estudado, a Trotterização de segunda ordem com 64 passos atinge
-fidelidade <code>0.9999989</code> em <code>t=2.5</code>, e a série
-temporal até <code>t=6.0</code> preserva o número total de pares com
-erro da ordem de <code>10^-13</code>.</p>
+retardada de pares e um canal anômalo de Gor’kov organizado em uma
+matriz de resposta Nambu. Para o caso de quatro qubits estudado, a
+Trotterização de segunda ordem com 64 passos atinge fidelidade
+<code>0.9999989</code> em <code>t=2.5</code>, e a série temporal até
+<code>t=6.0</code> preserva o número total de pares com erro da ordem de
+<code>10^-13</code>.</p>
 <h1 id="introdução">1. Introdução</h1>
 <p>O modelo BCS descreve a formação coletiva de pares de Cooper em
 sistemas fermiônicos. Na formulação reduzida, pares de estados temporais
@@ -251,6 +252,10 @@ extraídos:</p>
 <code>F^R_ij(t)=-i theta(t)&lt;[b_i(t),b_j(0)]&gt;</code>;</li>
 <li>densidade espectral anômala aproximada
 <code>-Im F^R(omega)/pi</code>.</li>
+<li>matriz de Gor’kov em base Nambu, combinando canais normais e
+anômalos: <code>[[G,F],[Fdag,Gdag]]</code>;</li>
+<li>traço espectral aproximado
+<code>-Im Tr G_Nambu(omega)/pi</code>.</li>
 </ul>
 <p>Esses observáveis permitem discutir coerência coletiva dos pares
 mesmo em um modelo pequeno.</p>
@@ -383,6 +388,33 @@ alt="Figura 9: espectro anômalo aproximado de Gor’kov." />
 <figcaption aria-hidden="true">Figura 9: espectro anômalo aproximado de
 Gor’kov.</figcaption>
 </figure>
+<h2 id="matriz-de-gorkov-em-base-nambu">5.8 Matriz de Gor’kov em base
+Nambu</h2>
+<p>Os canais normal e anômalo podem ser organizados como uma matriz
+retardada em base Nambu:</p>
+<pre class="text"><code>G_Nambu^R(t) =
+[ G(t)      F(t)    ]
+[ Fdag(t)  Gdag(t) ]</code></pre>
+<p>Essa forma coloca a resposta de quasipartícula de par e a resposta
+supercondutora anômala no mesmo objeto. A Figura 10 compara as
+magnitudes dos quatro canais para <code>i=j=0</code>.</p>
+<figure>
+<img src="../results/figures/bcs_gorkov_nambu_channels.png"
+alt="Figura 10: canais da matriz de Gor’kov-Nambu." />
+<figcaption aria-hidden="true">Figura 10: canais da matriz de
+Gor’kov-Nambu.</figcaption>
+</figure>
+<p>A Figura 11 mostra o traço espectral aproximado da matriz Nambu. O
+pico principal do traço aparece em <code>omega=-2.4367</code>, com peso
+espectral aproximado <code>0.67376</code>. O máximo temporal de
+<code>|Tr G_Nambu|</code> foi <code>1.03543</code>, e o máximo de
+<code>|det G_Nambu|</code> foi <code>0.20646</code>.</p>
+<figure>
+<img src="../results/figures/bcs_gorkov_nambu_spectral_trace.png"
+alt="Figura 11: traço espectral aproximado da matriz de Gor’kov-Nambu." />
+<figcaption aria-hidden="true">Figura 11: traço espectral aproximado da
+matriz de Gor’kov-Nambu.</figcaption>
+</figure>
 <h1 id="discussão">6. Discussão</h1>
 <p>Os resultados mostram três pontos principais. Primeiro, a conservação
 do número de pares é preservada numericamente, com diferença final entre
@@ -400,9 +432,9 @@ ruído ou medições finitas.</p>
 reduzido em qubits, incluindo dinâmica exata, Trotterização, circuito
 Qiskit e observáveis físicos de pares. O código produz tabelas e figuras
 reprodutíveis para análise de erro, estrutura condensada, resposta
-retardada e canal anômalo de Gor’kov. A etapa seguinte natural é montar
-a matriz de Gor’kov completa e simular ruído ou amostragem por
-shots.</p>
+retardada, canal anômalo de Gor’kov e matriz Nambu completa. A etapa
+seguinte natural é simular ruído ou amostragem por shots e comparar a
+robustez dos canais normais/anômalos.</p>
 <h1 id="arquivos-principais">8. Arquivos principais</h1>
 <ul>
 <li><code>src/bcs.py</code>;</li>
@@ -412,12 +444,15 @@ shots.</p>
 <li><code>experiments/10_bcs_paper_observables.py</code>;</li>
 <li><code>experiments/11_bcs_pair_green_function.py</code>;</li>
 <li><code>experiments/12_bcs_gorkov_anomalous_green.py</code>;</li>
+<li><code>experiments/13_bcs_gorkov_nambu_matrix.py</code>;</li>
 <li><code>docs/bcs_paper_reproducibility.md</code>;</li>
 <li><code>results/tables/bcs_paper_observables.csv</code>.</li>
 <li><code>results/tables/bcs_pair_green_retarded.csv</code>.</li>
 <li><code>results/tables/bcs_pair_green_spectral_density.csv</code>.</li>
 <li><code>results/tables/bcs_gorkov_anomalous_time.csv</code>.</li>
 <li><code>results/tables/bcs_gorkov_anomalous_spectrum.csv</code>.</li>
+<li><code>results/tables/bcs_gorkov_nambu_time.csv</code>.</li>
+<li><code>results/tables/bcs_gorkov_nambu_spectral_trace.csv</code>.</li>
 </ul>
 <h1 id="referências-iniciais">Referências iniciais</h1>
 <ul>

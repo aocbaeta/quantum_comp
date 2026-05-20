@@ -43,6 +43,7 @@ Demonstrar a correspondência entre:
 11. Medir correlações de pares, autovalor condensado e proxy de gap efetivo.
 12. Calcular função de Green retardada de pares e densidade espectral aproximada.
 13. Calcular função de Green anômala de Gor'kov em um estado produto BCS.
+14. Montar a matriz de Gor'kov em base Nambu e seu traço espectral.
 
 ## Execução
 
@@ -60,6 +61,7 @@ python experiments/09_bcs_qiskit_trotter_circuit.py
 python experiments/10_bcs_paper_observables.py
 python experiments/11_bcs_pair_green_function.py
 python experiments/12_bcs_gorkov_anomalous_green.py
+python experiments/13_bcs_gorkov_nambu_matrix.py
 ```
 
 ## Estrutura de código
@@ -89,6 +91,8 @@ Dinâmica:
   espectral aproximada por FFT.
 - `experiments/12_bcs_gorkov_anomalous_green.py`: salva `F^R_00(t)` e espectro
   anômalo aproximado para um estado produto BCS com fase de ordem.
+- `experiments/13_bcs_gorkov_nambu_matrix.py`: salva a matriz Nambu de Gor'kov
+  com canais `G`, `F`, `Fdag`, `Gdag`, traço, determinante e traço espectral.
 
 ## Observáveis de paper
 
@@ -103,6 +107,8 @@ Além de energia e fidelidade, a implementação mede:
 - `-Im G^R(omega)/pi`: densidade espectral aproximada da resposta de pares.
 - `F^R_ij(t)=-i theta(t)<[b_i(t),b_j(0)]>`: resposta anômala de Gor'kov.
 - `-Im F^R(omega)/pi`: densidade espectral anômala aproximada.
+- `G_Nambu=[[G,F],[Fdag,Gdag]]`: matriz de resposta em base Nambu.
+- `-Im Tr G_Nambu(omega)/pi`: traço espectral da resposta normal/anômala.
 
 ## Resultados esperados
 
@@ -121,6 +127,8 @@ O script imprime um relatório comparativo com:
 - espectro aproximado da resposta de pares.
 - função de Green anômala de Gor'kov;
 - espectro anômalo aproximado.
+- matriz Nambu de Gor'kov;
+- traço espectral Nambu aproximado.
 
 ## Observações técnicas
 

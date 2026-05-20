@@ -327,6 +327,62 @@ def anomalous_gorkov_green_series(
     return rows
 
 
+def gorkov_nambu_green_matrix_series(
+    xi: list[float] | Array,
+    g: float,
+    u: list[complex] | Array,
+    v: list[complex] | Array,
+    i: int,
+    j: int,
+    times: list[float] | Array,
+    eta: float = 0.02,
+) -> list[dict[str, float]]:
+    hamiltonian = reduced_bcs_matrix(xi, g)
+    state = bcs_product_state(u, v)
+    n_qubits = len(xi)
+    annihilator_i = pair_annihilation_operator(n_qubits, i)
+    annihilator_j = pair_annihilation_operator(n_qubits, j)
+    creator_i = pair_creation_operator(n_qubits, i)
+    creator_j = pair_creation_operator(n_qubits, j)
+    channels = {
+        "G": (annihilator_i, creator_j),
+        "F": (annihilator_i, annihilator_j),
+        "Fdag": (creator_i, creator_j),
+        "Gdag": (creator_i, annihilator_j),
+    }
+    rows = []
+    for time in np.asarray(times, dtype=float):
+        values = {}
+        for name, (operator_a, operator_b) in channels.items():
+            values[name] = retarded_green_value(
+                hamiltonian=hamiltonian,
+                state=state,
+                operator_a=operator_a,
+                operator_b=operator_b,
+                time=float(time),
+                eta=eta,
+            )
+        nambu = np.array(
+            [[values["G"], values["F"]], [values["Fdag"], values["Gdag"]]],
+            dtype=complex,
+        )
+        row = {"time": float(time), "i": float(i), "j": float(j)}
+        for name, value in values.items():
+            row[f"{name}_real"] = float(np.real(value))
+            row[f"{name}_imag"] = float(np.imag(value))
+            row[f"{name}_abs"] = float(abs(value))
+        trace = np.trace(nambu)
+        determinant = np.linalg.det(nambu)
+        row["trace_real"] = float(np.real(trace))
+        row["trace_imag"] = float(np.imag(trace))
+        row["trace_abs"] = float(abs(trace))
+        row["det_real"] = float(np.real(determinant))
+        row["det_imag"] = float(np.imag(determinant))
+        row["det_abs"] = float(abs(determinant))
+        rows.append(row)
+    return rows
+
+
 def green_spectral_density(
     times: list[float] | Array,
     values: list[complex] | Array,

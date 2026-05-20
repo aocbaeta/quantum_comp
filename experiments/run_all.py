@@ -18,6 +18,7 @@ EXPERIMENTS = [
     "10_bcs_paper_observables.py",
     "11_bcs_pair_green_function.py",
     "12_bcs_gorkov_anomalous_green.py",
+    "13_bcs_gorkov_nambu_matrix.py",
 ]
 
 

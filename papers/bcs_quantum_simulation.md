@@ -15,7 +15,7 @@ em circuito Qiskit, mede conservação do número de pares e extrai observáveis
 físicos úteis para análise de supercondutividade em espaço de Hilbert pequeno:
 ocupações de pares, matriz de correlação `C_ij=<b_i^\dagger b_j>`, autovalor
 condensado, um proxy efetivo de gap, uma função de Green retardada de pares e
-um canal anômalo de Gor'kov.
+um canal anômalo de Gor'kov organizado em uma matriz de resposta Nambu.
 Para o caso de quatro qubits estudado, a
 Trotterização de segunda ordem com 64 passos atinge fidelidade `0.9999989` em
 `t=2.5`, e a série temporal até `t=6.0` preserva o número total de pares com erro
@@ -114,6 +114,9 @@ Além de energia, fidelidade e número total de pares, são extraídos:
 - função de Green anômala de Gor'kov
   `F^R_ij(t)=-i theta(t)<[b_i(t),b_j(0)]>`;
 - densidade espectral anômala aproximada `-Im F^R(omega)/pi`.
+- matriz de Gor'kov em base Nambu, combinando canais normais e anômalos:
+  `[[G,F],[Fdag,Gdag]]`;
+- traço espectral aproximado `-Im Tr G_Nambu(omega)/pi`.
 
 Esses observáveis permitem discutir coerência coletiva dos pares mesmo em um
 modelo pequeno.
@@ -229,6 +232,30 @@ A Figura 9 mostra o espectro anômalo aproximado. O pico principal aparece em
 
 ![Figura 9: espectro anômalo aproximado de Gor'kov.](../results/figures/bcs_gorkov_anomalous_spectrum.png)
 
+## 5.8 Matriz de Gor'kov em base Nambu
+
+Os canais normal e anômalo podem ser organizados como uma matriz retardada em
+base Nambu:
+
+```text
+G_Nambu^R(t) =
+[ G(t)      F(t)    ]
+[ Fdag(t)  Gdag(t) ]
+```
+
+Essa forma coloca a resposta de quasipartícula de par e a resposta
+supercondutora anômala no mesmo objeto. A Figura 10 compara as magnitudes dos
+quatro canais para `i=j=0`.
+
+![Figura 10: canais da matriz de Gor'kov-Nambu.](../results/figures/bcs_gorkov_nambu_channels.png)
+
+A Figura 11 mostra o traço espectral aproximado da matriz Nambu. O pico
+principal do traço aparece em `omega=-2.4367`, com peso espectral aproximado
+`0.67376`. O máximo temporal de `|Tr G_Nambu|` foi `1.03543`, e o máximo de
+`|det G_Nambu|` foi `0.20646`.
+
+![Figura 11: traço espectral aproximado da matriz de Gor'kov-Nambu.](../results/figures/bcs_gorkov_nambu_spectral_trace.png)
+
 # 6. Discussão
 
 Os resultados mostram três pontos principais. Primeiro, a conservação do número
@@ -248,9 +275,9 @@ robustez dos observáveis contra ruído ou medições finitas.
 Foi construída uma implementação integrada do Hamiltoniano BCS reduzido em
 qubits, incluindo dinâmica exata, Trotterização, circuito Qiskit e observáveis
 físicos de pares. O código produz tabelas e figuras reprodutíveis para análise
-de erro, estrutura condensada, resposta retardada e canal anômalo de Gor'kov. A
-etapa seguinte natural é montar a matriz de Gor'kov completa e simular ruído ou
-amostragem por shots.
+de erro, estrutura condensada, resposta retardada, canal anômalo de Gor'kov e
+matriz Nambu completa. A etapa seguinte natural é simular ruído ou amostragem
+por shots e comparar a robustez dos canais normais/anômalos.
 
 # 8. Arquivos principais
 
@@ -261,12 +288,15 @@ amostragem por shots.
 - `experiments/10_bcs_paper_observables.py`;
 - `experiments/11_bcs_pair_green_function.py`;
 - `experiments/12_bcs_gorkov_anomalous_green.py`;
+- `experiments/13_bcs_gorkov_nambu_matrix.py`;
 - `docs/bcs_paper_reproducibility.md`;
 - `results/tables/bcs_paper_observables.csv`.
 - `results/tables/bcs_pair_green_retarded.csv`.
 - `results/tables/bcs_pair_green_spectral_density.csv`.
 - `results/tables/bcs_gorkov_anomalous_time.csv`.
 - `results/tables/bcs_gorkov_anomalous_spectrum.csv`.
+- `results/tables/bcs_gorkov_nambu_time.csv`.
+- `results/tables/bcs_gorkov_nambu_spectral_trace.csv`.
 
 # Referências iniciais
 

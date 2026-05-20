@@ -18,6 +18,7 @@ from bcs import (
     computational_basis_state,
     expectation,
     fidelity,
+    gorkov_nambu_green_matrix_series,
     green_spectral_density,
     pair_correlation_matrix,
     pair_retarded_green_series,
@@ -136,6 +137,23 @@ def test_bcs_product_state_and_anomalous_green_are_nontrivial() -> None:
         times=[0.0, 0.2, 0.4],
     )
     assert max(row["F_ann_ann_abs"] for row in rows) > 1e-8
+
+
+def test_gorkov_nambu_matrix_has_channels_and_invariants() -> None:
+    rows = gorkov_nambu_green_matrix_series(
+        xi=[-1.0, -0.35],
+        g=0.8,
+        u=[1.0, 1.0],
+        v=[0.5, 0.25j],
+        i=0,
+        j=0,
+        times=[0.0, 0.2],
+    )
+    assert len(rows) == 2
+    for key in ["G_abs", "F_abs", "Fdag_abs", "Gdag_abs", "trace_abs", "det_abs"]:
+        assert key in rows[0]
+        assert np.isfinite(rows[0][key])
+    assert max(row["F_abs"] for row in rows) > 1e-8
 
 
 def test_bcs_trotter_improves_with_more_steps() -> None:
