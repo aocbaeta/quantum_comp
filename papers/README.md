@@ -10,6 +10,12 @@ Fonte principal:
 papers/bcs_quantum_simulation.md
 ```
 
+Notebook de reprodução:
+
+```bash
+notebooks/bcs_paper_reproduction.ipynb
+```
+
 Gerar HTML/PDF:
 
 ```bash

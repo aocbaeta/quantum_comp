@@ -35,6 +35,7 @@ bin/                utilitários e wrappers locais
 - `docs/BCS_QC.pdf` — fundamentação teórica para o modelo BCS e o mapeamento para qubits.
 - `docs/BCS_QC_comparacao.md` — análise de compatibilidade entre teoria e implementação.
 - `docs/tutoriais_quantum.md` — guia unificado de tutoriais do laboratório.
+- `notebooks/bcs_paper_reproduction.ipynb` — notebook interativo para revisar tabelas, figuras e métricas do paper BCS.
 
 ## Execução de exemplos
 
@@ -114,6 +115,15 @@ python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0
 - `quantum_languages/tutorials/bcs.md` — tutorial técnico para mapeamento BCS → qubits;
 - `docs/BCS_QC.pdf` — referência teórica associada.
 - `papers/bcs_quantum_simulation.md` — rascunho de paper com figuras e resultados.
+- `notebooks/bcs_paper_reproduction.ipynb` — reprodução interativa das tabelas, figuras, métricas espectrais, shots e mitigação.
+
+Abrir o notebook:
+
+```bash
+cd ~/quantum_ic
+source .venv/bin/activate
+jupyter notebook notebooks/bcs_paper_reproduction.ipynb
+```
 
 ## QCL local
 

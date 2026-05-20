@@ -39,6 +39,12 @@ Ou, para a suíte completa:
 scripts/run_research_suite.sh
 ```
 
+Para revisar os resultados em modo interativo:
+
+```bash
+jupyter notebook notebooks/bcs_paper_reproduction.ipynb
+```
+
 ## Saídas principais
 
 - `results/tables/bcs_dynamics_trotter.csv`;
@@ -71,6 +77,7 @@ scripts/run_research_suite.sh
 - `results/figures/bcs_qiskit_energy_shots_error.png`.
 - `results/figures/bcs_qiskit_error_mitigation_zne.png`;
 - `results/figures/bcs_qiskit_error_mitigation_errors.png`.
+- `notebooks/bcs_paper_reproduction.ipynb`.
 
 ## Observáveis
 
