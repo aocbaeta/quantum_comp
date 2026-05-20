@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import numpy as np
-from qiskit import QuantumCircuit
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error
 from qiskit.circuit.library import RXXGate, RYYGate
 from qiskit.quantum_info import Statevector
 
@@ -78,3 +80,62 @@ def simulate_bcs_trotter_circuit(
     circuit = bcs_trotter_circuit(terms, time=time, steps=steps, order=order, occupied=occupied)
     state = np.asarray(Statevector.from_instruction(circuit).data, dtype=complex)
     return qiskit_state_to_matrix_order(state, len(terms[0].label))
+
+
+def add_all_qubit_measurements(circuit: QuantumCircuit) -> QuantumCircuit:
+    measured = circuit.copy()
+    measured.measure_all()
+    return measured
+
+
+def counts_pair_observables(counts: dict[str, int], n_qubits: int) -> dict[str, float]:
+    shots = sum(counts.values())
+    if shots <= 0:
+        raise ValueError("counts must contain at least one shot")
+    occupations = [0.0] * n_qubits
+    for bitstring, count in counts.items():
+        cleaned = bitstring.replace(" ", "")
+        if len(cleaned) != n_qubits:
+            raise ValueError(f"unexpected bitstring length: {bitstring}")
+        for qubit in range(n_qubits):
+            occupations[qubit] += count * int(cleaned[n_qubits - 1 - qubit])
+    occupations = [value / shots for value in occupations]
+    total_pairs = float(sum(occupations))
+    result = {"shots": float(shots), "total_pair_number": total_pairs}
+    for index, value in enumerate(occupations):
+        result[f"n_{index}"] = float(value)
+    return result
+
+
+def statevector_pair_observables(state: np.ndarray, n_qubits: int) -> dict[str, float]:
+    probabilities = np.abs(np.asarray(state, dtype=complex)) ** 2
+    occupations = [0.0] * n_qubits
+    for basis_index, probability in enumerate(probabilities):
+        bits = f"{basis_index:0{n_qubits}b}"
+        for qubit in range(n_qubits):
+            occupations[qubit] += float(probability) * int(bits[qubit])
+    result = {"total_pair_number": float(sum(occupations))}
+    for index, value in enumerate(occupations):
+        result[f"n_{index}"] = float(value)
+    return result
+
+
+def depolarizing_noise_model(p1: float = 0.002, p2: float = 0.02) -> NoiseModel:
+    noise_model = NoiseModel()
+    one_qubit_error = depolarizing_error(p1, 1)
+    two_qubit_error = depolarizing_error(p2, 2)
+    noise_model.add_all_qubit_quantum_error(one_qubit_error, ["x", "sx", "rz"])
+    noise_model.add_all_qubit_quantum_error(two_qubit_error, ["cx"])
+    return noise_model
+
+
+def run_counts(
+    circuit: QuantumCircuit,
+    shots: int,
+    seed: int = 1234,
+    noise_model: NoiseModel | None = None,
+) -> dict[str, int]:
+    simulator = AerSimulator(noise_model=noise_model, seed_simulator=seed)
+    compiled = transpile(circuit, simulator, seed_transpiler=seed)
+    result = simulator.run(compiled, shots=shots).result()
+    return dict(result.get_counts())

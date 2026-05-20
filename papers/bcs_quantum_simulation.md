@@ -16,6 +16,8 @@ físicos úteis para análise de supercondutividade em espaço de Hilbert pequen
 ocupações de pares, matriz de correlação `C_ij=<b_i^\dagger b_j>`, autovalor
 condensado, um proxy efetivo de gap, uma função de Green retardada de pares e
 um canal anômalo de Gor'kov organizado em uma matriz de resposta Nambu.
+Também é avaliada uma versão medida do circuito em Qiskit Aer, com amostragem
+por shots e ruído depolarizante simples.
 Para o caso de quatro qubits estudado, a
 Trotterização de segunda ordem com 64 passos atinge fidelidade `0.9999989` em
 `t=2.5`, e a série temporal até `t=6.0` preserva o número total de pares com erro
@@ -117,6 +119,8 @@ Além de energia, fidelidade e número total de pares, são extraídos:
 - matriz de Gor'kov em base Nambu, combinando canais normais e anômalos:
   `[[G,F],[Fdag,Gdag]]`;
 - traço espectral aproximado `-Im Tr G_Nambu(omega)/pi`.
+- ocupações de pares estimadas por contagens de medição em Qiskit Aer;
+- comparação entre statevector, shots ideais e ruído depolarizante.
 
 Esses observáveis permitem discutir coerência coletiva dos pares mesmo em um
 modelo pequeno.
@@ -256,6 +260,27 @@ principal do traço aparece em `omega=-2.4367`, com peso espectral aproximado
 
 ![Figura 11: traço espectral aproximado da matriz de Gor'kov-Nambu.](../results/figures/bcs_gorkov_nambu_spectral_trace.png)
 
+## 5.9 Medição por shots e ruído
+
+Para aproximar a simulação de um fluxo experimental de computação quântica, o
+circuito Trotterizado foi medido na base computacional em Qiskit Aer. As
+ocupações `n_i` e o número total de pares foram estimados a partir das contagens.
+Foram comparados três regimes de shots (`1024`, `4096` e `8192`) em simulação
+ideal e com ruído depolarizante simples.
+
+A Figura 12 mostra que o número total de pares é robusto neste caso porque erros
+de bit tendem a se compensar parcialmente na soma. A informação de ocupação por
+modo, porém, é fortemente degradada pelo ruído.
+
+![Figura 12: número total de pares estimado por shots.](../results/figures/bcs_qiskit_shots_noise_total_pairs.png)
+
+A Figura 13 compara as ocupações de pares no maior orçamento de shots. Com
+`8192` shots ideais, as ocupações ficam próximas do statevector; com ruído, os
+modos são deslocados em direção a ocupações próximas de `0.5`, como esperado em
+um canal depolarizante forte.
+
+![Figura 13: ocupações por statevector, shots ideais e shots ruidosos.](../results/figures/bcs_qiskit_shots_noise_occupations.png)
+
 # 6. Discussão
 
 Os resultados mostram três pontos principais. Primeiro, a conservação do número
@@ -275,9 +300,10 @@ robustez dos observáveis contra ruído ou medições finitas.
 Foi construída uma implementação integrada do Hamiltoniano BCS reduzido em
 qubits, incluindo dinâmica exata, Trotterização, circuito Qiskit e observáveis
 físicos de pares. O código produz tabelas e figuras reprodutíveis para análise
-de erro, estrutura condensada, resposta retardada, canal anômalo de Gor'kov e
-matriz Nambu completa. A etapa seguinte natural é simular ruído ou amostragem
-por shots e comparar a robustez dos canais normais/anômalos.
+de erro, estrutura condensada, resposta retardada, canal anômalo de Gor'kov,
+matriz Nambu completa e medições por shots. A etapa seguinte natural é estimar
+energia por decomposição Pauli sob ruído e aplicar técnicas simples de mitigação
+de erro.
 
 # 8. Arquivos principais
 
@@ -289,6 +315,7 @@ por shots e comparar a robustez dos canais normais/anômalos.
 - `experiments/11_bcs_pair_green_function.py`;
 - `experiments/12_bcs_gorkov_anomalous_green.py`;
 - `experiments/13_bcs_gorkov_nambu_matrix.py`;
+- `experiments/14_bcs_qiskit_shots_noise.py`;
 - `docs/bcs_paper_reproducibility.md`;
 - `results/tables/bcs_paper_observables.csv`.
 - `results/tables/bcs_pair_green_retarded.csv`.
@@ -297,6 +324,7 @@ por shots e comparar a robustez dos canais normais/anômalos.
 - `results/tables/bcs_gorkov_anomalous_spectrum.csv`.
 - `results/tables/bcs_gorkov_nambu_time.csv`.
 - `results/tables/bcs_gorkov_nambu_spectral_trace.csv`.
+- `results/tables/bcs_qiskit_shots_noise.csv`.
 
 # Referências iniciais
 

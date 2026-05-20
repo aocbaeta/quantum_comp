@@ -184,11 +184,12 @@ análise de supercondutividade em espaço de Hilbert pequeno: ocupações de
 pares, matriz de correlação <code>C_ij=&lt;b_i^\dagger b_j&gt;</code>,
 autovalor condensado, um proxy efetivo de gap, uma função de Green
 retardada de pares e um canal anômalo de Gor’kov organizado em uma
-matriz de resposta Nambu. Para o caso de quatro qubits estudado, a
-Trotterização de segunda ordem com 64 passos atinge fidelidade
-<code>0.9999989</code> em <code>t=2.5</code>, e a série temporal até
-<code>t=6.0</code> preserva o número total de pares com erro da ordem de
-<code>10^-13</code>.</p>
+matriz de resposta Nambu. Também é avaliada uma versão medida do
+circuito em Qiskit Aer, com amostragem por shots e ruído depolarizante
+simples. Para o caso de quatro qubits estudado, a Trotterização de
+segunda ordem com 64 passos atinge fidelidade <code>0.9999989</code> em
+<code>t=2.5</code>, e a série temporal até <code>t=6.0</code> preserva o
+número total de pares com erro da ordem de <code>10^-13</code>.</p>
 <h1 id="introdução">1. Introdução</h1>
 <p>O modelo BCS descreve a formação coletiva de pares de Cooper em
 sistemas fermiônicos. Na formulação reduzida, pares de estados temporais
@@ -256,6 +257,10 @@ extraídos:</p>
 anômalos: <code>[[G,F],[Fdag,Gdag]]</code>;</li>
 <li>traço espectral aproximado
 <code>-Im Tr G_Nambu(omega)/pi</code>.</li>
+<li>ocupações de pares estimadas por contagens de medição em Qiskit
+Aer;</li>
+<li>comparação entre statevector, shots ideais e ruído
+depolarizante.</li>
 </ul>
 <p>Esses observáveis permitem discutir coerência coletiva dos pares
 mesmo em um modelo pequeno.</p>
@@ -415,6 +420,34 @@ alt="Figura 11: traço espectral aproximado da matriz de Gor’kov-Nambu." />
 <figcaption aria-hidden="true">Figura 11: traço espectral aproximado da
 matriz de Gor’kov-Nambu.</figcaption>
 </figure>
+<h2 id="medição-por-shots-e-ruído">5.9 Medição por shots e ruído</h2>
+<p>Para aproximar a simulação de um fluxo experimental de computação
+quântica, o circuito Trotterizado foi medido na base computacional em
+Qiskit Aer. As ocupações <code>n_i</code> e o número total de pares
+foram estimados a partir das contagens. Foram comparados três regimes de
+shots (<code>1024</code>, <code>4096</code> e <code>8192</code>) em
+simulação ideal e com ruído depolarizante simples.</p>
+<p>A Figura 12 mostra que o número total de pares é robusto neste caso
+porque erros de bit tendem a se compensar parcialmente na soma. A
+informação de ocupação por modo, porém, é fortemente degradada pelo
+ruído.</p>
+<figure>
+<img src="../results/figures/bcs_qiskit_shots_noise_total_pairs.png"
+alt="Figura 12: número total de pares estimado por shots." />
+<figcaption aria-hidden="true">Figura 12: número total de pares estimado
+por shots.</figcaption>
+</figure>
+<p>A Figura 13 compara as ocupações de pares no maior orçamento de
+shots. Com <code>8192</code> shots ideais, as ocupações ficam próximas
+do statevector; com ruído, os modos são deslocados em direção a
+ocupações próximas de <code>0.5</code>, como esperado em um canal
+depolarizante forte.</p>
+<figure>
+<img src="../results/figures/bcs_qiskit_shots_noise_occupations.png"
+alt="Figura 13: ocupações por statevector, shots ideais e shots ruidosos." />
+<figcaption aria-hidden="true">Figura 13: ocupações por statevector,
+shots ideais e shots ruidosos.</figcaption>
+</figure>
 <h1 id="discussão">6. Discussão</h1>
 <p>Os resultados mostram três pontos principais. Primeiro, a conservação
 do número de pares é preservada numericamente, com diferença final entre
@@ -432,9 +465,9 @@ ruído ou medições finitas.</p>
 reduzido em qubits, incluindo dinâmica exata, Trotterização, circuito
 Qiskit e observáveis físicos de pares. O código produz tabelas e figuras
 reprodutíveis para análise de erro, estrutura condensada, resposta
-retardada, canal anômalo de Gor’kov e matriz Nambu completa. A etapa
-seguinte natural é simular ruído ou amostragem por shots e comparar a
-robustez dos canais normais/anômalos.</p>
+retardada, canal anômalo de Gor’kov, matriz Nambu completa e medições
+por shots. A etapa seguinte natural é estimar energia por decomposição
+Pauli sob ruído e aplicar técnicas simples de mitigação de erro.</p>
 <h1 id="arquivos-principais">8. Arquivos principais</h1>
 <ul>
 <li><code>src/bcs.py</code>;</li>
@@ -445,6 +478,7 @@ robustez dos canais normais/anômalos.</p>
 <li><code>experiments/11_bcs_pair_green_function.py</code>;</li>
 <li><code>experiments/12_bcs_gorkov_anomalous_green.py</code>;</li>
 <li><code>experiments/13_bcs_gorkov_nambu_matrix.py</code>;</li>
+<li><code>experiments/14_bcs_qiskit_shots_noise.py</code>;</li>
 <li><code>docs/bcs_paper_reproducibility.md</code>;</li>
 <li><code>results/tables/bcs_paper_observables.csv</code>.</li>
 <li><code>results/tables/bcs_pair_green_retarded.csv</code>.</li>
@@ -453,6 +487,7 @@ robustez dos canais normais/anômalos.</p>
 <li><code>results/tables/bcs_gorkov_anomalous_spectrum.csv</code>.</li>
 <li><code>results/tables/bcs_gorkov_nambu_time.csv</code>.</li>
 <li><code>results/tables/bcs_gorkov_nambu_spectral_trace.csv</code>.</li>
+<li><code>results/tables/bcs_qiskit_shots_noise.csv</code>.</li>
 </ul>
 <h1 id="referências-iniciais">Referências iniciais</h1>
 <ul>

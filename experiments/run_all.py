@@ -19,6 +19,7 @@ EXPERIMENTS = [
     "11_bcs_pair_green_function.py",
     "12_bcs_gorkov_anomalous_green.py",
     "13_bcs_gorkov_nambu_matrix.py",
+    "14_bcs_qiskit_shots_noise.py",
 ]
 
 

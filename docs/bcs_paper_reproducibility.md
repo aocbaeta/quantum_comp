@@ -28,6 +28,7 @@ python experiments/10_bcs_paper_observables.py
 python experiments/11_bcs_pair_green_function.py
 python experiments/12_bcs_gorkov_anomalous_green.py
 python experiments/13_bcs_gorkov_nambu_matrix.py
+python experiments/14_bcs_qiskit_shots_noise.py
 ```
 
 Ou, para a suíte completa:
@@ -48,6 +49,7 @@ scripts/run_research_suite.sh
 - `results/tables/bcs_gorkov_anomalous_spectrum.csv`;
 - `results/tables/bcs_gorkov_nambu_time.csv`;
 - `results/tables/bcs_gorkov_nambu_spectral_trace.csv`;
+- `results/tables/bcs_qiskit_shots_noise.csv`;
 - `results/figures/bcs_trotter_error.png`;
 - `results/figures/bcs_gap_condensate_time.png`;
 - `results/figures/bcs_pair_occupations_time.png`;
@@ -59,6 +61,8 @@ scripts/run_research_suite.sh
 - `results/figures/bcs_gorkov_anomalous_spectrum.png`.
 - `results/figures/bcs_gorkov_nambu_channels.png`;
 - `results/figures/bcs_gorkov_nambu_spectral_trace.png`.
+- `results/figures/bcs_qiskit_shots_noise_total_pairs.png`;
+- `results/figures/bcs_qiskit_shots_noise_occupations.png`.
 
 ## Observáveis
 
@@ -75,3 +79,5 @@ scripts/run_research_suite.sh
 - Espectro anômalo aproximado `-Im F^R(omega)/pi`.
 - Matriz de Gor'kov em base Nambu com canais `G`, `F`, `Fdag` e `Gdag`.
 - Traço espectral aproximado `-Im Tr G_Nambu(omega)/pi`.
+- Ocupações medidas por shots em Qiskit Aer.
+- Comparação entre statevector, shots ideais e ruído depolarizante simples.

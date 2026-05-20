@@ -44,6 +44,7 @@ Demonstrar a correspondência entre:
 12. Calcular função de Green retardada de pares e densidade espectral aproximada.
 13. Calcular função de Green anômala de Gor'kov em um estado produto BCS.
 14. Montar a matriz de Gor'kov em base Nambu e seu traço espectral.
+15. Medir ocupações em Qiskit Aer com shots ideais e ruído depolarizante.
 
 ## Execução
 
@@ -62,6 +63,7 @@ python experiments/10_bcs_paper_observables.py
 python experiments/11_bcs_pair_green_function.py
 python experiments/12_bcs_gorkov_anomalous_green.py
 python experiments/13_bcs_gorkov_nambu_matrix.py
+python experiments/14_bcs_qiskit_shots_noise.py
 ```
 
 ## Estrutura de código
@@ -93,6 +95,8 @@ Dinâmica:
   anômalo aproximado para um estado produto BCS com fase de ordem.
 - `experiments/13_bcs_gorkov_nambu_matrix.py`: salva a matriz Nambu de Gor'kov
   com canais `G`, `F`, `Fdag`, `Gdag`, traço, determinante e traço espectral.
+- `experiments/14_bcs_qiskit_shots_noise.py`: mede ocupações por amostragem
+  Qiskit Aer e compara shots ideais com ruído depolarizante.
 
 ## Observáveis de paper
 
@@ -109,6 +113,8 @@ Além de energia e fidelidade, a implementação mede:
 - `-Im F^R(omega)/pi`: densidade espectral anômala aproximada.
 - `G_Nambu=[[G,F],[Fdag,Gdag]]`: matriz de resposta em base Nambu.
 - `-Im Tr G_Nambu(omega)/pi`: traço espectral da resposta normal/anômala.
+- `n_i` medido: ocupação estimada por contagens computacionais em Qiskit.
+- ruído depolarizante: modelo simples para comparar circuito ideal e ruidoso.
 
 ## Resultados esperados
 
@@ -129,6 +135,8 @@ O script imprime um relatório comparativo com:
 - espectro anômalo aproximado.
 - matriz Nambu de Gor'kov;
 - traço espectral Nambu aproximado.
+- ocupações por shots;
+- comparação statevector vs shots ideais vs shots ruidosos.
 
 ## Observações técnicas
 

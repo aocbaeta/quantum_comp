@@ -54,6 +54,7 @@ As seguintes lacunas foram endereçadas na implementação posterior:
 - função de Green retardada de pares e densidade espectral aproximada.
 - função de Green anômala de Gor'kov em estado produto BCS.
 - matriz de Gor'kov em base Nambu, com canais normal e anômalo.
+- medição por shots em Qiskit Aer com ruído depolarizante simples.
 
 ## Conclusão
 
@@ -71,5 +72,6 @@ Para aumentar o alinhamento entre teoria e código, recomenda-se:
 - expandir o tutorial `quantum_languages/tutorials/bcs.md` com a derivação do mapeamento de pseudospins e das relações de anticomutação;
 - derivar fechamento analítico das equações de Gor'kov matriciais e comparar
   com o traço espectral numérico;
+- expandir simulações ruidosas para estimadores de energia e mitigação de erro;
 - derivar observáveis BCS adicionais de resposta linear com ruído e shots;
 - referenciar `docs/BCS_QC.pdf` diretamente nas seções teóricas do projeto.

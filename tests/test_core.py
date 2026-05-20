@@ -29,6 +29,7 @@ from bcs import (
     trotter_evolve_state,
 )
 from bcs_qiskit import simulate_bcs_trotter_circuit
+from bcs_qiskit import counts_pair_observables, statevector_pair_observables
 from fermions import verify_canonical_anticommutation
 from hubbard import ground_state, two_site_bcs_matrix, two_site_spinless_hubbard_matrix
 from propagator import exact_propagator
@@ -171,3 +172,23 @@ def test_qiskit_trotter_matches_matrix_trotter() -> None:
     matrix_state = trotter_evolve_state(terms, initial, time=0.7, steps=3, order=2)
     qiskit_state = simulate_bcs_trotter_circuit(terms, time=0.7, steps=3, order=2, occupied=[0, 1])
     assert fidelity(matrix_state, qiskit_state) > 1 - 1e-10
+
+
+def test_qiskit_counts_pair_observables_bit_order() -> None:
+    observed = counts_pair_observables({"0011": 3, "0001": 1}, n_qubits=4)
+    assert observed["shots"] == 4.0
+    assert observed["n_0"] == 1.0
+    assert observed["n_1"] == 0.75
+    assert observed["n_2"] == 0.0
+    assert observed["n_3"] == 0.0
+    assert observed["total_pair_number"] == 1.75
+
+
+def test_statevector_pair_observables_matrix_order() -> None:
+    state = computational_basis_state(4, [0, 1])
+    observed = statevector_pair_observables(state, 4)
+    assert observed["n_0"] == 1.0
+    assert observed["n_1"] == 1.0
+    assert observed["n_2"] == 0.0
+    assert observed["n_3"] == 0.0
+    assert observed["total_pair_number"] == 2.0
