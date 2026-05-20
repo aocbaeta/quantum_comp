@@ -8,7 +8,7 @@ authors:
     email: "aocbaetal@gmail.com"
 repository-code: "https://github.com/aocbaeta/quantum_comp"
 url: "https://github.com/aocbaeta/quantum_comp"
-version: "v1.2-bcs-ci"
+version: "v1.3-bcs-citation-package"
 date-released: "2026-05-20"
 abstract: >-
   Reproducible Python workflow for quantum simulation of the reduced BCS
