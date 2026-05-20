@@ -3,6 +3,8 @@
 Este roteiro fixa o experimento principal usado para gerar resultados de paper
 no projeto.
 
+Para a linha do tempo de versões, consulte `docs/bcs_release_notes.md`.
+
 ## Modelo
 
 ```text

@@ -16,6 +16,12 @@ Notebook de reprodução:
 notebooks/bcs_paper_reproduction.ipynb
 ```
 
+Marcos versionados:
+
+```bash
+docs/bcs_release_notes.md
+```
+
 Gerar HTML/PDF:
 
 ```bash
