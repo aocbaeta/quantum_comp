@@ -17,7 +17,7 @@ ocupações de pares, matriz de correlação `C_ij=<b_i^\dagger b_j>`, autovalor
 condensado, um proxy efetivo de gap, uma função de Green retardada de pares e
 um canal anômalo de Gor'kov organizado em uma matriz de resposta Nambu.
 Também é avaliada uma versão medida do circuito em Qiskit Aer, com amostragem
-por shots e ruído depolarizante simples.
+por shots, ruído depolarizante simples e estimativa de energia termo a termo.
 Para o caso de quatro qubits estudado, a
 Trotterização de segunda ordem com 64 passos atinge fidelidade `0.9999989` em
 `t=2.5`, e a série temporal até `t=6.0` preserva o número total de pares com erro
@@ -121,6 +121,7 @@ Além de energia, fidelidade e número total de pares, são extraídos:
 - traço espectral aproximado `-Im Tr G_Nambu(omega)/pi`.
 - ocupações de pares estimadas por contagens de medição em Qiskit Aer;
 - comparação entre statevector, shots ideais e ruído depolarizante.
+- energia por decomposição Pauli `E=sum_k c_k <P_k>` estimada por shots.
 
 Esses observáveis permitem discutir coerência coletiva dos pares mesmo em um
 modelo pequeno.
@@ -281,6 +282,32 @@ um canal depolarizante forte.
 
 ![Figura 13: ocupações por statevector, shots ideais e shots ruidosos.](../results/figures/bcs_qiskit_shots_noise_occupations.png)
 
+## 5.10 Energia por decomposição Pauli e shots
+
+O Hamiltoniano BCS reduzido já está escrito como soma de strings de Pauli:
+
+```text
+E = sum_k c_k <P_k>.
+```
+
+Cada termo foi medido em sua base própria: termos `Z` diretamente na base
+computacional, termos `X` após rotações `H`, e termos `Y` após `S^\dagger H`.
+O circuito Trotterizado com oito passos tem energia de statevector
+`2.61166`, enquanto a evolução exata no mesmo tempo conserva a energia
+`2.70000`. A diferença entre esses valores reflete o erro de Trotterização.
+
+A Figura 14 compara as energias estimadas. Com shots ideais, a energia fica
+próxima do statevector; com ruído depolarizante, a energia é fortemente
+subestimada.
+
+![Figura 14: energia BCS estimada por decomposição Pauli e shots.](../results/figures/bcs_qiskit_energy_shots_values.png)
+
+A Figura 15 mostra o erro absoluto em relação ao statevector Trotterizado. No
+maior orçamento usado (`8192` shots por termo), o erro ideal foi `0.00656`,
+enquanto o erro ruidoso ficou em `2.40108`.
+
+![Figura 15: erro absoluto da energia por shots.](../results/figures/bcs_qiskit_energy_shots_error.png)
+
 # 6. Discussão
 
 Os resultados mostram três pontos principais. Primeiro, a conservação do número
@@ -301,9 +328,9 @@ Foi construída uma implementação integrada do Hamiltoniano BCS reduzido em
 qubits, incluindo dinâmica exata, Trotterização, circuito Qiskit e observáveis
 físicos de pares. O código produz tabelas e figuras reprodutíveis para análise
 de erro, estrutura condensada, resposta retardada, canal anômalo de Gor'kov,
-matriz Nambu completa e medições por shots. A etapa seguinte natural é estimar
-energia por decomposição Pauli sob ruído e aplicar técnicas simples de mitigação
-de erro.
+matriz Nambu completa, medições por shots e estimativa de energia por
+decomposição Pauli. A etapa seguinte natural é aplicar técnicas simples de
+mitigação de erro e alocação adaptativa de shots por termo.
 
 # 8. Arquivos principais
 
@@ -316,6 +343,7 @@ de erro.
 - `experiments/12_bcs_gorkov_anomalous_green.py`;
 - `experiments/13_bcs_gorkov_nambu_matrix.py`;
 - `experiments/14_bcs_qiskit_shots_noise.py`;
+- `experiments/15_bcs_qiskit_energy_shots.py`;
 - `docs/bcs_paper_reproducibility.md`;
 - `results/tables/bcs_paper_observables.csv`.
 - `results/tables/bcs_pair_green_retarded.csv`.
@@ -325,6 +353,7 @@ de erro.
 - `results/tables/bcs_gorkov_nambu_time.csv`.
 - `results/tables/bcs_gorkov_nambu_spectral_trace.csv`.
 - `results/tables/bcs_qiskit_shots_noise.csv`.
+- `results/tables/bcs_qiskit_energy_shots.csv`.
 
 # Referências iniciais
 

@@ -55,6 +55,7 @@ As seguintes lacunas foram endereçadas na implementação posterior:
 - função de Green anômala de Gor'kov em estado produto BCS.
 - matriz de Gor'kov em base Nambu, com canais normal e anômalo.
 - medição por shots em Qiskit Aer com ruído depolarizante simples.
+- estimativa de energia por decomposição Pauli e shots.
 
 ## Conclusão
 
@@ -73,5 +74,6 @@ Para aumentar o alinhamento entre teoria e código, recomenda-se:
 - derivar fechamento analítico das equações de Gor'kov matriciais e comparar
   com o traço espectral numérico;
 - expandir simulações ruidosas para estimadores de energia e mitigação de erro;
+- comparar alocação uniforme/adaptativa de shots por termo de Pauli;
 - derivar observáveis BCS adicionais de resposta linear com ruído e shots;
 - referenciar `docs/BCS_QC.pdf` diretamente nas seções teóricas do projeto.

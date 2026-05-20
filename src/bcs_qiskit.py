@@ -88,6 +88,22 @@ def add_all_qubit_measurements(circuit: QuantumCircuit) -> QuantumCircuit:
     return measured
 
 
+def pauli_measurement_circuit(circuit: QuantumCircuit, label: str) -> QuantumCircuit:
+    measured = circuit.copy()
+    for qubit, symbol in enumerate(label):
+        if symbol == "I" or symbol == "Z":
+            continue
+        if symbol == "X":
+            measured.h(qubit)
+        elif symbol == "Y":
+            measured.sdg(qubit)
+            measured.h(qubit)
+        else:
+            raise ValueError(f"unsupported Pauli symbol: {symbol}")
+    measured.measure_all()
+    return measured
+
+
 def counts_pair_observables(counts: dict[str, int], n_qubits: int) -> dict[str, float]:
     shots = sum(counts.values())
     if shots <= 0:
@@ -107,6 +123,42 @@ def counts_pair_observables(counts: dict[str, int], n_qubits: int) -> dict[str, 
     return result
 
 
+def pauli_expectation_from_counts(counts: dict[str, int], label: str) -> float:
+    shots = sum(counts.values())
+    if shots <= 0:
+        raise ValueError("counts must contain at least one shot")
+    n_qubits = len(label)
+    total = 0.0
+    for bitstring, count in counts.items():
+        cleaned = bitstring.replace(" ", "")
+        if len(cleaned) != n_qubits:
+            raise ValueError(f"unexpected bitstring length: {bitstring}")
+        eigenvalue = 1
+        for qubit, symbol in enumerate(label):
+            if symbol == "I":
+                continue
+            bit = int(cleaned[n_qubits - 1 - qubit])
+            eigenvalue *= -1 if bit else 1
+        total += count * eigenvalue
+    return float(total / shots)
+
+
+def estimate_pauli_energy_from_counts(
+    term_counts: dict[str, dict[str, int]],
+    terms: list[PauliMatrixTerm],
+) -> dict[str, float]:
+    energy = 0.0
+    result: dict[str, float] = {}
+    for index, term in enumerate(terms):
+        expectation = pauli_expectation_from_counts(term_counts[term.label], term.label)
+        contribution = float(term.coeff * expectation)
+        result[f"term_{index}_{term.label}_expectation"] = expectation
+        result[f"term_{index}_{term.label}_energy"] = contribution
+        energy += contribution
+    result["energy"] = float(energy)
+    return result
+
+
 def statevector_pair_observables(state: np.ndarray, n_qubits: int) -> dict[str, float]:
     probabilities = np.abs(np.asarray(state, dtype=complex)) ** 2
     occupations = [0.0] * n_qubits
@@ -118,6 +170,16 @@ def statevector_pair_observables(state: np.ndarray, n_qubits: int) -> dict[str, 
     for index, value in enumerate(occupations):
         result[f"n_{index}"] = float(value)
     return result
+
+
+def statevector_pauli_energy(state: np.ndarray, terms: list[PauliMatrixTerm]) -> float:
+    state_array = np.asarray(state, dtype=complex)
+    return float(
+        sum(
+            np.real(np.vdot(state_array, term.matrix @ state_array))
+            for term in terms
+        )
+    )
 
 
 def depolarizing_noise_model(p1: float = 0.002, p2: float = 0.02) -> NoiseModel:
@@ -139,3 +201,24 @@ def run_counts(
     compiled = transpile(circuit, simulator, seed_transpiler=seed)
     result = simulator.run(compiled, shots=shots).result()
     return dict(result.get_counts())
+
+
+def run_pauli_energy_shots(
+    circuit: QuantumCircuit,
+    terms: list[PauliMatrixTerm],
+    shots: int,
+    seed: int = 1234,
+    noise_model: NoiseModel | None = None,
+) -> dict[str, float]:
+    term_counts = {}
+    for offset, term in enumerate(terms):
+        measured = pauli_measurement_circuit(circuit, term.label)
+        term_counts[term.label] = run_counts(
+            measured,
+            shots=shots,
+            seed=seed + offset,
+            noise_model=noise_model,
+        )
+    result = estimate_pauli_energy_from_counts(term_counts, terms)
+    result["shots"] = float(shots)
+    return result

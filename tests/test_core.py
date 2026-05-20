@@ -29,7 +29,12 @@ from bcs import (
     trotter_evolve_state,
 )
 from bcs_qiskit import simulate_bcs_trotter_circuit
-from bcs_qiskit import counts_pair_observables, statevector_pair_observables
+from bcs_qiskit import (
+    counts_pair_observables,
+    pauli_expectation_from_counts,
+    statevector_pair_observables,
+    statevector_pauli_energy,
+)
 from fermions import verify_canonical_anticommutation
 from hubbard import ground_state, two_site_bcs_matrix, two_site_spinless_hubbard_matrix
 from propagator import exact_propagator
@@ -192,3 +197,17 @@ def test_statevector_pair_observables_matrix_order() -> None:
     assert observed["n_2"] == 0.0
     assert observed["n_3"] == 0.0
     assert observed["total_pair_number"] == 2.0
+
+
+def test_pauli_expectation_from_counts_bit_order() -> None:
+    assert pauli_expectation_from_counts({"0": 3, "1": 1}, "Z") == 0.5
+    assert pauli_expectation_from_counts({"00": 2, "01": 2}, "XI") == 0.0
+    assert pauli_expectation_from_counts({"00": 2, "11": 2}, "ZZ") == 1.0
+
+
+def test_statevector_pauli_energy_matches_matrix_expectation() -> None:
+    xi = [-1.0, -0.35, 0.35, 1.0]
+    terms = reduced_bcs_terms(xi, g=0.8)
+    state = computational_basis_state(4, [0, 1])
+    hamiltonian = reduced_bcs_matrix(xi, g=0.8)
+    assert abs(statevector_pauli_energy(state, terms) - np.real(expectation(state, hamiltonian))) < 1e-12

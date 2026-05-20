@@ -183,6 +183,7 @@ python experiments/11_bcs_pair_green_function.py
 python experiments/12_bcs_gorkov_anomalous_green.py
 python experiments/13_bcs_gorkov_nambu_matrix.py
 python experiments/14_bcs_qiskit_shots_noise.py
+python experiments/15_bcs_qiskit_energy_shots.py
 ```
 
 ## Objetivo
@@ -200,6 +201,7 @@ Validar a correspondência entre:
 - função de Green anômala de Gor'kov e espectro anômalo aproximado.
 - matriz de Gor'kov em base Nambu e traço espectral.
 - medição por shots em Qiskit Aer, com e sem ruído.
+- energia por shots via decomposição Pauli.
 
 ## Figuras e tabelas
 
@@ -221,6 +223,8 @@ results/figures/bcs_gorkov_nambu_channels.png
 results/figures/bcs_gorkov_nambu_spectral_trace.png
 results/figures/bcs_qiskit_shots_noise_total_pairs.png
 results/figures/bcs_qiskit_shots_noise_occupations.png
+results/figures/bcs_qiskit_energy_shots_values.png
+results/figures/bcs_qiskit_energy_shots_error.png
 ```
 
 ## Roteiro de paper

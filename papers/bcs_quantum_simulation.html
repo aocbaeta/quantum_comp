@@ -185,11 +185,12 @@ pares, matriz de correlação <code>C_ij=&lt;b_i^\dagger b_j&gt;</code>,
 autovalor condensado, um proxy efetivo de gap, uma função de Green
 retardada de pares e um canal anômalo de Gor’kov organizado em uma
 matriz de resposta Nambu. Também é avaliada uma versão medida do
-circuito em Qiskit Aer, com amostragem por shots e ruído depolarizante
-simples. Para o caso de quatro qubits estudado, a Trotterização de
-segunda ordem com 64 passos atinge fidelidade <code>0.9999989</code> em
-<code>t=2.5</code>, e a série temporal até <code>t=6.0</code> preserva o
-número total de pares com erro da ordem de <code>10^-13</code>.</p>
+circuito em Qiskit Aer, com amostragem por shots, ruído depolarizante
+simples e estimativa de energia termo a termo. Para o caso de quatro
+qubits estudado, a Trotterização de segunda ordem com 64 passos atinge
+fidelidade <code>0.9999989</code> em <code>t=2.5</code>, e a série
+temporal até <code>t=6.0</code> preserva o número total de pares com
+erro da ordem de <code>10^-13</code>.</p>
 <h1 id="introdução">1. Introdução</h1>
 <p>O modelo BCS descreve a formação coletiva de pares de Cooper em
 sistemas fermiônicos. Na formulação reduzida, pares de estados temporais
@@ -261,6 +262,8 @@ anômalos: <code>[[G,F],[Fdag,Gdag]]</code>;</li>
 Aer;</li>
 <li>comparação entre statevector, shots ideais e ruído
 depolarizante.</li>
+<li>energia por decomposição Pauli <code>E=sum_k c_k &lt;P_k&gt;</code>
+estimada por shots.</li>
 </ul>
 <p>Esses observáveis permitem discutir coerência coletiva dos pares
 mesmo em um modelo pequeno.</p>
@@ -448,6 +451,37 @@ alt="Figura 13: ocupações por statevector, shots ideais e shots ruidosos." />
 <figcaption aria-hidden="true">Figura 13: ocupações por statevector,
 shots ideais e shots ruidosos.</figcaption>
 </figure>
+<h2 id="energia-por-decomposição-pauli-e-shots">5.10 Energia por
+decomposição Pauli e shots</h2>
+<p>O Hamiltoniano BCS reduzido já está escrito como soma de strings de
+Pauli:</p>
+<pre class="text"><code>E = sum_k c_k &lt;P_k&gt;.</code></pre>
+<p>Cada termo foi medido em sua base própria: termos <code>Z</code>
+diretamente na base computacional, termos <code>X</code> após rotações
+<code>H</code>, e termos <code>Y</code> após <code>S^\dagger H</code>. O
+circuito Trotterizado com oito passos tem energia de statevector
+<code>2.61166</code>, enquanto a evolução exata no mesmo tempo conserva
+a energia <code>2.70000</code>. A diferença entre esses valores reflete
+o erro de Trotterização.</p>
+<p>A Figura 14 compara as energias estimadas. Com shots ideais, a
+energia fica próxima do statevector; com ruído depolarizante, a energia
+é fortemente subestimada.</p>
+<figure>
+<img src="../results/figures/bcs_qiskit_energy_shots_values.png"
+alt="Figura 14: energia BCS estimada por decomposição Pauli e shots." />
+<figcaption aria-hidden="true">Figura 14: energia BCS estimada por
+decomposição Pauli e shots.</figcaption>
+</figure>
+<p>A Figura 15 mostra o erro absoluto em relação ao statevector
+Trotterizado. No maior orçamento usado (<code>8192</code> shots por
+termo), o erro ideal foi <code>0.00656</code>, enquanto o erro ruidoso
+ficou em <code>2.40108</code>.</p>
+<figure>
+<img src="../results/figures/bcs_qiskit_energy_shots_error.png"
+alt="Figura 15: erro absoluto da energia por shots." />
+<figcaption aria-hidden="true">Figura 15: erro absoluto da energia por
+shots.</figcaption>
+</figure>
 <h1 id="discussão">6. Discussão</h1>
 <p>Os resultados mostram três pontos principais. Primeiro, a conservação
 do número de pares é preservada numericamente, com diferença final entre
@@ -465,9 +499,10 @@ ruído ou medições finitas.</p>
 reduzido em qubits, incluindo dinâmica exata, Trotterização, circuito
 Qiskit e observáveis físicos de pares. O código produz tabelas e figuras
 reprodutíveis para análise de erro, estrutura condensada, resposta
-retardada, canal anômalo de Gor’kov, matriz Nambu completa e medições
-por shots. A etapa seguinte natural é estimar energia por decomposição
-Pauli sob ruído e aplicar técnicas simples de mitigação de erro.</p>
+retardada, canal anômalo de Gor’kov, matriz Nambu completa, medições por
+shots e estimativa de energia por decomposição Pauli. A etapa seguinte
+natural é aplicar técnicas simples de mitigação de erro e alocação
+adaptativa de shots por termo.</p>
 <h1 id="arquivos-principais">8. Arquivos principais</h1>
 <ul>
 <li><code>src/bcs.py</code>;</li>
@@ -479,6 +514,7 @@ Pauli sob ruído e aplicar técnicas simples de mitigação de erro.</p>
 <li><code>experiments/12_bcs_gorkov_anomalous_green.py</code>;</li>
 <li><code>experiments/13_bcs_gorkov_nambu_matrix.py</code>;</li>
 <li><code>experiments/14_bcs_qiskit_shots_noise.py</code>;</li>
+<li><code>experiments/15_bcs_qiskit_energy_shots.py</code>;</li>
 <li><code>docs/bcs_paper_reproducibility.md</code>;</li>
 <li><code>results/tables/bcs_paper_observables.csv</code>.</li>
 <li><code>results/tables/bcs_pair_green_retarded.csv</code>.</li>
@@ -488,6 +524,7 @@ Pauli sob ruído e aplicar técnicas simples de mitigação de erro.</p>
 <li><code>results/tables/bcs_gorkov_nambu_time.csv</code>.</li>
 <li><code>results/tables/bcs_gorkov_nambu_spectral_trace.csv</code>.</li>
 <li><code>results/tables/bcs_qiskit_shots_noise.csv</code>.</li>
+<li><code>results/tables/bcs_qiskit_energy_shots.csv</code>.</li>
 </ul>
 <h1 id="referências-iniciais">Referências iniciais</h1>
 <ul>

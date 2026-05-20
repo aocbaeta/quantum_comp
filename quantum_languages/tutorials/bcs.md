@@ -45,6 +45,7 @@ Demonstrar a correspondência entre:
 13. Calcular função de Green anômala de Gor'kov em um estado produto BCS.
 14. Montar a matriz de Gor'kov em base Nambu e seu traço espectral.
 15. Medir ocupações em Qiskit Aer com shots ideais e ruído depolarizante.
+16. Estimar energia por decomposição Pauli usando shots.
 
 ## Execução
 
@@ -64,6 +65,7 @@ python experiments/11_bcs_pair_green_function.py
 python experiments/12_bcs_gorkov_anomalous_green.py
 python experiments/13_bcs_gorkov_nambu_matrix.py
 python experiments/14_bcs_qiskit_shots_noise.py
+python experiments/15_bcs_qiskit_energy_shots.py
 ```
 
 ## Estrutura de código
@@ -97,6 +99,8 @@ Dinâmica:
   com canais `G`, `F`, `Fdag`, `Gdag`, traço, determinante e traço espectral.
 - `experiments/14_bcs_qiskit_shots_noise.py`: mede ocupações por amostragem
   Qiskit Aer e compara shots ideais com ruído depolarizante.
+- `experiments/15_bcs_qiskit_energy_shots.py`: mede cada termo de Pauli do
+  Hamiltoniano e soma `E=sum_k c_k <P_k>`.
 
 ## Observáveis de paper
 
@@ -115,6 +119,7 @@ Além de energia e fidelidade, a implementação mede:
 - `-Im Tr G_Nambu(omega)/pi`: traço espectral da resposta normal/anômala.
 - `n_i` medido: ocupação estimada por contagens computacionais em Qiskit.
 - ruído depolarizante: modelo simples para comparar circuito ideal e ruidoso.
+- energia por shots: estimativa termo a termo por mudança de base Pauli.
 
 ## Resultados esperados
 
@@ -137,6 +142,8 @@ O script imprime um relatório comparativo com:
 - traço espectral Nambu aproximado.
 - ocupações por shots;
 - comparação statevector vs shots ideais vs shots ruidosos.
+- energia por shots ideal/ruidosa;
+- erro absoluto de energia contra statevector e evolução exata.
 
 ## Observações técnicas
 
