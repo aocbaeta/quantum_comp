@@ -34,6 +34,7 @@ bin/                utilitários e wrappers locais
 
 - `docs/BCS_QC.pdf` — fundamentação teórica para o modelo BCS e o mapeamento para qubits.
 - `docs/BCS_QC_comparacao.md` — análise de compatibilidade entre teoria e implementação.
+- `docs/bcs_publication_checklist.md` — checklist de publicação e auditoria do pacote BCS.
 - `docs/bcs_release_notes.md` — linha do tempo dos marcos versionados do paper BCS.
 - `docs/tutoriais_quantum.md` — guia unificado de tutoriais do laboratório.
 - `notebooks/bcs_paper_reproduction.ipynb` — notebook interativo para revisar tabelas, figuras e métricas do paper BCS.
@@ -115,6 +116,7 @@ python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0
 - `experiments/16_bcs_qiskit_error_mitigation.py` — extrapolação zero-noise linear para energia por shots;
 - `quantum_languages/tutorials/bcs.md` — tutorial técnico para mapeamento BCS → qubits;
 - `docs/BCS_QC.pdf` — referência teórica associada.
+- `docs/bcs_publication_checklist.md` — checklist de publicação e auditoria;
 - `docs/bcs_release_notes.md` — changelog dos marcos BCS de `v0.1` a `v1.0`;
 - `papers/bcs_quantum_simulation.md` — rascunho de paper com figuras e resultados.
 - `notebooks/bcs_paper_reproduction.ipynb` — reprodução interativa das tabelas, figuras, métricas espectrais, shots e mitigação.

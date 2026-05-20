@@ -34,7 +34,9 @@ O pacote BCS inclui:
 - notebook em `notebooks/bcs_paper_reproduction.ipynb`;
 - artefatos renderizados em `results/notebooks/`;
 - validação em `scripts/validate_bcs_paper_artifacts.py`;
-- CI em `.github/workflows/ci.yml`.
+- CI em `.github/workflows/ci.yml`;
+- metadados de citação em `CITATION.cff`;
+- checklist editorial em `docs/bcs_publication_checklist.md`.
 
 ## Comandos de auditoria
 

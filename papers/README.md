@@ -22,6 +22,12 @@ Marcos versionados:
 docs/bcs_release_notes.md
 ```
 
+Checklist de publicação:
+
+```bash
+docs/bcs_publication_checklist.md
+```
+
 Gerar HTML/PDF:
 
 ```bash

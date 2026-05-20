@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "Se este repositório for útil para sua pesquisa, cite-o usando estes metadados."
+title: "Quantum IC: reduced BCS Hamiltonian quantum simulation workflow"
+type: software
+authors:
+  - family-names: "Baeta"
+    given-names: "Andre"
+    email: "aocbaetal@gmail.com"
+repository-code: "https://github.com/aocbaeta/quantum_comp"
+url: "https://github.com/aocbaeta/quantum_comp"
+version: "v1.2-bcs-ci"
+date-released: "2026-05-20"
+abstract: >-
+  Reproducible Python workflow for quantum simulation of the reduced BCS
+  Hamiltonian, including exact dynamics, Trotterized circuits, Green functions,
+  Qiskit shot/noise studies, zero-noise extrapolation, paper artifacts,
+  notebooks, and automated validation.
+keywords:
+  - "quantum computing"
+  - "BCS Hamiltonian"
+  - "quantum simulation"
+  - "Qiskit"
+  - "Trotterization"
+  - "Green functions"
+license: "NOASSERTION"
