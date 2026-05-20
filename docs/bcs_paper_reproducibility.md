@@ -57,6 +57,12 @@ google-chrome --headless --disable-gpu --no-sandbox \
   "file://$PWD/results/notebooks/bcs_paper_reproduction.html"
 ```
 
+Para validar o pacote reprodutível do paper:
+
+```bash
+python scripts/validate_bcs_paper_artifacts.py
+```
+
 ## Saídas principais
 
 - `results/tables/bcs_dynamics_trotter.csv`;

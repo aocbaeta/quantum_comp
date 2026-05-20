@@ -131,6 +131,12 @@ Artefatos estáticos gerados:
 - `results/notebooks/bcs_paper_reproduction.html`;
 - `results/notebooks/bcs_paper_reproduction.pdf`.
 
+Validar o pacote reprodutível:
+
+```bash
+python scripts/validate_bcs_paper_artifacts.py
+```
+
 ## QCL local
 
 O repositório inclui uma instalação local de QCL 0.6.4.

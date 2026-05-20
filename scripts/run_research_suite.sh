@@ -19,4 +19,7 @@ printf '\n== Quantum language examples ==\n'
 quantum_languages/scripts/run_qcl_examples.sh
 quantum_languages/scripts/run_framework_examples.sh
 
+printf '\n== BCS paper artifacts ==\n'
+"$PY" scripts/validate_bcs_paper_artifacts.py
+
 printf '\nResearch suite completed.\n'
