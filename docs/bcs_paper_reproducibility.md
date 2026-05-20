@@ -45,6 +45,18 @@ Para revisar os resultados em modo interativo:
 jupyter notebook notebooks/bcs_paper_reproduction.ipynb
 ```
 
+Para gerar uma cópia executada e artefatos estáticos:
+
+```bash
+python -m nbconvert --to notebook --execute notebooks/bcs_paper_reproduction.ipynb \
+  --output bcs_paper_reproduction_executed.ipynb --output-dir results/notebooks
+python -m nbconvert --to html results/notebooks/bcs_paper_reproduction_executed.ipynb \
+  --output bcs_paper_reproduction.html --output-dir results/notebooks
+google-chrome --headless --disable-gpu --no-sandbox \
+  --print-to-pdf="$PWD/results/notebooks/bcs_paper_reproduction.pdf" \
+  "file://$PWD/results/notebooks/bcs_paper_reproduction.html"
+```
+
 ## Saídas principais
 
 - `results/tables/bcs_dynamics_trotter.csv`;
@@ -78,6 +90,9 @@ jupyter notebook notebooks/bcs_paper_reproduction.ipynb
 - `results/figures/bcs_qiskit_error_mitigation_zne.png`;
 - `results/figures/bcs_qiskit_error_mitigation_errors.png`.
 - `notebooks/bcs_paper_reproduction.ipynb`.
+- `results/notebooks/bcs_paper_reproduction_executed.ipynb`.
+- `results/notebooks/bcs_paper_reproduction.html`.
+- `results/notebooks/bcs_paper_reproduction.pdf`.
 
 ## Observáveis
 

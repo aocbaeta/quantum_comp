@@ -125,6 +125,12 @@ source .venv/bin/activate
 jupyter notebook notebooks/bcs_paper_reproduction.ipynb
 ```
 
+Artefatos estáticos gerados:
+
+- `results/notebooks/bcs_paper_reproduction_executed.ipynb`;
+- `results/notebooks/bcs_paper_reproduction.html`;
+- `results/notebooks/bcs_paper_reproduction.pdf`.
+
 ## QCL local
 
 O repositório inclui uma instalação local de QCL 0.6.4.
