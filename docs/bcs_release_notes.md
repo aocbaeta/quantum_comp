@@ -17,6 +17,7 @@ correspondem a incrementos reprodutíveis do código, resultados e documentaçã
 | `v0.8-bcs-reproduction-notebook` | `3cae45a` | Notebook interativo de reprodução do paper. |
 | `v0.9-bcs-reproduction-artifacts` | `6b9b177` | Notebook executado, HTML e PDF estático de reprodução. |
 | `v1.0-bcs-paper-validation` | `cedef64` | Validador automatizado dos artefatos do pacote reprodutível. |
+| `v1.1-bcs-release-notes` | `73e5f6d` | Changelog dos marcos BCS e comandos de auditoria. |
 
 ## Estado em `v1.0`
 
@@ -31,7 +32,8 @@ O pacote BCS inclui:
 - PDF do manuscrito em `papers/bcs_quantum_simulation.pdf`;
 - notebook em `notebooks/bcs_paper_reproduction.ipynb`;
 - artefatos renderizados em `results/notebooks/`;
-- validação em `scripts/validate_bcs_paper_artifacts.py`.
+- validação em `scripts/validate_bcs_paper_artifacts.py`;
+- CI em `.github/workflows/ci.yml`.
 
 ## Comandos de auditoria
 

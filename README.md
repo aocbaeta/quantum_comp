@@ -163,6 +163,14 @@ cd ~/quantum_ic
 PYTHONPATH=src .venv/bin/python -m pytest -q tests
 ```
 
+## CI local
+
+```bash
+cd ~/quantum_ic
+PYTHONPATH=src .venv/bin/python -m pytest -q tests
+.venv/bin/python scripts/validate_bcs_paper_artifacts.py
+```
+
 ## Resultados
 
 - as saídas estruturadas são gravadas em `results/tables/`;
