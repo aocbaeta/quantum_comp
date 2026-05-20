@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
+from types import SimpleNamespace
 import numpy as np
 from scipy.optimize import minimize
 from qiskit import QuantumCircuit
@@ -109,8 +111,29 @@ def energia_qiskit(parametros_numericos, hamiltoniano, n_qubits):
     return float(energia)
 
 
-def _otimizar_vqe(funcao_objetivo, n_parametros, maxiter=2000, restarts=3):
+def _otimizar_vqe(funcao_objetivo, n_parametros, maxiter=2000, restarts=3, optimizer="random"):
     melhor_resultado = None
+    if optimizer == "random":
+        n_amostras = max(1, maxiter)
+        for _ in range(max(1, restarts)):
+            parametros = np.random.uniform(low=0.0, high=2.0 * np.pi, size=n_parametros)
+            energia = funcao_objetivo(parametros)
+            for _ in range(n_amostras - 1):
+                candidato = np.random.uniform(low=0.0, high=2.0 * np.pi, size=n_parametros)
+                energia_candidata = funcao_objetivo(candidato)
+                if energia_candidata < energia:
+                    parametros = candidato
+                    energia = energia_candidata
+            resultado = SimpleNamespace(
+                fun=energia,
+                x=parametros,
+                success=True,
+                message=f"busca aleatoria com {n_amostras} amostras",
+            )
+            if melhor_resultado is None or resultado.fun < melhor_resultado.fun:
+                melhor_resultado = resultado
+        return melhor_resultado
+
     for _ in range(restarts):
         parametros_iniciais = np.random.uniform(low=0.0, high=2.0 * np.pi, size=n_parametros)
         resultado = minimize(
@@ -124,14 +147,16 @@ def _otimizar_vqe(funcao_objetivo, n_parametros, maxiter=2000, restarts=3):
     return melhor_resultado
 
 
-def executar_vqe_qiskit(xi, g, maxiter=2000, restarts=3):
+def executar_vqe_qiskit(xi, g, maxiter=2000, restarts=3, optimizer="random"):
     n_qubits = len(xi)
     hamiltoniano = construir_hamiltoniano_bcs_qiskit(xi, g)
 
     def objetivo(parametros):
         return energia_qiskit(parametros, hamiltoniano, n_qubits)
 
-    resultado = _otimizar_vqe(objetivo, 4 * n_qubits, maxiter=maxiter, restarts=restarts)
+    resultado = _otimizar_vqe(
+        objetivo, 4 * n_qubits, maxiter=maxiter, restarts=restarts, optimizer=optimizer
+    )
     return {
         "energia": float(resultado.fun),
         "parametros": resultado.x,
@@ -177,14 +202,16 @@ def criar_qnode_pennylane(xi, g):
     return circuito
 
 
-def executar_vqe_pennylane(xi, g, maxiter=2000, restarts=3):
+def executar_vqe_pennylane(xi, g, maxiter=2000, restarts=3, optimizer="random"):
     n_qubits = len(xi)
     circuito = criar_qnode_pennylane(xi, g)
 
     def funcao_objetivo(parametros):
         return float(circuito(parametros))
 
-    resultado = _otimizar_vqe(funcao_objetivo, 4 * n_qubits, maxiter=maxiter, restarts=restarts)
+    resultado = _otimizar_vqe(
+        funcao_objetivo, 4 * n_qubits, maxiter=maxiter, restarts=restarts, optimizer=optimizer
+    )
     return {
         "energia": float(resultado.fun),
         "parametros": resultado.x,
@@ -220,13 +247,15 @@ def energia_cirq(parametros, xi, g):
     return float(np.real(energia))
 
 
-def executar_vqe_cirq(xi, g, maxiter=2000, restarts=3):
+def executar_vqe_cirq(xi, g, maxiter=2000, restarts=3, optimizer="random"):
     n_qubits = len(xi)
 
     def objetivo(parametros):
         return energia_cirq(parametros, xi, g)
 
-    resultado = _otimizar_vqe(objetivo, 4 * n_qubits, maxiter=maxiter, restarts=restarts)
+    resultado = _otimizar_vqe(
+        objetivo, 4 * n_qubits, maxiter=maxiter, restarts=restarts, optimizer=optimizer
+    )
     return {
         "energia": float(resultado.fun),
         "parametros": resultado.x,
@@ -268,16 +297,52 @@ def imprimir_relatorio(xi, g, energia_exata, resultado_qiskit, resultado_pennyla
     print("\n" + "=" * 70)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Compara o modelo BCS reduzido em Qiskit, PennyLane e Cirq."
+    )
+    parser.add_argument(
+        "--maxiter",
+        type=int,
+        default=48,
+        help="Numero de amostras ou iteracoes por otimizacao VQE.",
+    )
+    parser.add_argument(
+        "--restarts",
+        type=int,
+        default=1,
+        help="Numero de reinicializacoes aleatorias por framework.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="Semente pseudoaleatoria para inicializacao dos parametros.",
+    )
+    parser.add_argument(
+        "--optimizer",
+        choices=["random", "powell"],
+        default="random",
+        help="Otimizador VQE. Use 'powell' para rodadas mais longas e precisas.",
+    )
+    return parser.parse_args()
+
+
 def main():
+    args = parse_args()
     xi = [-1.0, -0.5, 0.5, 1.0]
     g = 0.8
-    maxiter = 1500
-    restarts = 3
-    np.random.seed(42)
+    np.random.seed(args.seed)
     energia_exata = energia_exata_classica(xi, g)
-    resultado_qiskit = executar_vqe_qiskit(xi=xi, g=g, maxiter=maxiter, restarts=restarts)
-    resultado_pennylane = executar_vqe_pennylane(xi=xi, g=g, maxiter=maxiter, restarts=restarts)
-    resultado_cirq = executar_vqe_cirq(xi=xi, g=g, maxiter=maxiter, restarts=restarts)
+    resultado_qiskit = executar_vqe_qiskit(
+        xi=xi, g=g, maxiter=args.maxiter, restarts=args.restarts, optimizer=args.optimizer
+    )
+    resultado_pennylane = executar_vqe_pennylane(
+        xi=xi, g=g, maxiter=args.maxiter, restarts=args.restarts, optimizer=args.optimizer
+    )
+    resultado_cirq = executar_vqe_cirq(
+        xi=xi, g=g, maxiter=args.maxiter, restarts=args.restarts, optimizer=args.optimizer
+    )
     imprimir_relatorio(
         xi=xi,
         g=g,

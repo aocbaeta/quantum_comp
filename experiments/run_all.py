@@ -13,6 +13,9 @@ EXPERIMENTS = [
     "04_vqe_hubbard.py",
     "05_zeta_zeros_statistics.py",
     "06_zeta_critical_line_scan.py",
+    "08_bcs_dynamics_trotter.py",
+    "09_bcs_qiskit_trotter_circuit.py",
+    "10_bcs_paper_observables.py",
 ]
 
 

@@ -41,15 +41,23 @@ O PDF contém material teórico que ainda não está plenamente representado em 
 
 - desenvolvimento detalhado da álgebra fermiônica graduada;
 - mapeamento completo de operadores de criação/aniquilação fermiônicos;
-- funções de Green e equações de Gor'kov;
+- funções de Green e equações de Gor'kov.
+
+As seguintes lacunas foram endereçadas na implementação posterior:
+
 - análise de dinâmica BCS, propagadores unitários e evolução temporal;
-- decomposição Trotterizada para termos não comutativos.
+- decomposição Trotterizada para termos não comutativos;
+- validação de circuito Qiskit para a dinâmica Trotterizada;
+- tabela de normas de comutadores entre termos do Hamiltoniano.
+- observáveis físicos de pares: ocupações, matriz `C_ij=<b_i^\dagger b_j>`,
+  autovalor condensado e proxy de gap efetivo.
 
 ## Conclusão
 
 A abordagem teórica de `BCS_QC.pdf` é compatível com o escopo prático do projeto `quantum_ic`.
 
-- A implementação atual materializa o Hamiltoniano reduzido BCS e a comparação VQE.
+- A implementação atual materializa o Hamiltoniano reduzido BCS, a comparação
+  VQE, a dinâmica Trotterizada e observáveis físicos de pares.
 - O mapeamento para qubits está correto e coerente com a teoria apresentada.
 - O principal diferencial do PDF é a profundidade teórica adicional em muitos corpos e evolução temporal.
 
@@ -57,6 +65,7 @@ A abordagem teórica de `BCS_QC.pdf` é compatível com o escopo prático do pro
 
 Para aumentar o alinhamento entre teoria e código, recomenda-se:
 
-- incorporar a simulação Trotterizada e a evolução temporal do modelo BCS;
 - expandir o tutorial `quantum_languages/tutorials/bcs.md` com a derivação do mapeamento de pseudospins e das relações de anticomutação;
+- implementar funções de Green e correlações temporais;
+- derivar observáveis BCS adicionais de resposta linear e espectro dinâmico;
 - referenciar `docs/BCS_QC.pdf` diretamente nas seções teóricas do projeto.

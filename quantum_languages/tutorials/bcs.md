@@ -36,6 +36,11 @@ Demonstrar a correspondência entre:
 4. Montar o Hamiltoniano em PennyLane como `qml.Hamiltonian`;
 5. Definir circuitos variacionais em Qiskit, PennyLane e Cirq;
 6. Executar VQE e comparar os resultados com a solução exata.
+7. Construir o propagador exato `U(t)=exp(-iHt)`;
+8. Aproximar a dinâmica por Trotterização de 1ª e 2ª ordem;
+9. Comparar fidelidade, erro de estado, conservação de energia e número de pares;
+10. Reproduzir a Trotterização como circuito Qiskit.
+11. Medir correlações de pares, autovalor condensado e proxy de gap efetivo.
 
 ## Execução
 
@@ -43,6 +48,14 @@ Demonstrar a correspondência entre:
 cd ~/quantum_ic
 source .venv/bin/activate
 python quantum_languages/scripts/bcs_project.py
+```
+
+Dinâmica temporal e Trotterização:
+
+```bash
+python experiments/08_bcs_dynamics_trotter.py
+python experiments/09_bcs_qiskit_trotter_circuit.py
+python experiments/10_bcs_paper_observables.py
 ```
 
 ## Estrutura de código
@@ -56,6 +69,29 @@ python quantum_languages/scripts/bcs_project.py
 - `construir_circuito_cirq(n_qubits, parametros)`: circuito variacional em Cirq;
 - `executar_vqe_cirq(xi, g)`: rotina VQE em Cirq.
 
+Dinâmica:
+
+- `src/bcs.py`: termos de Pauli, Hamiltoniano, número de pares, evolução exata,
+  Trotterização, fidelidade e normas de comutadores;
+- `src/bcs_qiskit.py`: circuito Qiskit com portas `RZ`, `RXX` e `RYY` para
+  implementar `exp(-iHdt)` por Trotterização;
+- `experiments/08_bcs_dynamics_trotter.py`: salva `bcs_dynamics_trotter.csv`,
+  `bcs_commutator_norms.csv` e `bcs_trotter_error.png`;
+- `experiments/09_bcs_qiskit_trotter_circuit.py`: salva o circuito Qiskit e
+  compara a saída com a evolução matricial.
+- `experiments/10_bcs_paper_observables.py`: salva séries temporais de
+  ocupação, proxy de gap, autovalor condensado e mapas de correlação de pares.
+
+## Observáveis de paper
+
+Além de energia e fidelidade, a implementação mede:
+
+- `n_i = <(I-Z_i)/2>`: ocupação de par no modo `i`;
+- `C_ij = <b_i^\dagger b_j>`: matriz de correlação de pares;
+- `lambda_max(C)`: proxy de ordem condensada do setor de pares;
+- `Delta_eff = g sqrt(lambda_max(C))`: proxy operacional de gap efetivo para
+  comparar dinâmica exata e circuito Trotterizado.
+
 ## Resultados esperados
 
 O script imprime um relatório comparativo com:
@@ -64,6 +100,11 @@ O script imprime um relatório comparativo com:
 - energia estimada por Qiskit;
 - energia estimada por PennyLane;
 - energia estimada por Cirq.
+- curva de erro Trotter vs número de passos;
+- tabela de normas de comutadores dos termos do Hamiltoniano;
+- fidelidade entre circuito Qiskit Trotterizado e evolução matricial.
+- curvas temporais de ocupação, gap efetivo e autovalor condensado;
+- mapas finais de `|<b_i^\dagger b_j>|`.
 
 ## Observações técnicas
 
@@ -73,3 +114,7 @@ O script imprime um relatório comparativo com:
   BCS->qubits e a implementação de VQE em diferentes frameworks.
 - A segunda camada de rotação fornece maior expressividade e melhor aproximação
   da energia fundamental.
+- A evolução Trotterizada preserva o número total de pares neste Hamiltoniano,
+  porque o operador de número comuta com o Hamiltoniano reduzido.
+- A Trotterização de segunda ordem reduz o erro de estado mais rapidamente que a
+  primeira ordem para os parâmetros usados no experimento.

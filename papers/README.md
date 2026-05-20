@@ -1,0 +1,28 @@
+# Papers
+
+Manuscritos e rascunhos científicos do projeto.
+
+## BCS quantum simulation
+
+Fonte principal:
+
+```bash
+papers/bcs_quantum_simulation.md
+```
+
+Gerar HTML/PDF:
+
+```bash
+pandoc papers/bcs_quantum_simulation.md -s -o papers/bcs_quantum_simulation.html
+google-chrome --headless --disable-gpu --no-sandbox \
+  --print-to-pdf="$PWD/papers/bcs_quantum_simulation.pdf" \
+  "file://$PWD/papers/bcs_quantum_simulation.html"
+```
+
+Regenerar dados antes do paper:
+
+```bash
+python experiments/08_bcs_dynamics_trotter.py
+python experiments/09_bcs_qiskit_trotter_circuit.py
+python experiments/10_bcs_paper_observables.py
+```

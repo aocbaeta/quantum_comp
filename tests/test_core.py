@@ -9,6 +9,20 @@ sys.path.insert(0, str(ROOT / "src"))
 import numpy as np
 
 from algebra import X, Y, Z, anticommutator, commutator, is_hermitian, is_unitary
+from bcs import (
+    bcs_dynamics_row,
+    bcs_time_observables,
+    condensate_eigenvalue,
+    computational_basis_state,
+    expectation,
+    fidelity,
+    pair_correlation_matrix,
+    reduced_bcs_matrix,
+    reduced_bcs_terms,
+    total_pair_number_operator,
+    trotter_evolve_state,
+)
+from bcs_qiskit import simulate_bcs_trotter_circuit
 from fermions import verify_canonical_anticommutation
 from hubbard import ground_state, two_site_bcs_matrix, two_site_spinless_hubbard_matrix
 from propagator import exact_propagator
@@ -50,3 +64,49 @@ def test_zeta_spacing_pipeline() -> None:
     assert len(spacings) == 7
     assert abs(summary.mean - 1.0) < 1e-12
     assert riemann_von_mangoldt_count(zeros[-1].imag) > 0
+
+
+def test_reduced_bcs_hamiltonian_and_number_conservation() -> None:
+    xi = [-1.0, -0.35, 0.35, 1.0]
+    hamiltonian = reduced_bcs_matrix(xi, g=0.8)
+    number = total_pair_number_operator(len(xi))
+    assert is_hermitian(hamiltonian)
+    assert np.linalg.norm(commutator(hamiltonian, number)) < 1e-10
+
+
+def test_bcs_pair_correlations_are_physical() -> None:
+    state = computational_basis_state(4, [0, 1])
+    correlations = pair_correlation_matrix(state, 4)
+    assert np.allclose(correlations, correlations.conj().T)
+    assert np.allclose(np.diag(correlations), [1.0, 1.0, 0.0, 0.0])
+    assert 0.0 <= condensate_eigenvalue(state, 4) <= 2.0
+
+
+def test_bcs_time_observables_include_gap_proxy() -> None:
+    rows = bcs_time_observables(
+        xi=[-1.0, -0.35, 0.35, 1.0],
+        g=0.8,
+        occupied=[0, 1],
+        times=[0.0, 0.5],
+        trotter_steps=8,
+    )
+    assert len(rows) == 2
+    assert rows[0]["exact_gap_proxy"] > 0.0
+    assert rows[1]["fidelity"] > 0.9
+
+
+def test_bcs_trotter_improves_with_more_steps() -> None:
+    xi = [-1.0, -0.35, 0.35, 1.0]
+    row_1 = bcs_dynamics_row(xi, g=0.8, occupied=[0, 1], time=1.5, steps=1, order=1)
+    row_16 = bcs_dynamics_row(xi, g=0.8, occupied=[0, 1], time=1.5, steps=16, order=1)
+    assert row_16["state_error"] < row_1["state_error"]
+    assert abs(row_16["exact_pair_number"] - row_16["trotter_pair_number"]) < 1e-8
+
+
+def test_qiskit_trotter_matches_matrix_trotter() -> None:
+    xi = [-1.0, -0.35, 0.35, 1.0]
+    terms = reduced_bcs_terms(xi, g=0.8)
+    initial = computational_basis_state(len(xi), [0, 1])
+    matrix_state = trotter_evolve_state(terms, initial, time=0.7, steps=3, order=2)
+    qiskit_state = simulate_bcs_trotter_circuit(terms, time=0.7, steps=3, order=2, occupied=[0, 1])
+    assert fidelity(matrix_state, qiskit_state) > 1 - 1e-10

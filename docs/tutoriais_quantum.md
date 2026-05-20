@@ -1,7 +1,7 @@
 ---
 title: "Tutoriais do Laboratorio Quantum IC"
 author: "Andre Baeta"
-date: "2026-05-19"
+date: "2026-05-20"
 lang: pt-BR
 toc: true
 toc-depth: 2
@@ -167,7 +167,8 @@ quanticos e modelos hibridos classico-quanticos.
 
 Este tutorial descreve a integração do modelo BCS ao laboratório `quantum_ic`.
 A fundamentação teórica está disponível em `docs/BCS_QC.pdf` e a implementação prática
-em `quantum_languages/scripts/bcs_project.py`.
+está dividida entre `src/bcs.py`, `src/bcs_qiskit.py` e
+`quantum_languages/scripts/bcs_project.py`.
 
 ## Execução
 
@@ -175,6 +176,9 @@ em `quantum_languages/scripts/bcs_project.py`.
 cd ~/quantum_ic
 source .venv/bin/activate
 python quantum_languages/scripts/bcs_project.py
+python experiments/08_bcs_dynamics_trotter.py
+python experiments/09_bcs_qiskit_trotter_circuit.py
+python experiments/10_bcs_paper_observables.py
 ```
 
 ## Objetivo
@@ -184,12 +188,38 @@ Validar a correspondência entre:
 - a formulação teórica do Hamiltoniano BCS em pseudospins;
 - o mapeamento para operadores de Pauli em qubits;
 - a estimativa da energia fundamental via VQE em diferentes frameworks.
+- a dinâmica temporal exata contra Trotterização;
+- a validação do circuito Qiskit Trotterizado contra a evolução matricial;
+- observáveis físicos para paper: ocupações de pares, `C_ij=<b_i^\dagger b_j>`,
+  autovalor condensado e proxy de gap efetivo.
+
+## Figuras e tabelas
+
+```text
+results/tables/bcs_dynamics_trotter.csv
+results/tables/bcs_commutator_norms.csv
+results/tables/bcs_qiskit_trotter_circuit.csv
+results/tables/bcs_paper_observables.csv
+results/figures/bcs_trotter_error.png
+results/figures/bcs_gap_condensate_time.png
+results/figures/bcs_pair_occupations_time.png
+results/figures/bcs_pair_correlation_exact_final.png
+results/figures/bcs_pair_correlation_trotter_final.png
+```
+
+## Roteiro de paper
+
+Use `docs/bcs_paper_reproducibility.md` para reproduzir os parâmetros fixos,
+os comandos e os arquivos de saída principais.
 
 ## Itens associados
 
 ```text
 docs/BCS_QC.pdf
 docs/BCS_QC_comparacao.md
+docs/bcs_paper_reproducibility.md
+src/bcs.py
+src/bcs_qiskit.py
 quantum_languages/scripts/bcs_project.py
 quantum_languages/tutorials/bcs.md
 ```

@@ -62,6 +62,22 @@ source .venv/bin/activate
 python experiments/run_all.py
 ```
 
+### Suíte completa de pesquisa
+
+```bash
+cd ~/quantum_ic
+scripts/run_research_suite.sh
+```
+
+### Manuscrito BCS
+
+```bash
+pandoc papers/bcs_quantum_simulation.md -s -o papers/bcs_quantum_simulation.html
+google-chrome --headless --disable-gpu --no-sandbox \
+  --print-to-pdf="$PWD/papers/bcs_quantum_simulation.pdf" \
+  "file://$PWD/papers/bcs_quantum_simulation.html"
+```
+
 ### Simulação da hipótese de Riemann
 
 ```bash
@@ -84,8 +100,14 @@ python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0
 ## Projeto BCS
 
 - `quantum_languages/scripts/bcs_project.py` — implementação VQE para o Hamiltoniano BCS reduzido;
+- `src/bcs.py` — Hamiltoniano BCS reduzido, observáveis, evolução exata, Trotterização e métricas;
+- `src/bcs_qiskit.py` — circuito Qiskit para evolução Trotterizada do BCS;
+- `experiments/08_bcs_dynamics_trotter.py` — comparação exata vs Trotter de 1ª e 2ª ordem;
+- `experiments/09_bcs_qiskit_trotter_circuit.py` — validação circuito Qiskit vs evolução matricial;
+- `experiments/10_bcs_paper_observables.py` — observáveis físicos para figuras do paper;
 - `quantum_languages/tutorials/bcs.md` — tutorial técnico para mapeamento BCS → qubits;
 - `docs/BCS_QC.pdf` — referência teórica associada.
+- `papers/bcs_quantum_simulation.md` — rascunho de paper com figuras e resultados.
 
 ## QCL local
 

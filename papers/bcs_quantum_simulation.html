@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Andre Baeta" />
+  <meta name="dcterms.date" content="2026-05-20" />
+  <title>Simulação quântica do Hamiltoniano BCS reduzido com dinâmica Trotterizada</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Simulação quântica do Hamiltoniano BCS reduzido com
+dinâmica Trotterizada</h1>
+<p class="author">Andre Baeta</p>
+<p class="date">2026-05-20</p>
+</header>
+<h1 id="resumo">Resumo</h1>
+<p>Este trabalho apresenta uma implementação reprodutível do
+Hamiltoniano BCS reduzido em qubits, usando pseudospins de Anderson,
+evolução exata por exponenciação matricial e dinâmica aproximada por
+Trotterização de primeira e segunda ordem. A implementação compara a
+dinâmica matricial com uma realização em circuito Qiskit, mede
+conservação do número de pares e extrai observáveis físicos úteis para
+análise de supercondutividade em espaço de Hilbert pequeno: ocupações de
+pares, matriz de correlação <code>C_ij=&lt;b_i^\dagger b_j&gt;</code>,
+autovalor condensado e um proxy efetivo de gap. Para o caso de quatro
+qubits estudado, a Trotterização de segunda ordem com 64 passos atinge
+fidelidade <code>0.9999989</code> em <code>t=2.5</code>, e a série
+temporal até <code>t=6.0</code> preserva o número total de pares com
+erro da ordem de <code>10^-13</code>.</p>
+<h1 id="introdução">1. Introdução</h1>
+<p>O modelo BCS descreve a formação coletiva de pares de Cooper em
+sistemas fermiônicos. Na formulação reduzida, pares de estados temporais
+reversos são tratados como graus de liberdade efetivos, que podem ser
+mapeados para pseudospins de Anderson. Esse mapeamento torna o problema
+naturalmente adequado à simulação quântica digital, pois cada modo de
+par pode ser representado por um qubit.</p>
+<p>O objetivo deste projeto é construir uma ponte prática entre a
+formulação teórica do Hamiltoniano BCS reduzido e circuitos quânticos
+executáveis em ferramentas modernas. O foco aqui não é escalar para
+sistemas grandes, mas sim fixar uma implementação verificável, com
+métricas de erro e observáveis físicos claros.</p>
+<h1 id="modelo">2. Modelo</h1>
+<p>Cada qubit representa um modo de par:</p>
+<pre class="text"><code>|0&gt; = modo sem par
+|1&gt; = modo ocupado por um par de Cooper</code></pre>
+<p>O Hamiltoniano BCS reduzido usado nos experimentos é</p>
+<pre class="text"><code>H = sum_k xi_k Z_k - g/2 sum_{i&lt;j} (X_i X_j + Y_i Y_j).</code></pre>
+<p>O primeiro termo representa energias de pseudospin associadas aos
+níveis <code>xi_k</code>. O segundo termo troca pares entre modos,
+preservando o número total de pares. O operador de número usado no
+código é</p>
+<pre class="text"><code>N = sum_i (I - Z_i)/2.</code></pre>
+<p>Como <code>[H, N] = 0</code>, a conservação de número de pares é uma
+verificação direta da consistência da implementação.</p>
+<h1 id="métodos-computacionais">3. Métodos computacionais</h1>
+<h2 id="evolução-exata">3.1 Evolução exata</h2>
+<p>A evolução de referência é calculada por</p>
+<pre class="text"><code>|psi(t)&gt; = exp(-i H t) |psi(0)&gt;.</code></pre>
+<p>Ela é implementada em <code>src/bcs.py</code> sobre matrizes densas.
+Essa escolha é adequada para o caso de validação com quatro qubits e
+permite comparação direta com aproximações Trotterizadas.</p>
+<h2 id="trotterização">3.2 Trotterização</h2>
+<p>A decomposição de primeira ordem aplica sequencialmente a exponencial
+de cada termo do Hamiltoniano:</p>
+<pre class="text"><code>U_1(dt) = prod_a exp(-i H_a dt).</code></pre>
+<p>A decomposição de segunda ordem usa a forma simétrica:</p>
+<pre class="text"><code>U_2(dt) = prod_a exp(-i H_a dt/2) prod_a^reverse exp(-i H_a dt/2).</code></pre>
+<p>O erro é medido por fidelidade e norma do vetor diferença entre
+estado exato e estado Trotterizado.</p>
+<h2 id="circuito-qiskit">3.3 Circuito Qiskit</h2>
+<p>A versão em circuito usa portas <code>RZ</code>, <code>RXX</code> e
+<code>RYY</code>, compatíveis com os termos <code>Z_i</code>,
+<code>X_i X_j</code> e <code>Y_i Y_j</code>. O circuito Trotterizado é
+comparado contra a evolução matricial usando a mesma ordenação lógica de
+qubits.</p>
+<h2 id="observáveis-físicos">3.4 Observáveis físicos</h2>
+<p>Além de energia, fidelidade e número total de pares, são
+extraídos:</p>
+<ul>
+<li>ocupações <code>n_i=&lt;b_i^\dagger b_i&gt;</code>;</li>
+<li>matriz de correlação de pares
+<code>C_ij=&lt;b_i^\dagger b_j&gt;</code>;</li>
+<li>autovalor condensado <code>lambda_max(C)</code>;</li>
+<li>proxy de gap efetivo
+<code>Delta_eff=g sqrt(lambda_max(C))</code>.</li>
+</ul>
+<p>Esses observáveis permitem discutir coerência coletiva dos pares
+mesmo em um modelo pequeno.</p>
+<h1 id="parâmetros-do-experimento">4. Parâmetros do experimento</h1>
+<p>O experimento principal usa:</p>
+<ul>
+<li><code>xi = [-1.0, -0.35, 0.35, 1.0]</code>;</li>
+<li><code>g = 0.8</code>;</li>
+<li>estado inicial <code>|1100&gt;</code>;</li>
+<li>quatro qubits;</li>
+<li>tempo final <code>t = 6.0</code>;</li>
+<li>Trotterização de segunda ordem com <code>64</code> passos para as
+séries temporais.</li>
+</ul>
+<p>Os comandos de reprodução estão documentados em
+<code>docs/bcs_paper_reproducibility.md</code>.</p>
+<h1 id="resultados">5. Resultados</h1>
+<h2 id="erro-de-trotterização">5.1 Erro de Trotterização</h2>
+<p>A Figura 1 mostra a queda do erro de estado conforme aumenta o número
+de passos de Trotter. Para <code>t=2.5</code>, a melhor linha da tabela
+usa ordem 2 e 64 passos, com fidelidade <code>0.9999988959</code> e erro
+de estado <code>0.0016610647</code>.</p>
+<figure>
+<img src="../results/figures/bcs_trotter_error.png"
+alt="Figura 1: erro de estado entre evolução exata e Trotterizada." />
+<figcaption aria-hidden="true">Figura 1: erro de estado entre evolução
+exata e Trotterizada.</figcaption>
+</figure>
+<h2 id="validação-do-circuito-qiskit">5.2 Validação do circuito
+Qiskit</h2>
+<p>O circuito Qiskit de segunda ordem com oito passos para quatro qubits
+produziu profundidade <code>177</code>, tamanho <code>258</code>,
+fidelidade contra a evolução matricial <code>0.9999999999999658</code> e
+erro de estado <code>1.3167e-15</code>. Isso valida a convenção de
+qubits e a decomposição em portas para o caso estudado.</p>
+<h2 id="gap-efetivo-e-ordem-condensada">5.3 Gap efetivo e ordem
+condensada</h2>
+<p>A Figura 2 mostra a evolução temporal do proxy de gap efetivo e do
+maior autovalor da matriz de correlação de pares. No tempo final
+<code>t=6.0</code>, o gap exato é <code>0.8262711774</code>, enquanto o
+valor Trotterizado é <code>0.8248334652</code>.</p>
+<figure>
+<img src="../results/figures/bcs_gap_condensate_time.png"
+alt="Figura 2: proxy de gap efetivo e autovalor condensado." />
+<figcaption aria-hidden="true">Figura 2: proxy de gap efetivo e
+autovalor condensado.</figcaption>
+</figure>
+<h2 id="ocupações-de-pares">5.4 Ocupações de pares</h2>
+<p>A Figura 3 mostra a transferência de ocupação entre os modos de par.
+No tempo final, as ocupações exatas são aproximadamente:</p>
+<pre class="text"><code>n0 = 0.8513
+n1 = 0.8378
+n2 = 0.1622
+n3 = 0.1487</code></pre>
+<p>O número total de pares permanece igual a <code>2.0</code>, como
+esperado pela simetria do Hamiltoniano.</p>
+<figure>
+<img src="../results/figures/bcs_pair_occupations_time.png"
+alt="Figura 3: ocupações exatas dos modos de par." />
+<figcaption aria-hidden="true">Figura 3: ocupações exatas dos modos de
+par.</figcaption>
+</figure>
+<h2 id="matriz-de-correlação-de-pares">5.5 Matriz de correlação de
+pares</h2>
+<p>As Figuras 4 e 5 mostram os mapas finais de <code>|C_ij|</code> para
+evolução exata e Trotterizada. A semelhança visual entre os mapas
+reforça que a dinâmica Trotterizada preserva não apenas fidelidade
+global, mas também a estrutura de correlação de pares.</p>
+<figure>
+<img src="../results/figures/bcs_pair_correlation_exact_final.png"
+alt="Figura 4: matriz final de correlação de pares para evolução exata." />
+<figcaption aria-hidden="true">Figura 4: matriz final de correlação de
+pares para evolução exata.</figcaption>
+</figure>
+<figure>
+<img src="../results/figures/bcs_pair_correlation_trotter_final.png"
+alt="Figura 5: matriz final de correlação de pares para evolução Trotterizada." />
+<figcaption aria-hidden="true">Figura 5: matriz final de correlação de
+pares para evolução Trotterizada.</figcaption>
+</figure>
+<h1 id="discussão">6. Discussão</h1>
+<p>Os resultados mostram três pontos principais. Primeiro, a conservação
+do número de pares é preservada numericamente, com diferença final entre
+evolução exata e Trotterizada da ordem de <code>2.1e-13</code>. Segundo,
+a Trotterização de segunda ordem reduz rapidamente o erro para o regime
+de parâmetros estudado. Terceiro, a implementação em circuito Qiskit
+reproduz a dinâmica matricial dentro da precisão numérica.</p>
+<p>O sistema de quatro qubits ainda é pequeno, mas serve como unidade de
+validação para experimentos maiores. O mesmo pipeline pode ser usado
+para varrer <code>g</code>, alterar a distribuição de <code>xi_k</code>,
+aumentar o número de modos e estudar a robustez dos observáveis contra
+ruído ou medições finitas.</p>
+<h1 id="conclusão">7. Conclusão</h1>
+<p>Foi construída uma implementação integrada do Hamiltoniano BCS
+reduzido em qubits, incluindo dinâmica exata, Trotterização, circuito
+Qiskit e observáveis físicos de pares. O código produz tabelas e figuras
+reprodutíveis para análise de erro e de estrutura condensada. A etapa
+seguinte natural é adicionar funções de Green, espectros dinâmicos e
+simulação com ruído ou amostragem por shots.</p>
+<h1 id="arquivos-principais">8. Arquivos principais</h1>
+<ul>
+<li><code>src/bcs.py</code>;</li>
+<li><code>src/bcs_qiskit.py</code>;</li>
+<li><code>experiments/08_bcs_dynamics_trotter.py</code>;</li>
+<li><code>experiments/09_bcs_qiskit_trotter_circuit.py</code>;</li>
+<li><code>experiments/10_bcs_paper_observables.py</code>;</li>
+<li><code>docs/bcs_paper_reproducibility.md</code>;</li>
+<li><code>results/tables/bcs_paper_observables.csv</code>.</li>
+</ul>
+<h1 id="referências-iniciais">Referências iniciais</h1>
+<ul>
+<li>Bardeen, Cooper e Schrieffer, teoria microscópica da
+supercondutividade.</li>
+<li>Anderson, formulação de pseudospins para o modelo BCS.</li>
+<li>Trotter e Suzuki, decomposições de produtos para evolução
+quântica.</li>
+<li>Nielsen e Chuang, computação quântica e informação quântica.</li>
+</ul>
+</body>
+</html>
