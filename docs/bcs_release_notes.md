@@ -18,6 +18,7 @@ correspondem a incrementos reprodutíveis do código, resultados e documentaçã
 | `v0.9-bcs-reproduction-artifacts` | `6b9b177` | Notebook executado, HTML e PDF estático de reprodução. |
 | `v1.0-bcs-paper-validation` | `cedef64` | Validador automatizado dos artefatos do pacote reprodutível. |
 | `v1.1-bcs-release-notes` | `73e5f6d` | Changelog dos marcos BCS e comandos de auditoria. |
+| `v1.2-bcs-ci` | `d62f136` | CI no GitHub Actions para testes e validação dos artefatos BCS. |
 
 ## Estado em `v1.0`
 
