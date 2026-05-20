@@ -16,7 +16,10 @@ from bcs import (
     computational_basis_state,
     expectation,
     fidelity,
+    green_spectral_density,
     pair_correlation_matrix,
+    pair_retarded_green_series,
+    pair_retarded_green_value,
     reduced_bcs_matrix,
     reduced_bcs_terms,
     total_pair_number_operator,
@@ -93,6 +96,29 @@ def test_bcs_time_observables_include_gap_proxy() -> None:
     assert len(rows) == 2
     assert rows[0]["exact_gap_proxy"] > 0.0
     assert rows[1]["fidelity"] > 0.9
+
+
+def test_bcs_pair_retarded_green_function_is_causal() -> None:
+    xi = [-1.0, -0.35, 0.35, 1.0]
+    hamiltonian = reduced_bcs_matrix(xi, g=0.8)
+    state = computational_basis_state(4, [0, 1])
+    assert pair_retarded_green_value(hamiltonian, state, 0, 0, time=-0.1) == 0.0j
+    assert np.isfinite(pair_retarded_green_value(hamiltonian, state, 0, 0, time=0.0))
+
+
+def test_bcs_pair_green_spectrum_shape() -> None:
+    rows = pair_retarded_green_series(
+        xi=[-1.0, -0.35, 0.35, 1.0],
+        g=0.8,
+        occupied=[0, 1],
+        i=0,
+        j=0,
+        times=[0.0, 0.1, 0.2, 0.3],
+    )
+    values = [row["real"] + 1j * row["imag"] for row in rows]
+    spectrum = green_spectral_density([row["time"] for row in rows], values)
+    assert len(spectrum) == 4
+    assert spectrum[0]["omega"] < spectrum[-1]["omega"]
 
 
 def test_bcs_trotter_improves_with_more_steps() -> None:

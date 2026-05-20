@@ -194,6 +194,92 @@ def exact_evolve_state(hamiltonian: Array, initial_state: Array, time: float) ->
     return exact_propagator(hamiltonian, time) @ initial_state
 
 
+def heisenberg_operator(operator: Array, hamiltonian: Array, time: float) -> Array:
+    unitary = exact_propagator(hamiltonian, time)
+    return unitary.conj().T @ operator @ unitary
+
+
+def pair_retarded_green_value(
+    hamiltonian: Array,
+    state: Array,
+    i: int,
+    j: int,
+    time: float,
+    eta: float = 0.0,
+) -> complex:
+    if time < 0:
+        return 0.0j
+    n_qubits = int(np.log2(hamiltonian.shape[0]))
+    annihilator_t = heisenberg_operator(
+        pair_annihilation_operator(n_qubits, i),
+        hamiltonian,
+        time,
+    )
+    creator = pair_creation_operator(n_qubits, j)
+    comm = annihilator_t @ creator - creator @ annihilator_t
+    damping = np.exp(-float(eta) * float(time))
+    return -1j * expectation(state, comm) * damping
+
+
+def pair_retarded_green_series(
+    xi: list[float] | Array,
+    g: float,
+    occupied: list[int],
+    i: int,
+    j: int,
+    times: list[float] | Array,
+    eta: float = 0.02,
+) -> list[dict[str, float]]:
+    hamiltonian = reduced_bcs_matrix(xi, g)
+    state = computational_basis_state(len(xi), occupied)
+    rows = []
+    for time in np.asarray(times, dtype=float):
+        value = pair_retarded_green_value(
+            hamiltonian=hamiltonian,
+            state=state,
+            i=i,
+            j=j,
+            time=float(time),
+            eta=eta,
+        )
+        rows.append(
+            {
+                "time": float(time),
+                "i": float(i),
+                "j": float(j),
+                "real": float(np.real(value)),
+                "imag": float(np.imag(value)),
+                "abs": float(abs(value)),
+            }
+        )
+    return rows
+
+
+def green_spectral_density(
+    times: list[float] | Array,
+    values: list[complex] | Array,
+) -> list[dict[str, float]]:
+    times_array = np.asarray(times, dtype=float)
+    values_array = np.asarray(values, dtype=complex)
+    if len(times_array) < 2:
+        raise ValueError("at least two times are required")
+    dt = float(times_array[1] - times_array[0])
+    if dt <= 0:
+        raise ValueError("times must be increasing")
+    spectrum = np.fft.fft(values_array) * dt
+    frequencies = 2 * np.pi * np.fft.fftfreq(len(values_array), d=dt)
+    order = np.argsort(frequencies)
+    return [
+        {
+            "omega": float(frequencies[index]),
+            "spectral_weight": float(-np.imag(spectrum[index]) / np.pi),
+            "real_response": float(np.real(spectrum[index])),
+            "imag_response": float(np.imag(spectrum[index])),
+        }
+        for index in order
+    ]
+
+
 def bcs_dynamics_row(
     xi: list[float] | Array,
     g: float,

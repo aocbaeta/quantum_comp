@@ -25,6 +25,7 @@ source .venv/bin/activate
 python experiments/08_bcs_dynamics_trotter.py
 python experiments/09_bcs_qiskit_trotter_circuit.py
 python experiments/10_bcs_paper_observables.py
+python experiments/11_bcs_pair_green_function.py
 ```
 
 Ou, para a suíte completa:
@@ -39,11 +40,15 @@ scripts/run_research_suite.sh
 - `results/tables/bcs_commutator_norms.csv`;
 - `results/tables/bcs_qiskit_trotter_circuit.csv`;
 - `results/tables/bcs_paper_observables.csv`;
+- `results/tables/bcs_pair_green_retarded.csv`;
+- `results/tables/bcs_pair_green_spectral_density.csv`;
 - `results/figures/bcs_trotter_error.png`;
 - `results/figures/bcs_gap_condensate_time.png`;
 - `results/figures/bcs_pair_occupations_time.png`;
 - `results/figures/bcs_pair_correlation_exact_final.png`;
 - `results/figures/bcs_pair_correlation_trotter_final.png`.
+- `results/figures/bcs_pair_green_time.png`;
+- `results/figures/bcs_pair_green_spectrum.png`.
 
 ## Observáveis
 
@@ -54,3 +59,5 @@ scripts/run_research_suite.sh
 - Matriz de correlação de pares `C_ij=<b_i^\dagger b_j>`.
 - Autovalor condensado `lambda_max(C)`.
 - Proxy de gap efetivo `Delta_eff=g sqrt(lambda_max(C))`.
+- Função de Green retardada de pares `G^R_ij(t)=-i theta(t)<[b_i(t),b_j^\dagger(0)]>`.
+- Densidade espectral aproximada `-Im G^R(omega)/pi`.

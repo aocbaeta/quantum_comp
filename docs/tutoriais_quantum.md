@@ -179,6 +179,7 @@ python quantum_languages/scripts/bcs_project.py
 python experiments/08_bcs_dynamics_trotter.py
 python experiments/09_bcs_qiskit_trotter_circuit.py
 python experiments/10_bcs_paper_observables.py
+python experiments/11_bcs_pair_green_function.py
 ```
 
 ## Objetivo
@@ -192,6 +193,7 @@ Validar a correspondência entre:
 - a validação do circuito Qiskit Trotterizado contra a evolução matricial;
 - observáveis físicos para paper: ocupações de pares, `C_ij=<b_i^\dagger b_j>`,
   autovalor condensado e proxy de gap efetivo.
+- função de Green retardada de pares e espectro aproximado.
 
 ## Figuras e tabelas
 
@@ -205,6 +207,8 @@ results/figures/bcs_gap_condensate_time.png
 results/figures/bcs_pair_occupations_time.png
 results/figures/bcs_pair_correlation_exact_final.png
 results/figures/bcs_pair_correlation_trotter_final.png
+results/figures/bcs_pair_green_time.png
+results/figures/bcs_pair_green_spectrum.png
 ```
 
 ## Roteiro de paper

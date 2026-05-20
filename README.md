@@ -105,6 +105,7 @@ python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0
 - `experiments/08_bcs_dynamics_trotter.py` — comparação exata vs Trotter de 1ª e 2ª ordem;
 - `experiments/09_bcs_qiskit_trotter_circuit.py` — validação circuito Qiskit vs evolução matricial;
 - `experiments/10_bcs_paper_observables.py` — observáveis físicos para figuras do paper;
+- `experiments/11_bcs_pair_green_function.py` — função de Green retardada de pares e espectro aproximado;
 - `quantum_languages/tutorials/bcs.md` — tutorial técnico para mapeamento BCS → qubits;
 - `docs/BCS_QC.pdf` — referência teórica associada.
 - `papers/bcs_quantum_simulation.md` — rascunho de paper com figuras e resultados.

@@ -16,6 +16,7 @@ EXPERIMENTS = [
     "08_bcs_dynamics_trotter.py",
     "09_bcs_qiskit_trotter_circuit.py",
     "10_bcs_paper_observables.py",
+    "11_bcs_pair_green_function.py",
 ]
 
 

@@ -41,6 +41,7 @@ Demonstrar a correspondência entre:
 9. Comparar fidelidade, erro de estado, conservação de energia e número de pares;
 10. Reproduzir a Trotterização como circuito Qiskit.
 11. Medir correlações de pares, autovalor condensado e proxy de gap efetivo.
+12. Calcular função de Green retardada de pares e densidade espectral aproximada.
 
 ## Execução
 
@@ -56,6 +57,7 @@ Dinâmica temporal e Trotterização:
 python experiments/08_bcs_dynamics_trotter.py
 python experiments/09_bcs_qiskit_trotter_circuit.py
 python experiments/10_bcs_paper_observables.py
+python experiments/11_bcs_pair_green_function.py
 ```
 
 ## Estrutura de código
@@ -81,6 +83,8 @@ Dinâmica:
   compara a saída com a evolução matricial.
 - `experiments/10_bcs_paper_observables.py`: salva séries temporais de
   ocupação, proxy de gap, autovalor condensado e mapas de correlação de pares.
+- `experiments/11_bcs_pair_green_function.py`: salva `G^R_00(t)` e uma densidade
+  espectral aproximada por FFT.
 
 ## Observáveis de paper
 
@@ -91,6 +95,8 @@ Além de energia e fidelidade, a implementação mede:
 - `lambda_max(C)`: proxy de ordem condensada do setor de pares;
 - `Delta_eff = g sqrt(lambda_max(C))`: proxy operacional de gap efetivo para
   comparar dinâmica exata e circuito Trotterizado.
+- `G^R_ij(t)=-i theta(t)<[b_i(t),b_j^\dagger(0)]>`: resposta retardada de pares.
+- `-Im G^R(omega)/pi`: densidade espectral aproximada da resposta de pares.
 
 ## Resultados esperados
 
@@ -105,6 +111,8 @@ O script imprime um relatório comparativo com:
 - fidelidade entre circuito Qiskit Trotterizado e evolução matricial.
 - curvas temporais de ocupação, gap efetivo e autovalor condensado;
 - mapas finais de `|<b_i^\dagger b_j>|`.
+- função de Green retardada no tempo;
+- espectro aproximado da resposta de pares.
 
 ## Observações técnicas
 

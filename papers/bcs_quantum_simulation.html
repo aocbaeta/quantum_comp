@@ -182,11 +182,12 @@ dinâmica matricial com uma realização em circuito Qiskit, mede
 conservação do número de pares e extrai observáveis físicos úteis para
 análise de supercondutividade em espaço de Hilbert pequeno: ocupações de
 pares, matriz de correlação <code>C_ij=&lt;b_i^\dagger b_j&gt;</code>,
-autovalor condensado e um proxy efetivo de gap. Para o caso de quatro
-qubits estudado, a Trotterização de segunda ordem com 64 passos atinge
-fidelidade <code>0.9999989</code> em <code>t=2.5</code>, e a série
-temporal até <code>t=6.0</code> preserva o número total de pares com
-erro da ordem de <code>10^-13</code>.</p>
+autovalor condensado, um proxy efetivo de gap e uma função de Green
+retardada de pares. Para o caso de quatro qubits estudado, a
+Trotterização de segunda ordem com 64 passos atinge fidelidade
+<code>0.9999989</code> em <code>t=2.5</code>, e a série temporal até
+<code>t=6.0</code> preserva o número total de pares com erro da ordem de
+<code>10^-13</code>.</p>
 <h1 id="introdução">1. Introdução</h1>
 <p>O modelo BCS descreve a formação coletiva de pares de Cooper em
 sistemas fermiônicos. Na formulação reduzida, pares de estados temporais
@@ -243,6 +244,9 @@ extraídos:</p>
 <li>autovalor condensado <code>lambda_max(C)</code>;</li>
 <li>proxy de gap efetivo
 <code>Delta_eff=g sqrt(lambda_max(C))</code>.</li>
+<li>função de Green retardada de pares
+<code>G^R_ij(t)=-i theta(t)&lt;[b_i(t),b_j^\dagger(0)]&gt;</code>;</li>
+<li>densidade espectral aproximada <code>-Im G^R(omega)/pi</code>.</li>
 </ul>
 <p>Esses observáveis permitem discutir coerência coletiva dos pares
 mesmo em um modelo pequeno.</p>
@@ -323,6 +327,32 @@ alt="Figura 5: matriz final de correlação de pares para evolução Trotterizad
 <figcaption aria-hidden="true">Figura 5: matriz final de correlação de
 pares para evolução Trotterizada.</figcaption>
 </figure>
+<h2 id="função-de-green-retardada">5.6 Função de Green retardada</h2>
+<p>A próxima camada de resposta dinâmica é a função de Green retardada
+de pares:</p>
+<pre class="text"><code>G^R_ij(t) = -i theta(t) &lt;[b_i(t), b_j^\dagger(0)]&gt;.</code></pre>
+<p>No experimento atual, foi calculado o canal local
+<code>G^R_00(t)</code> com amortecimento suave <code>eta=0.04</code>
+para estabilizar a transformada discreta. A Figura 6 mostra as partes
+real e imaginária da resposta no tempo.</p>
+<figure>
+<img src="../results/figures/bcs_pair_green_time.png"
+alt="Figura 6: função de Green retardada local de pares." />
+<figcaption aria-hidden="true">Figura 6: função de Green retardada local
+de pares.</figcaption>
+</figure>
+<p>A Figura 7 mostra a densidade espectral aproximada obtida por FFT. O
+maior pico positivo da janela calculada aparece em
+<code>omega=-1.0443</code>, com peso espectral aproximado
+<code>0.04078</code>. Essa etapa conecta a simulação digital a
+observáveis de resposta linear e abre caminho para versões anômalas e
+equações de Gor’kov.</p>
+<figure>
+<img src="../results/figures/bcs_pair_green_spectrum.png"
+alt="Figura 7: densidade espectral aproximada da resposta de pares." />
+<figcaption aria-hidden="true">Figura 7: densidade espectral aproximada
+da resposta de pares.</figcaption>
+</figure>
 <h1 id="discussão">6. Discussão</h1>
 <p>Os resultados mostram três pontos principais. Primeiro, a conservação
 do número de pares é preservada numericamente, com diferença final entre
@@ -339,9 +369,10 @@ ruído ou medições finitas.</p>
 <p>Foi construída uma implementação integrada do Hamiltoniano BCS
 reduzido em qubits, incluindo dinâmica exata, Trotterização, circuito
 Qiskit e observáveis físicos de pares. O código produz tabelas e figuras
-reprodutíveis para análise de erro e de estrutura condensada. A etapa
-seguinte natural é adicionar funções de Green, espectros dinâmicos e
-simulação com ruído ou amostragem por shots.</p>
+reprodutíveis para análise de erro, estrutura condensada e resposta
+retardada. A etapa seguinte natural é adicionar funções de Green
+anômalas, equações de Gor’kov e simulação com ruído ou amostragem por
+shots.</p>
 <h1 id="arquivos-principais">8. Arquivos principais</h1>
 <ul>
 <li><code>src/bcs.py</code>;</li>
@@ -349,8 +380,11 @@ simulação com ruído ou amostragem por shots.</p>
 <li><code>experiments/08_bcs_dynamics_trotter.py</code>;</li>
 <li><code>experiments/09_bcs_qiskit_trotter_circuit.py</code>;</li>
 <li><code>experiments/10_bcs_paper_observables.py</code>;</li>
+<li><code>experiments/11_bcs_pair_green_function.py</code>;</li>
 <li><code>docs/bcs_paper_reproducibility.md</code>;</li>
 <li><code>results/tables/bcs_paper_observables.csv</code>.</li>
+<li><code>results/tables/bcs_pair_green_retarded.csv</code>.</li>
+<li><code>results/tables/bcs_pair_green_spectral_density.csv</code>.</li>
 </ul>
 <h1 id="referências-iniciais">Referências iniciais</h1>
 <ul>

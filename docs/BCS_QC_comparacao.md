@@ -51,6 +51,7 @@ As seguintes lacunas foram endereçadas na implementação posterior:
 - tabela de normas de comutadores entre termos do Hamiltoniano.
 - observáveis físicos de pares: ocupações, matriz `C_ij=<b_i^\dagger b_j>`,
   autovalor condensado e proxy de gap efetivo.
+- função de Green retardada de pares e densidade espectral aproximada.
 
 ## Conclusão
 
@@ -66,6 +67,7 @@ A abordagem teórica de `BCS_QC.pdf` é compatível com o escopo prático do pro
 Para aumentar o alinhamento entre teoria e código, recomenda-se:
 
 - expandir o tutorial `quantum_languages/tutorials/bcs.md` com a derivação do mapeamento de pseudospins e das relações de anticomutação;
-- implementar funções de Green e correlações temporais;
-- derivar observáveis BCS adicionais de resposta linear e espectro dinâmico;
+- derivar funções de Green mais completas, incluindo versões anômalas e
+  equações de Gor'kov;
+- derivar observáveis BCS adicionais de resposta linear com ruído e shots;
 - referenciar `docs/BCS_QC.pdf` diretamente nas seções teóricas do projeto.

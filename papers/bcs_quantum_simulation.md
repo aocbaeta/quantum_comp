@@ -14,7 +14,8 @@ segunda ordem. A implementação compara a dinâmica matricial com uma realizaç
 em circuito Qiskit, mede conservação do número de pares e extrai observáveis
 físicos úteis para análise de supercondutividade em espaço de Hilbert pequeno:
 ocupações de pares, matriz de correlação `C_ij=<b_i^\dagger b_j>`, autovalor
-condensado e um proxy efetivo de gap. Para o caso de quatro qubits estudado, a
+condensado, um proxy efetivo de gap e uma função de Green retardada de pares.
+Para o caso de quatro qubits estudado, a
 Trotterização de segunda ordem com 64 passos atinge fidelidade `0.9999989` em
 `t=2.5`, e a série temporal até `t=6.0` preserva o número total de pares com erro
 da ordem de `10^-13`.
@@ -106,6 +107,9 @@ Além de energia, fidelidade e número total de pares, são extraídos:
 - matriz de correlação de pares `C_ij=<b_i^\dagger b_j>`;
 - autovalor condensado `lambda_max(C)`;
 - proxy de gap efetivo `Delta_eff=g sqrt(lambda_max(C))`.
+- função de Green retardada de pares
+  `G^R_ij(t)=-i theta(t)<[b_i(t),b_j^\dagger(0)]>`;
+- densidade espectral aproximada `-Im G^R(omega)/pi`.
 
 Esses observáveis permitem discutir coerência coletiva dos pares mesmo em um
 modelo pequeno.
@@ -177,6 +181,27 @@ correlação de pares.
 
 ![Figura 5: matriz final de correlação de pares para evolução Trotterizada.](../results/figures/bcs_pair_correlation_trotter_final.png)
 
+## 5.6 Função de Green retardada
+
+A próxima camada de resposta dinâmica é a função de Green retardada de pares:
+
+```text
+G^R_ij(t) = -i theta(t) <[b_i(t), b_j^\dagger(0)]>.
+```
+
+No experimento atual, foi calculado o canal local `G^R_00(t)` com amortecimento
+suave `eta=0.04` para estabilizar a transformada discreta. A Figura 6 mostra as
+partes real e imaginária da resposta no tempo.
+
+![Figura 6: função de Green retardada local de pares.](../results/figures/bcs_pair_green_time.png)
+
+A Figura 7 mostra a densidade espectral aproximada obtida por FFT. O maior pico
+positivo da janela calculada aparece em `omega=-1.0443`, com peso espectral
+aproximado `0.04078`. Essa etapa conecta a simulação digital a observáveis de
+resposta linear e abre caminho para versões anômalas e equações de Gor'kov.
+
+![Figura 7: densidade espectral aproximada da resposta de pares.](../results/figures/bcs_pair_green_spectrum.png)
+
 # 6. Discussão
 
 Os resultados mostram três pontos principais. Primeiro, a conservação do número
@@ -196,8 +221,9 @@ robustez dos observáveis contra ruído ou medições finitas.
 Foi construída uma implementação integrada do Hamiltoniano BCS reduzido em
 qubits, incluindo dinâmica exata, Trotterização, circuito Qiskit e observáveis
 físicos de pares. O código produz tabelas e figuras reprodutíveis para análise
-de erro e de estrutura condensada. A etapa seguinte natural é adicionar funções
-de Green, espectros dinâmicos e simulação com ruído ou amostragem por shots.
+de erro, estrutura condensada e resposta retardada. A etapa seguinte natural é
+adicionar funções de Green anômalas, equações de Gor'kov e simulação com ruído
+ou amostragem por shots.
 
 # 8. Arquivos principais
 
@@ -206,8 +232,11 @@ de Green, espectros dinâmicos e simulação com ruído ou amostragem por shots.
 - `experiments/08_bcs_dynamics_trotter.py`;
 - `experiments/09_bcs_qiskit_trotter_circuit.py`;
 - `experiments/10_bcs_paper_observables.py`;
+- `experiments/11_bcs_pair_green_function.py`;
 - `docs/bcs_paper_reproducibility.md`;
 - `results/tables/bcs_paper_observables.csv`.
+- `results/tables/bcs_pair_green_retarded.csv`.
+- `results/tables/bcs_pair_green_spectral_density.csv`.
 
 # Referências iniciais
 

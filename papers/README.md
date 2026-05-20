@@ -25,4 +25,5 @@ Regenerar dados antes do paper:
 python experiments/08_bcs_dynamics_trotter.py
 python experiments/09_bcs_qiskit_trotter_circuit.py
 python experiments/10_bcs_paper_observables.py
+python experiments/11_bcs_pair_green_function.py
 ```
