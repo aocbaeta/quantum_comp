@@ -22,6 +22,7 @@ correspondem a incrementos reprodutíveis do código, resultados e documentaçã
 | `v1.3-bcs-citation-package` | `cc8ff38` | Metadados de citação, checklist editorial e validação ampliada do pacote. |
 | `v1.4-bcs-license-policy` | `27c1b9b` | Licença BSD-3-Clause para código e CC BY 4.0 para documentação/resultados. |
 | `v1.5-bcs-manuscript-ready` | `fd11559` | Manuscrito revisado com disponibilidade, citação, licenças e PDF regenerado. |
+| `v1.6-bcs-release-package` | `TBD` | Resumo de release, notas v1.5 e pacote ZIP de distribuição. |
 
 ## Estado em `v1.0`
 
@@ -40,7 +41,8 @@ O pacote BCS inclui:
 - CI em `.github/workflows/ci.yml`;
 - metadados de citação em `CITATION.cff`;
 - checklist editorial em `docs/bcs_publication_checklist.md`;
-- licenças em `LICENSE` e `LICENSE-DOCS`.
+- licenças em `LICENSE` e `LICENSE-DOCS`;
+- pacote de distribuição em `results/releases/bcs_quantum_simulation_v1.5.zip`.
 
 ## Comandos de auditoria
 

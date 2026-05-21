@@ -28,6 +28,8 @@ o trabalho de simulação quântica do Hamiltoniano BCS reduzido.
 - [x] Metadados de citação em `CITATION.cff`.
 - [x] Licença de código em `LICENSE` usando BSD-3-Clause.
 - [x] Licença de documentação/resultados em `LICENSE-DOCS` usando CC BY 4.0.
+- [x] Resumo de release em `docs/bcs_release_abstract.md`.
+- [x] Pacote de distribuição em `results/releases/bcs_quantum_simulation_v1.5.zip`.
 
 ## Auditoria antes de compartilhar
 

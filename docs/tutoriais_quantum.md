@@ -12,20 +12,22 @@ linkcolor: blue
 urlcolor: blue
 ---
 
-# Visao Geral
+# Tutoriais do Laboratorio Quantum IC
+
+## Visao geral
 
 Este documento reune os tutoriais praticos do laboratorio `quantum_ic`.
 O objetivo e manter um guia unico para executar os exemplos em QCL, Qiskit,
 Cirq, PennyLane, OpenQASM, QML e a frente de zeros da zeta.
 
-## Preparar Ambiente
+### Preparar Ambiente
 
 ```bash
 cd ~/quantum_ic
 source .venv/bin/activate
 ```
 
-## Rodar Tudo
+### Rodar Tudo
 
 ```bash
 quantum_languages/scripts/run_qcl_examples.sh
@@ -36,15 +38,12 @@ python experiments/06_zeta_critical_line_scan.py --t-min 10 --t-max 40
 
 \newpage
 
-
-\newpage
-
-# QCL
+## QCL
 
 QCL e historico, mas excelente para estudar a forma procedural de algoritmos
 quanticos.
 
-## Rodar
+### Rodar
 
 ```bash
 cd ~/quantum_ic
@@ -57,7 +56,7 @@ Ou todos:
 quantum_languages/scripts/run_qcl_examples.sh
 ```
 
-## Arquivos
+### Arquivos
 
 ```text
 01_bell_pauli.qcl
@@ -67,19 +66,19 @@ quantum_languages/scripts/run_qcl_examples.sh
 05_diagonal_hamiltonian_phase.qcl
 ```
 
-## Quando usar
+### Quando usar
 
 Use QCL para estudar a historia das linguagens quanticas, algoritmos
 procedurais e a relacao entre controle classico e registradores quanticos.
 
 \newpage
 
-# Qiskit
+## Qiskit
 
 Qiskit e a melhor opcao do laboratorio para circuitos, simulacao com Aer,
 VQE, operadores de Pauli e ligacao com hardware IBM.
 
-## Rodar
+### Rodar
 
 ```bash
 cd ~/quantum_ic
@@ -87,7 +86,7 @@ source .venv/bin/activate
 python quantum_languages/qiskit/algorithms_qiskit.py
 ```
 
-## Saidas
+### Saidas
 
 Os JSONs sao salvos em:
 
@@ -95,7 +94,7 @@ Os JSONs sao salvos em:
 results/tables/quantum_languages/qiskit_*.json
 ```
 
-## Ideias de pesquisa
+### Ideias de pesquisa
 
 ```text
 SparsePauliOp para Hamiltonianos
@@ -106,11 +105,11 @@ QFT e estimacao de fase para espectros
 
 \newpage
 
-# Cirq
+## Cirq
 
 Cirq e bom para circuitos explicitos, controle fino de portas e estilo Google-like.
 
-## Rodar
+### Rodar
 
 ```bash
 cd ~/quantum_ic
@@ -118,24 +117,24 @@ source .venv/bin/activate
 python quantum_languages/cirq/algorithms_cirq.py
 ```
 
-## Saidas
+### Saidas
 
 ```text
 results/tables/quantum_languages/cirq_*.json
 ```
 
-## Quando usar
+### Quando usar
 
 Use Cirq quando quiser construir circuitos de baixo nivel, estudar decomposicoes
 de portas e comparar simuladores de circuitos.
 
 \newpage
 
-# PennyLane
+## PennyLane
 
 PennyLane e a melhor ponte entre circuitos quanticos e otimizacao/diferenciacao.
 
-## Rodar circuitos basicos
+### Rodar circuitos basicos
 
 ```bash
 cd ~/quantum_ic
@@ -143,34 +142,34 @@ source .venv/bin/activate
 python quantum_languages/pennylane/algorithms_pennylane.py
 ```
 
-## Rodar QML
+### Rodar QML
 
 ```bash
 python quantum_languages/qml/variational_classifier_pennylane.py
 ```
 
-## Saidas
+### Saidas
 
 ```text
 results/tables/quantum_languages/pennylane_*.json
 results/tables/quantum_languages/qml_variational_classifier.json
 ```
 
-## Quando usar
+### Quando usar
 
 Use PennyLane para VQE variacional, QML, circuitos diferenciaveis, classificadores
 quanticos e modelos hibridos classico-quanticos.
 
 \newpage
 
-# BCS Quantum Project
+## BCS Quantum Project
 
 Este tutorial descreve a integração do modelo BCS ao laboratório `quantum_ic`.
 A fundamentação teórica está disponível em `docs/BCS_QC.pdf` e a implementação prática
 está dividida entre `src/bcs.py`, `src/bcs_qiskit.py` e
 `quantum_languages/scripts/bcs_project.py`.
 
-## Execução
+### Execução
 
 ```bash
 cd ~/quantum_ic
@@ -187,7 +186,7 @@ python experiments/15_bcs_qiskit_energy_shots.py
 python experiments/16_bcs_qiskit_error_mitigation.py
 ```
 
-## Objetivo
+### Objetivo
 
 Validar a correspondência entre:
 
@@ -205,7 +204,7 @@ Validar a correspondência entre:
 - energia por shots via decomposição Pauli.
 - mitigação por extrapolação zero-noise linear.
 
-## Figuras e tabelas
+### Figuras e tabelas
 
 ```text
 results/tables/bcs_dynamics_trotter.csv
@@ -231,12 +230,12 @@ results/figures/bcs_qiskit_error_mitigation_zne.png
 results/figures/bcs_qiskit_error_mitigation_errors.png
 ```
 
-## Roteiro de paper
+### Roteiro de paper
 
 Use `docs/bcs_paper_reproducibility.md` para reproduzir os parâmetros fixos,
 os comandos e os arquivos de saída principais.
 
-## Itens associados
+### Itens associados
 
 ```text
 docs/BCS_QC.pdf
@@ -250,34 +249,34 @@ quantum_languages/tutorials/bcs.md
 
 \newpage
 
-# OpenQASM
+## OpenQASM
 
 OpenQASM e um formato portavel para descrever circuitos.
 
-## Arquivos
+### Arquivos
 
 ```text
 quantum_languages/openqasm/bell.qasm
 quantum_languages/openqasm/grover_2q_mark_3.qasm
 ```
 
-## Quando usar
+### Quando usar
 
 Use OpenQASM para portar circuitos entre ferramentas, registrar circuitos em texto
 e manter exemplos independentes de framework Python.
 
-## Observacao
+### Observacao
 
 O ambiente atual guarda os arquivos OpenQASM, mas a execucao principal esta nos
 frameworks Python e no QCL local.
 
 \newpage
 
-# Zeros da Zeta
+## Zeros da Zeta
 
 Esta parte e classica/espectral, nao um circuito quantico direto.
 
-## Estatistica de espacamentos
+### Estatistica de espacamentos
 
 ```bash
 cd ~/quantum_ic
@@ -316,13 +315,13 @@ Interpretação:
 - Se os dados da zeta seguirem a curva `GUE Wigner surmise`, isso indica que os zeros têm correlações semelhantes às de autovalores de matrizes hermitianas aleatórias.
 - O arquivo `zeta_spacing_summary.csv` inclui métricas como média, variância e distâncias de Kolmogorov-Smirnov para Poisson e GUE.
 
-## Linha critica
+### Linha critica
 
 ```bash
 python experiments/06_zeta_critical_line_scan.py --t-min 10 --t-max 40
 ```
 
-Para buscar pontos pequenos de `ζ(s)` dentro do strip crítico fora da linha `σ = 1/2`:
+Para buscar pontos pequenos de `zeta(s)` dentro do strip crítico fora da linha `sigma = 1/2`:
 
 ```bash
 python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0.99 --t-min 10 --t-max 40 --samples 2000
@@ -330,7 +329,7 @@ python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0
 
 Parâmetros:
 
-- `--t-min 10`: início do intervalo em `t` para avaliar `ζ(1/2 + it)`.
+- `--t-min 10`: início do intervalo em `t` para avaliar `zeta(1/2 + it)`.
 - `--t-max 40`: fim do intervalo em `t`.
 - `--points`: número de pontos de amostragem entre `t-min` e `t-max` (padrão 900).
 - `--zero-count`: quantos zeros da zeta computar para marcar no gráfico.
@@ -344,11 +343,11 @@ results/figures/zeta_critical_line_scan.png
 
 Interpretação:
 
-- O gráfico mostra `|ζ(1/2 + it)|` ao longo do eixo crítico.
+- O gráfico mostra `|zeta(1/2 + it)|` ao longo do eixo crítico.
 - Mínimos do módulo correspondem a zeros da função zeta no intervalo avaliado.
 - As linhas verticais no gráfico indicam os zeros encontrados no mesmo intervalo.
 
-## Ponte com computacao quantica
+### Ponte com computacao quantica
 
 O caminho de pesquisa natural e:
 

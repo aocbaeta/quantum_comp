@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,7 +23,9 @@ REQUIRED_ARTIFACTS = [
     Artifact("LICENSE", "text", 1_000),
     Artifact("LICENSE-DOCS", "text", 1_000),
     Artifact("docs/bcs_publication_checklist.md", "text", 1_000),
+    Artifact("docs/bcs_release_abstract.md", "text", 1_000),
     Artifact("docs/bcs_release_notes.md", "text", 1_000),
+    Artifact("RELEASE_NOTES_v1.5.md", "text", 1_000),
     Artifact("papers/bcs_quantum_simulation.md", "text", 1_000),
     Artifact("papers/bcs_quantum_simulation.html", "html", 1_000),
     Artifact("papers/bcs_quantum_simulation.pdf", "pdf", 10_000),
@@ -30,6 +33,7 @@ REQUIRED_ARTIFACTS = [
     Artifact("results/notebooks/bcs_paper_reproduction_executed.ipynb", "notebook", 10_000),
     Artifact("results/notebooks/bcs_paper_reproduction.html", "html", 10_000),
     Artifact("results/notebooks/bcs_paper_reproduction.pdf", "pdf", 10_000),
+    Artifact("results/releases/bcs_quantum_simulation_v1.5.zip", "zip", 10_000),
     Artifact("results/tables/bcs_dynamics_trotter.csv", "csv", 100),
     Artifact("results/tables/bcs_commutator_norms.csv", "csv", 100),
     Artifact("results/tables/bcs_qiskit_trotter_circuit.csv", "csv", 100),
@@ -99,6 +103,24 @@ def validate_text(path: Path) -> None:
         raise ValueError("text file is empty")
 
 
+def validate_zip(path: Path) -> None:
+    with zipfile.ZipFile(path) as archive:
+        names = set(archive.namelist())
+        required = {
+            "CITATION.cff",
+            "LICENSE",
+            "LICENSE-DOCS",
+            "RELEASE_NOTES_v1.5.md",
+            "docs/bcs_release_abstract.md",
+            "papers/bcs_quantum_simulation.pdf",
+            "notebooks/bcs_paper_reproduction.ipynb",
+            "results/notebooks/bcs_paper_reproduction.pdf",
+        }
+        missing = sorted(required - names)
+        if missing:
+            raise ValueError(f"missing files in zip: {', '.join(missing)}")
+
+
 def validate_artifact(root: Path, artifact: Artifact) -> str | None:
     path = root / artifact.path
     try:
@@ -119,6 +141,8 @@ def validate_artifact(root: Path, artifact: Artifact) -> str | None:
             validate_html(path)
         elif artifact.kind == "text":
             validate_text(path)
+        elif artifact.kind == "zip":
+            validate_zip(path)
         else:
             raise ValueError(f"unknown artifact kind: {artifact.kind}")
     except Exception as exc:  # noqa: BLE001 - report all validation failures.
