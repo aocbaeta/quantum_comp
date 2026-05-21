@@ -12,6 +12,8 @@ linkcolor: blue
 urlcolor: blue
 ---
 
+<!-- markdownlint-disable MD025 -->
+
 # Tutoriais do Laboratorio Quantum IC
 
 ## Visao geral
@@ -20,14 +22,14 @@ Este documento reune os tutoriais praticos do laboratorio `quantum_ic`.
 O objetivo e manter um guia unico para executar os exemplos em QCL, Qiskit,
 Cirq, PennyLane, OpenQASM, QML e a frente de zeros da zeta.
 
-### Preparar Ambiente
+### Preparar ambiente geral
 
 ```bash
 cd ~/quantum_ic
 source .venv/bin/activate
 ```
 
-### Rodar Tudo
+### Rodar todos os exemplos
 
 ```bash
 quantum_languages/scripts/run_qcl_examples.sh
@@ -43,7 +45,7 @@ python experiments/06_zeta_critical_line_scan.py --t-min 10 --t-max 40
 QCL e historico, mas excelente para estudar a forma procedural de algoritmos
 quanticos.
 
-### Rodar
+### Rodar QCL
 
 ```bash
 cd ~/quantum_ic
@@ -56,7 +58,7 @@ Ou todos:
 quantum_languages/scripts/run_qcl_examples.sh
 ```
 
-### Arquivos
+### Arquivos QCL
 
 ```text
 01_bell_pauli.qcl
@@ -66,7 +68,7 @@ quantum_languages/scripts/run_qcl_examples.sh
 05_diagonal_hamiltonian_phase.qcl
 ```
 
-### Quando usar
+### Quando usar QCL
 
 Use QCL para estudar a historia das linguagens quanticas, algoritmos
 procedurais e a relacao entre controle classico e registradores quanticos.
@@ -78,7 +80,7 @@ procedurais e a relacao entre controle classico e registradores quanticos.
 Qiskit e a melhor opcao do laboratorio para circuitos, simulacao com Aer,
 VQE, operadores de Pauli e ligacao com hardware IBM.
 
-### Rodar
+### Rodar Qiskit
 
 ```bash
 cd ~/quantum_ic
@@ -86,7 +88,7 @@ source .venv/bin/activate
 python quantum_languages/qiskit/algorithms_qiskit.py
 ```
 
-### Saidas
+### Saidas Qiskit
 
 Os JSONs sao salvos em:
 
@@ -109,7 +111,7 @@ QFT e estimacao de fase para espectros
 
 Cirq e bom para circuitos explicitos, controle fino de portas e estilo Google-like.
 
-### Rodar
+### Rodar Cirq
 
 ```bash
 cd ~/quantum_ic
@@ -117,13 +119,13 @@ source .venv/bin/activate
 python quantum_languages/cirq/algorithms_cirq.py
 ```
 
-### Saidas
+### Saidas Cirq
 
 ```text
 results/tables/quantum_languages/cirq_*.json
 ```
 
-### Quando usar
+### Quando usar Cirq
 
 Use Cirq quando quiser construir circuitos de baixo nivel, estudar decomposicoes
 de portas e comparar simuladores de circuitos.
@@ -148,14 +150,14 @@ python quantum_languages/pennylane/algorithms_pennylane.py
 python quantum_languages/qml/variational_classifier_pennylane.py
 ```
 
-### Saidas
+### Saidas PennyLane
 
 ```text
 results/tables/quantum_languages/pennylane_*.json
 results/tables/quantum_languages/qml_variational_classifier.json
 ```
 
-### Quando usar
+### Quando usar PennyLane
 
 Use PennyLane para VQE variacional, QML, circuitos diferenciaveis, classificadores
 quanticos e modelos hibridos classico-quanticos.
@@ -253,14 +255,14 @@ quantum_languages/tutorials/bcs.md
 
 OpenQASM e um formato portavel para descrever circuitos.
 
-### Arquivos
+### Arquivos OpenQASM
 
 ```text
 quantum_languages/openqasm/bell.qasm
 quantum_languages/openqasm/grover_2q_mark_3.qasm
 ```
 
-### Quando usar
+### Quando usar OpenQASM
 
 Use OpenQASM para portar circuitos entre ferramentas, registrar circuitos em texto
 e manter exemplos independentes de framework Python.
