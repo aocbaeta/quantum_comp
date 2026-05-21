@@ -15,6 +15,10 @@ compartilhamento e preparação de depósito com DOI.
 - Metadados formais de citação em `CITATION.cff`.
 - Checklist de publicação em `docs/bcs_publication_checklist.md`.
 - CI no GitHub Actions para testes e validação dos artefatos.
+- Auditoria pré-publicação de parâmetros em
+  `docs/experiment_parameter_audit_2026-05-21.md`, com Trotterização mais
+  precisa, maior orçamento de shots e mitigação ZNE em escalas de ruído mais
+  lineares.
 
 ## Arquivo de distribuição
 

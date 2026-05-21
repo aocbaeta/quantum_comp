@@ -13,10 +13,10 @@ derivado deve citar o projeto conforme `CITATION.cff`.
 
 ## Principais resultados
 
-- Trotterização de segunda ordem com 64 passos em `t=2.5`:
-  fidelidade `0.9999988959`.
+- Trotterização de segunda ordem com 256 passos em `t=2.5`:
+  fidelidade `0.9999999957`.
 - Série temporal até `t=6.0` preservando número total de pares com erro da
-  ordem de `10^-13`.
+  ordem de `10^-14`.
 - Circuito Qiskit Trotterizado validado contra evolução matricial com
   fidelidade `0.9999999999999658`.
 - Função de Green retardada de pares, canal anômalo de Gor'kov e matriz Nambu

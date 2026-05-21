@@ -100,25 +100,6 @@ pandoc papers/bcs_quantum_simulation.md -s --resource-path=papers:. --pdf-engine
   -o papers/bcs_quantum_simulation.pdf
 ```
 
-### Simulação da hipótese de Riemann
-
-```bash
-python experiments/05_zeta_zeros_statistics.py --count 500 --gue-size 500
-python experiments/06_zeta_critical_line_scan.py --t-min 10 --t-max 40
-```
-
-### Interface gráfica
-
-```bash
-python experiments/zeta_explorer.py
-```
-
-### Busca aleatória no strip crítico
-
-```bash
-python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0.99 --t-min 10 --t-max 40 --samples 2000
-```
-
 ## Projeto BCS
 
 - `quantum_languages/scripts/bcs_project.py` — implementação VQE para o Hamiltoniano BCS reduzido;

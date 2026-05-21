@@ -111,7 +111,7 @@ def main() -> None:
     time = 2.5
     steps = 8
     order = 2
-    shots_values = [1024, 4096, 8192]
+    shots_values = [1024, 4096, 8192, 16384, 32768]
     seed = 20260520
 
     terms = reduced_bcs_terms(xi, g)

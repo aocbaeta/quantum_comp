@@ -83,9 +83,9 @@ def main() -> None:
     time = 2.5
     steps = 8
     order = 2
-    shots = 4096
+    shots = 16384
     seed = 20260522
-    noise_scales = [1.0, 2.0, 3.0]
+    noise_scales = [0.25, 0.5, 0.75, 1.0]
     base_p1 = 0.0005
     base_p2 = 0.005
 

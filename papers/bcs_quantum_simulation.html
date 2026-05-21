@@ -254,11 +254,11 @@ Gor’kov organizado em uma matriz de resposta Nambu. Também é avaliada
 uma versão medida do circuito em Qiskit Aer, com amostragem por shots,
 ruído depolarizante simples, estimativa de energia termo a termo e
 mitigação por extrapolação zero-noise. Para o caso de quatro qubits
-estudado, a Trotterização de segunda ordem com 64 passos atinge
-fidelidade <code>0.9999989</code> em <span
+estudado, a Trotterização de segunda ordem com 256 passos atinge
+fidelidade <code>0.9999999957</code> em <span
 class="math inline">\(t=2.5\)</span>, e a série temporal até <span
 class="math inline">\(t=6.0\)</span> preserva o número total de pares
-com erro da ordem de <span class="math inline">\(10^{-13}\)</span>.</p>
+com erro da ordem de <span class="math inline">\(10^{-14}\)</span>.</p>
 <h1 id="introdução">1. Introdução</h1>
 <p>O modelo BCS descreve a formação coletiva de pares de Cooper em
 sistemas fermiônicos. Na formulação reduzida, pares de estados temporais
@@ -366,7 +366,7 @@ mesmo em um modelo pequeno.</p>
 1100\rangle\)</span>;</li>
 <li>quatro qubits;</li>
 <li>tempo final <code>t = 6.0</code>;</li>
-<li>Trotterização de segunda ordem com <code>64</code> passos para as
+<li>Trotterização de segunda ordem com <code>256</code> passos para as
 séries temporais.</li>
 </ul>
 <p>Os comandos de reprodução estão documentados em
@@ -375,9 +375,9 @@ séries temporais.</li>
 <h2 id="erro-de-trotterização">5.1 Erro de Trotterização</h2>
 <p>A Figura 1 mostra a queda do erro de estado conforme aumenta o número
 de passos de Trotter. Para <span class="math inline">\(t=2.5\)</span>, a
-melhor linha da tabela usa ordem 2 e 64 passos, com fidelidade
-<code>0.9999988959</code> e erro de estado
-<code>0.0016610647</code>.</p>
+melhor linha da tabela usa ordem 2 e 256 passos, com fidelidade
+<code>0.9999999957</code> e erro de estado
+<code>0.0001037631</code>.</p>
 <figure>
 <img src="../results/figures/bcs_trotter_error.png"
 alt="Erro de estado entre evolução exata e Trotterizada." />
@@ -397,7 +397,7 @@ condensada</h2>
 maior autovalor da matriz de correlação de pares. No tempo final <span
 class="math inline">\(t=6.0\)</span>, o gap exato é
 <code>0.8262711774</code>, enquanto o valor Trotterizado é
-<code>0.8248334652</code>.</p>
+<code>0.8261816459</code>.</p>
 <figure>
 <img src="../results/figures/bcs_gap_condensate_time.png"
 alt="Proxy de gap efetivo e autovalor condensado." />
@@ -535,9 +535,10 @@ Gor’kov-Nambu.</figcaption>
 <p>Para aproximar a simulação de um fluxo experimental de computação
 quântica, o circuito Trotterizado foi medido na base computacional em
 Qiskit Aer. As ocupações <code>n_i</code> e o número total de pares
-foram estimados a partir das contagens. Foram comparados três regimes de
-shots (<code>1024</code>, <code>4096</code> e <code>8192</code>) em
-simulação ideal e com ruído depolarizante simples.</p>
+foram estimados a partir das contagens. Foram comparados cinco regimes
+de shots (<code>1024</code>, <code>4096</code>, <code>8192</code>,
+<code>16384</code> e <code>32768</code>) em simulação ideal e com ruído
+depolarizante simples.</p>
 <p>A Figura 12 mostra que o número total de pares é robusto neste caso
 porque erros de bit tendem a se compensar parcialmente na soma. A
 informação de ocupação por modo, porém, é fortemente degradada pelo
@@ -549,7 +550,7 @@ alt="Número total de pares estimado por shots." />
 shots.</figcaption>
 </figure>
 <p>A Figura 13 compara as ocupações de pares no maior orçamento de
-shots. Com <code>8192</code> shots ideais, as ocupações ficam próximas
+shots. Com <code>32768</code> shots ideais, as ocupações ficam próximas
 do statevector; com ruído, os modos são deslocados em direção a
 ocupações próximas de <code>0.5</code>, como esperado em um canal
 depolarizante forte.</p>
@@ -583,9 +584,9 @@ alt="Energia BCS estimada por decomposição Pauli e shots." />
 Pauli e shots.</figcaption>
 </figure>
 <p>A Figura 15 mostra o erro absoluto em relação ao statevector
-Trotterizado. No maior orçamento usado (<code>8192</code> shots por
-termo), o erro ideal foi <code>0.00656</code>, enquanto o erro ruidoso
-ficou em <code>2.40108</code>.</p>
+Trotterizado. No maior orçamento usado (<code>32768</code> shots por
+termo), o erro ideal foi <code>0.00035</code>, enquanto o erro ruidoso
+ficou em <code>2.39759</code>.</p>
 <figure>
 <img src="../results/figures/bcs_qiskit_energy_shots_error.png"
 alt="Erro absoluto da energia por shots." />
@@ -595,16 +596,16 @@ shots.</figcaption>
 <h2 id="mitigação-por-extrapolação-zero-noise">5.11 Mitigação por
 extrapolação zero-noise</h2>
 <p>Como demonstração de mitigação simples, a energia ruidosa foi medida
-em três escalas artificiais de ruído depolarizante: <span
-class="math inline">\(\lambda=1,2,3\)</span>, com base
+em quatro escalas artificiais de ruído depolarizante: <span
+class="math inline">\(\lambda=0.25,0.5,0.75,1.0\)</span>, com base
 <code>p1=0.0005</code> para portas de um qubit e <code>p2=0.005</code>
 para portas de dois qubits. Um ajuste linear <span
 class="math inline">\(E(\lambda)=a\lambda+b\)</span> foi usado para
 estimar o limite de ruído zero <code>b</code>.</p>
 <p>A Figura 16 mostra os pontos ruidosos e a extrapolação linear. Para
-<code>4096</code> shots por termo de Pauli, a energia ruidosa em <span
-class="math inline">\(\lambda=1\)</span> foi <code>1.42524</code>,
-enquanto a energia mitigada foi <code>1.85809</code>. O valor de
+<code>16384</code> shots por termo de Pauli, a energia ruidosa em <span
+class="math inline">\(\lambda=1\)</span> foi <code>1.40423</code>,
+enquanto a energia mitigada foi <code>2.47545</code>. O valor de
 statevector Trotterizado é <code>2.61166</code>.</p>
 <figure>
 <img src="../results/figures/bcs_qiskit_error_mitigation_zne.png"
@@ -613,8 +614,8 @@ alt="Extrapolação zero-noise linear da energia BCS." />
 BCS.</figcaption>
 </figure>
 <p>A Figura 17 compara o erro antes/depois da mitigação. O erro contra o
-statevector foi reduzido de <code>1.18642</code> para
-<code>0.75357</code>. A melhora é clara, mas ainda limitada, indicando
+statevector foi reduzido de <code>1.20743</code> para
+<code>0.13621</code>. A melhora é clara, mas ainda limitada, indicando
 que o regime de ruído não é perfeitamente linear e que técnicas mais
 robustas podem ser investigadas.</p>
 <figure>

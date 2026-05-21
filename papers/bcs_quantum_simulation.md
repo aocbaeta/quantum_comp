@@ -19,10 +19,9 @@ um canal anômalo de Gor'kov organizado em uma matriz de resposta Nambu.
 Também é avaliada uma versão medida do circuito em Qiskit Aer, com amostragem
 por shots, ruído depolarizante simples, estimativa de energia termo a termo e
 mitigação por extrapolação zero-noise.
-Para o caso de quatro qubits estudado, a
-Trotterização de segunda ordem com 64 passos atinge fidelidade `0.9999989` em
-$t=2.5$, e a série temporal até $t=6.0$ preserva o número total de pares com erro
-da ordem de $10^{-13}$.
+Para o caso de quatro qubits estudado, a Trotterização de segunda ordem com
+256 passos atinge fidelidade `0.9999999957` em $t=2.5$, e a série temporal até
+$t=6.0$ preserva o número total de pares com erro da ordem de $10^{-14}$.
 
 # 1. Introdução
 
@@ -140,7 +139,7 @@ O experimento principal usa:
 - estado inicial $\lvert 1100\rangle$;
 - quatro qubits;
 - tempo final `t = 6.0`;
-- Trotterização de segunda ordem com `64` passos para as séries temporais.
+- Trotterização de segunda ordem com `256` passos para as séries temporais.
 
 Os comandos de reprodução estão documentados em
 `docs/bcs_paper_reproducibility.md`.
@@ -150,8 +149,8 @@ Os comandos de reprodução estão documentados em
 ## 5.1 Erro de Trotterização
 
 A Figura 1 mostra a queda do erro de estado conforme aumenta o número de passos
-de Trotter. Para $t=2.5$, a melhor linha da tabela usa ordem 2 e 64 passos, com
-fidelidade `0.9999988959` e erro de estado `0.0016610647`.
+de Trotter. Para $t=2.5$, a melhor linha da tabela usa ordem 2 e 256 passos,
+com fidelidade `0.9999999957` e erro de estado `0.0001037631`.
 
 ![Erro de estado entre evolução exata e Trotterizada.](../results/figures/bcs_trotter_error.png)
 
@@ -166,7 +165,7 @@ qubits e a decomposição em portas para o caso estudado.
 
 A Figura 2 mostra a evolução temporal do proxy de gap efetivo e do maior
 autovalor da matriz de correlação de pares. No tempo final $t=6.0$, o gap exato
-é `0.8262711774`, enquanto o valor Trotterizado é `0.8248334652`.
+é `0.8262711774`, enquanto o valor Trotterizado é `0.8261816459`.
 
 ![Proxy de gap efetivo e autovalor condensado.](../results/figures/bcs_gap_condensate_time.png)
 
@@ -273,8 +272,8 @@ $\lvert\det G_{\mathrm{Nambu}}\rvert$ foi `0.20646`.
 Para aproximar a simulação de um fluxo experimental de computação quântica, o
 circuito Trotterizado foi medido na base computacional em Qiskit Aer. As
 ocupações `n_i` e o número total de pares foram estimados a partir das contagens.
-Foram comparados três regimes de shots (`1024`, `4096` e `8192`) em simulação
-ideal e com ruído depolarizante simples.
+Foram comparados cinco regimes de shots (`1024`, `4096`, `8192`, `16384` e
+`32768`) em simulação ideal e com ruído depolarizante simples.
 
 A Figura 12 mostra que o número total de pares é robusto neste caso porque erros
 de bit tendem a se compensar parcialmente na soma. A informação de ocupação por
@@ -283,7 +282,7 @@ modo, porém, é fortemente degradada pelo ruído.
 ![Número total de pares estimado por shots.](../results/figures/bcs_qiskit_shots_noise_total_pairs.png)
 
 A Figura 13 compara as ocupações de pares no maior orçamento de shots. Com
-`8192` shots ideais, as ocupações ficam próximas do statevector; com ruído, os
+`32768` shots ideais, as ocupações ficam próximas do statevector; com ruído, os
 modos são deslocados em direção a ocupações próximas de `0.5`, como esperado em
 um canal depolarizante forte.
 
@@ -310,27 +309,28 @@ subestimada.
 ![Energia BCS estimada por decomposição Pauli e shots.](../results/figures/bcs_qiskit_energy_shots_values.png)
 
 A Figura 15 mostra o erro absoluto em relação ao statevector Trotterizado. No
-maior orçamento usado (`8192` shots por termo), o erro ideal foi `0.00656`,
-enquanto o erro ruidoso ficou em `2.40108`.
+maior orçamento usado (`32768` shots por termo), o erro ideal foi `0.00035`,
+enquanto o erro ruidoso ficou em `2.39759`.
 
 ![Erro absoluto da energia por shots.](../results/figures/bcs_qiskit_energy_shots_error.png)
 
 ## 5.11 Mitigação por extrapolação zero-noise
 
-Como demonstração de mitigação simples, a energia ruidosa foi medida em três
-escalas artificiais de ruído depolarizante: $\lambda=1,2,3$, com base
+Como demonstração de mitigação simples, a energia ruidosa foi medida em quatro
+escalas artificiais de ruído depolarizante: $\lambda=0.25,0.5,0.75,1.0$, com base
 `p1=0.0005` para portas de um qubit e `p2=0.005` para portas de dois qubits.
 Um ajuste linear $E(\lambda)=a\lambda+b$ foi usado para estimar o limite de
 ruído zero `b`.
 
-A Figura 16 mostra os pontos ruidosos e a extrapolação linear. Para `4096` shots
-por termo de Pauli, a energia ruidosa em $\lambda=1$ foi `1.42524`, enquanto a
-energia mitigada foi `1.85809`. O valor de statevector Trotterizado é `2.61166`.
+A Figura 16 mostra os pontos ruidosos e a extrapolação linear. Para `16384`
+shots por termo de Pauli, a energia ruidosa em $\lambda=1$ foi `1.40423`,
+enquanto a energia mitigada foi `2.47545`. O valor de statevector Trotterizado
+é `2.61166`.
 
 ![Extrapolação zero-noise linear da energia BCS.](../results/figures/bcs_qiskit_error_mitigation_zne.png)
 
 A Figura 17 compara o erro antes/depois da mitigação. O erro contra o
-statevector foi reduzido de `1.18642` para `0.75357`. A melhora é clara, mas
+statevector foi reduzido de `1.20743` para `0.13621`. A melhora é clara, mas
 ainda limitada, indicando que o regime de ruído não é perfeitamente linear e que
 técnicas mais robustas podem ser investigadas.
 

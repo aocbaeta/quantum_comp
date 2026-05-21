@@ -42,13 +42,6 @@ openqasm/bell.qasm
 openqasm/grover_2q_mark_3.qasm
 ```
 
-## Nota Sobre Zeta
-
-Zeros da zeta entram no projeto como dados espectrais/classicos, estatistica
-GUE e hipotese de Hilbert-Polya. A parte quantica mais natural nessa fase e
-representar espectros por fases/unitarios e estudar algoritmos como QFT,
-estimacao de fase e simulacao Hamiltoniana.
-
 ## Frameworks Modernos
 
 ```bash
@@ -74,7 +67,6 @@ tutorials/qiskit.md
 tutorials/cirq.md
 tutorials/pennylane.md
 tutorials/openqasm.md
-tutorials/zeta.md
 tutorials/commutator.md
 tutorials/bcs.md
 ```

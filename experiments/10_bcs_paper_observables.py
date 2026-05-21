@@ -121,7 +121,7 @@ def main() -> None:
     g = 0.8
     occupied = [0, 1]
     final_time = 6.0
-    trotter_steps = 64
+    trotter_steps = 256
     times = np.linspace(0.0, final_time, 81)
 
     rows = bcs_time_observables(

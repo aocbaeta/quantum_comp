@@ -31,6 +31,7 @@ o trabalho de simulação quântica do Hamiltoniano BCS reduzido.
 - [x] Resumo de release em `docs/bcs_release_abstract.md`.
 - [x] Pacote de distribuição em `results/releases/bcs_quantum_simulation_v1.5.zip`.
 - [x] Revisão técnica em `docs/project_review_2026-05-21.md`.
+- [x] Auditoria de parâmetros em `docs/experiment_parameter_audit_2026-05-21.md`.
 
 ## Auditoria antes de compartilhar
 

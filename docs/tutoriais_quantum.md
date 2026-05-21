@@ -20,7 +20,7 @@ urlcolor: blue
 
 Este documento reune os tutoriais praticos do laboratorio `quantum_ic`.
 O objetivo e manter um guia unico para executar os exemplos em QCL, Qiskit,
-Cirq, PennyLane, OpenQASM, QML e a frente de zeros da zeta.
+Cirq, PennyLane, OpenQASM, QML e BCS.
 
 ### Preparar ambiente geral
 
@@ -34,8 +34,6 @@ source .venv/bin/activate
 ```bash
 quantum_languages/scripts/run_qcl_examples.sh
 quantum_languages/scripts/run_framework_examples.sh
-python experiments/05_zeta_zeros_statistics.py --count 500 --gue-size 500
-python experiments/06_zeta_critical_line_scan.py --t-min 10 --t-max 40
 ```
 
 \newpage
@@ -271,92 +269,3 @@ e manter exemplos independentes de framework Python.
 
 O ambiente atual guarda os arquivos OpenQASM, mas a execucao principal esta nos
 frameworks Python e no QCL local.
-
-\newpage
-
-## Zeros da Zeta
-
-Esta parte e classica/espectral, nao um circuito quantico direto.
-
-### Estatistica de espacamentos
-
-```bash
-cd ~/quantum_ic
-source .venv/bin/activate
-python experiments/05_zeta_zeros_statistics.py --count 500 --gue-size 500
-```
-
-Ou use a interface gráfica para variar parâmetros de forma interativa e ver o resultado diretamente:
-
-```bash
-python experiments/zeta_explorer.py
-```
-
-Também é possível rodar uma busca aleatória dentro do strip crítico:
-
-```bash
-python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0.99 --t-min 10 --t-max 40 --samples 2000
-```
-
-Parâmetros:
-
-- `--count 500`: número de zeros da função zeta usados para calcular espaçamentos. Começa no zero índice 1 por padrão.
-- `--gue-size 500`: dimensão da matriz aleatória GUE usada para gerar espaçamentos de referência.
-
-Gera:
-
-```text
-results/tables/zeta_zeros_1_500.csv
-results/tables/zeta_spacing_summary.csv
-results/figures/zeta_spacing_histogram.png
-```
-
-Interpretação:
-
-- O script compara os espaçamentos normalizados dos zeros da zeta com a estatística de espaçamentos de matrizes GUE.
-- Se os dados da zeta seguirem a curva `GUE Wigner surmise`, isso indica que os zeros têm correlações semelhantes às de autovalores de matrizes hermitianas aleatórias.
-- O arquivo `zeta_spacing_summary.csv` inclui métricas como média, variância e distâncias de Kolmogorov-Smirnov para Poisson e GUE.
-
-### Linha critica
-
-```bash
-python experiments/06_zeta_critical_line_scan.py --t-min 10 --t-max 40
-```
-
-Para buscar pontos pequenos de `zeta(s)` dentro do strip crítico fora da linha `sigma = 1/2`:
-
-```bash
-python experiments/07_zeta_random_strip_search.py --sigma-min 0.01 --sigma-max 0.99 --t-min 10 --t-max 40 --samples 2000
-```
-
-Parâmetros:
-
-- `--t-min 10`: início do intervalo em `t` para avaliar `zeta(1/2 + it)`.
-- `--t-max 40`: fim do intervalo em `t`.
-- `--points`: número de pontos de amostragem entre `t-min` e `t-max` (padrão 900).
-- `--zero-count`: quantos zeros da zeta computar para marcar no gráfico.
-
-Gera:
-
-```text
-results/tables/zeta_critical_line_scan.csv
-results/figures/zeta_critical_line_scan.png
-```
-
-Interpretação:
-
-- O gráfico mostra `|zeta(1/2 + it)|` ao longo do eixo crítico.
-- Mínimos do módulo correspondem a zeros da função zeta no intervalo avaliado.
-- As linhas verticais no gráfico indicam os zeros encontrados no mesmo intervalo.
-
-### Ponte com computacao quantica
-
-O caminho de pesquisa natural e:
-
-```text
-zeros da zeta -> espectro -> estatistica GUE -> hipotese Hilbert-Polya
-Hamiltoniano H -> propagador exp(-iHt) -> fases -> QFT/estimacao de fase
-```
-
-Nesta fase, o codigo calcula os dados espectrais e compara com GUE. O proximo
-passo e construir Hamiltonianos toy cujos espectros imitem estatisticas GUE.

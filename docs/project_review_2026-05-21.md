@@ -45,11 +45,8 @@ pandoc docs/tutoriais_quantum.md -s --pdf-engine=pdflatex \
 - A Trotterização matricial usa matrizes densas e `matrix_power`; isso é ótimo
   para quatro qubits, mas deve migrar para evolução por estado/circuito quando
   `n_qubits` crescer.
-- `experiments/run_all.py` não inclui `07_zeta_random_strip_search.py`, enquanto
-  o README documenta esse experimento. A ausência é aceitável se a busca
-  aleatória for considerada pesada, mas deveria ficar explícita.
-- O pacote ZIP inclui `results/tables/` e `results/figures/` completos, incluindo
-  artefatos de zeta e linguagens quânticas. Para uma release puramente BCS,
+- O pacote ZIP inclui `results/tables/` e `results/figures/` completos,
+  incluindo artefatos de linguagens quânticas. Para uma release puramente BCS,
   pode-se criar um ZIP menor contendo apenas arquivos `bcs_*`.
 - O validador confirma a presença e assinatura dos arquivos, mas ainda não
   verifica se o ZIP contém exatamente a versão mais recente de cada artefato.

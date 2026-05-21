@@ -19,7 +19,7 @@ Parâmetros padrão:
 - `g = 0.8`;
 - estado inicial com dois pares: `|1100>`;
 - tempo final: `t = 6.0`;
-- Trotter de segunda ordem com `64` passos.
+- Trotter de segunda ordem com `256` passos.
 
 ## Comandos
 

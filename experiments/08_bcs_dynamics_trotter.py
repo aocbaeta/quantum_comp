@@ -18,7 +18,7 @@ def main() -> None:
     g = 0.8
     occupied = [0, 1]
     time = 2.5
-    steps_values = [1, 2, 4, 8, 16, 32, 64]
+    steps_values = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
     rows = []
     for order in [1, 2]:
