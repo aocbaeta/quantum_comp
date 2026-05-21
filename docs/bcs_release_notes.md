@@ -23,7 +23,7 @@ correspondem a incrementos reprodutíveis do código, resultados e documentaçã
 | `v1.4-bcs-license-policy` | `27c1b9b` | Licença BSD-3-Clause para código e CC BY 4.0 para documentação/resultados. |
 | `v1.5-bcs-manuscript-ready` | `fd11559` | Manuscrito revisado com disponibilidade, citação, licenças e PDF regenerado. |
 | `v1.6-bcs-release-package` | `27fb0bc` | Resumo de release, notas v1.5 e pacote ZIP de distribuição. |
-| `v1.7-bcs-latex-review` | `TBD` | Revisão técnica, matemática em LaTeX e PDFs recompilados por Pandoc/LaTeX. |
+| `v1.7-bcs-latex-review` | `1098632` | Revisão técnica, matemática em LaTeX e PDFs recompilados por Pandoc/LaTeX. |
 
 ## Estado em `v1.0`
 
