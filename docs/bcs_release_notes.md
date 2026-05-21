@@ -22,7 +22,7 @@ correspondem a incrementos reprodutíveis do código, resultados e documentaçã
 | `v1.3-bcs-citation-package` | `cc8ff38` | Metadados de citação, checklist editorial e validação ampliada do pacote. |
 | `v1.4-bcs-license-policy` | `27c1b9b` | Licença BSD-3-Clause para código e CC BY 4.0 para documentação/resultados. |
 | `v1.5-bcs-manuscript-ready` | `fd11559` | Manuscrito revisado com disponibilidade, citação, licenças e PDF regenerado. |
-| `v1.6-bcs-release-package` | `TBD` | Resumo de release, notas v1.5 e pacote ZIP de distribuição. |
+| `v1.6-bcs-release-package` | `27fb0bc` | Resumo de release, notas v1.5 e pacote ZIP de distribuição. |
 
 ## Estado em `v1.0`
 
