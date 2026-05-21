@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Andre Baeta" />
-  <meta name="dcterms.date" content="2026-05-20" />
+  <meta name="dcterms.date" content="2026-05-21" />
   <title>Simulação quântica do Hamiltoniano BCS reduzido com dinâmica Trotterizada</title>
   <style>
     html {
@@ -164,6 +164,70 @@
       vertical-align: middle;
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 </head>
 <body>
@@ -171,7 +235,7 @@
 <h1 class="title">Simulação quântica do Hamiltoniano BCS reduzido com
 dinâmica Trotterizada</h1>
 <p class="author">Andre Baeta</p>
-<p class="date">2026-05-20</p>
+<p class="date">2026-05-21</p>
 </header>
 <h1 id="resumo">Resumo</h1>
 <p>Este trabalho apresenta uma implementação reprodutível do
@@ -203,7 +267,9 @@ par pode ser representado por um qubit.</p>
 formulação teórica do Hamiltoniano BCS reduzido e circuitos quânticos
 executáveis em ferramentas modernas. O foco aqui não é escalar para
 sistemas grandes, mas sim fixar uma implementação verificável, com
-métricas de erro e observáveis físicos claros.</p>
+métricas de erro e observáveis físicos claros. O trabalho foi
+desenvolvido como pesquisa independente e acompanhado por artefatos de
+reprodução, validação automatizada e metadados de citação.</p>
 <h1 id="modelo">2. Modelo</h1>
 <p>Cada qubit representa um modo de par:</p>
 <pre class="text"><code>|0&gt; = modo sem par
@@ -247,24 +313,24 @@ extraídos:</p>
 <code>C_ij=&lt;b_i^\dagger b_j&gt;</code>;</li>
 <li>autovalor condensado <code>lambda_max(C)</code>;</li>
 <li>proxy de gap efetivo
-<code>Delta_eff=g sqrt(lambda_max(C))</code>.</li>
+<code>Delta_eff=g sqrt(lambda_max(C))</code>;</li>
 <li>função de Green retardada de pares
 <code>G^R_ij(t)=-i theta(t)&lt;[b_i(t),b_j^\dagger(0)]&gt;</code>;</li>
-<li>densidade espectral aproximada <code>-Im G^R(omega)/pi</code>.</li>
+<li>densidade espectral aproximada <code>-Im G^R(omega)/pi</code>;</li>
 <li>função de Green anômala de Gor’kov
 <code>F^R_ij(t)=-i theta(t)&lt;[b_i(t),b_j(0)]&gt;</code>;</li>
 <li>densidade espectral anômala aproximada
-<code>-Im F^R(omega)/pi</code>.</li>
+<code>-Im F^R(omega)/pi</code>;</li>
 <li>matriz de Gor’kov em base Nambu, combinando canais normais e
 anômalos: <code>[[G,F],[Fdag,Gdag]]</code>;</li>
 <li>traço espectral aproximado
-<code>-Im Tr G_Nambu(omega)/pi</code>.</li>
+<code>-Im Tr G_Nambu(omega)/pi</code>;</li>
 <li>ocupações de pares estimadas por contagens de medição em Qiskit
 Aer;</li>
 <li>comparação entre statevector, shots ideais e ruído
-depolarizante.</li>
+depolarizante;</li>
 <li>energia por decomposição Pauli <code>E=sum_k c_k &lt;P_k&gt;</code>
-estimada por shots.</li>
+estimada por shots;</li>
 <li>energia mitigada por extrapolação zero-noise linear.</li>
 </ul>
 <p>Esses observáveis permitem discutir coerência coletiva dos pares
@@ -535,7 +601,12 @@ retardada, canal anômalo de Gor’kov, matriz Nambu completa, medições por
 shots e estimativa de energia por decomposição Pauli, incluindo uma
 primeira mitigação zero-noise. A etapa seguinte natural é aplicar
 mitigação de leitura e alocação adaptativa de shots por termo.</p>
-<h1 id="arquivos-principais">8. Arquivos principais</h1>
+<h1 id="disponibilidade-de-código-dados-e-licença">8. Disponibilidade de
+código, dados e licença</h1>
+<p>O código, os experimentos, os resultados tabulados, as figuras e os
+artefatos renderizados estão organizados no repositório público:</p>
+<pre class="text"><code>https://github.com/aocbaeta/quantum_comp</code></pre>
+<p>Os principais componentes para reprodução são:</p>
 <ul>
 <li><code>src/bcs.py</code>;</li>
 <li><code>src/bcs_qiskit.py</code>;</li>
@@ -549,17 +620,28 @@ mitigação de leitura e alocação adaptativa de shots por termo.</p>
 <li><code>experiments/15_bcs_qiskit_energy_shots.py</code>;</li>
 <li><code>experiments/16_bcs_qiskit_error_mitigation.py</code>;</li>
 <li><code>docs/bcs_paper_reproducibility.md</code>;</li>
-<li><code>results/tables/bcs_paper_observables.csv</code>.</li>
-<li><code>results/tables/bcs_pair_green_retarded.csv</code>.</li>
-<li><code>results/tables/bcs_pair_green_spectral_density.csv</code>.</li>
-<li><code>results/tables/bcs_gorkov_anomalous_time.csv</code>.</li>
-<li><code>results/tables/bcs_gorkov_anomalous_spectrum.csv</code>.</li>
-<li><code>results/tables/bcs_gorkov_nambu_time.csv</code>.</li>
-<li><code>results/tables/bcs_gorkov_nambu_spectral_trace.csv</code>.</li>
-<li><code>results/tables/bcs_qiskit_shots_noise.csv</code>.</li>
-<li><code>results/tables/bcs_qiskit_energy_shots.csv</code>.</li>
-<li><code>results/tables/bcs_qiskit_error_mitigation.csv</code>.</li>
+<li><code>notebooks/bcs_paper_reproduction.ipynb</code>;</li>
+<li><code>results/notebooks/bcs_paper_reproduction.pdf</code>.</li>
 </ul>
+<p>A validação automatizada do pacote é feita por:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">PYTHONPATH</span><span class="op">=</span>src <span class="ex">.venv/bin/python</span> <span class="at">-m</span> pytest <span class="at">-q</span> tests</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> scripts/validate_bcs_paper_artifacts.py</span></code></pre></div>
+<p>O código-fonte é distribuído sob a licença BSD-3-Clause. A
+documentação, o manuscrito, as figuras, os notebooks, as tabelas e os
+artefatos renderizados são distribuídos sob CC BY 4.0. O arquivo
+<code>CITATION.cff</code> contém os metadados de citação recomendados.
+Como esta pesquisa é independente, qualquer uso acadêmico ou derivado
+dos resultados deve citar o projeto e preservar a atribuição ao
+autor.</p>
+<h1 id="declaração-de-citação">9. Declaração de citação</h1>
+<p>Se este repositório, seus resultados, figuras, tabelas, código ou
+ideias forem usados em trabalhos acadêmicos, relatórios, apresentações
+ou software, cite:</p>
+<pre class="text"><code>Andre Baeta, &quot;Quantum IC: reduced BCS Hamiltonian quantum simulation workflow&quot;,
+GitHub repository, https://github.com/aocbaeta/quantum_comp.</code></pre>
+<p>Para ferramentas que reconhecem metadados formais, use o arquivo
+<code>CITATION.cff</code> no repositório.</p>
 <h1 id="referências-iniciais">Referências iniciais</h1>
 <ul>
 <li>Bardeen, Cooper e Schrieffer, teoria microscópica da

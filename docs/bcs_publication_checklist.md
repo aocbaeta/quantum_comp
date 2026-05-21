@@ -39,6 +39,6 @@ gh run list --repo aocbaeta/quantum_comp --limit 3
 
 ## Pendências editoriais
 
-- [ ] Revisar linguagem e formatação final do manuscrito.
+- [x] Revisar linguagem, citação, licença e disponibilidade no manuscrito.
 - [ ] Adicionar DOI quando houver depósito em Zenodo, OSF ou plataforma equivalente.
 - [ ] Adaptar o manuscrito ao template do periódico ou conferência escolhida.

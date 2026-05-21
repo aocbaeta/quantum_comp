@@ -1,7 +1,7 @@
 ---
 title: "Simulação quântica do Hamiltoniano BCS reduzido com dinâmica Trotterizada"
 author: "Andre Baeta"
-date: "2026-05-20"
+date: "2026-05-21"
 lang: pt-BR
 ---
 
@@ -37,7 +37,8 @@ O objetivo deste projeto é construir uma ponte prática entre a formulação
 teórica do Hamiltoniano BCS reduzido e circuitos quânticos executáveis em
 ferramentas modernas. O foco aqui não é escalar para sistemas grandes, mas sim
 fixar uma implementação verificável, com métricas de erro e observáveis físicos
-claros.
+claros. O trabalho foi desenvolvido como pesquisa independente e acompanhado
+por artefatos de reprodução, validação automatizada e metadados de citação.
 
 # 2. Modelo
 
@@ -110,19 +111,19 @@ Além de energia, fidelidade e número total de pares, são extraídos:
 - ocupações `n_i=<b_i^\dagger b_i>`;
 - matriz de correlação de pares `C_ij=<b_i^\dagger b_j>`;
 - autovalor condensado `lambda_max(C)`;
-- proxy de gap efetivo `Delta_eff=g sqrt(lambda_max(C))`.
+- proxy de gap efetivo `Delta_eff=g sqrt(lambda_max(C))`;
 - função de Green retardada de pares
   `G^R_ij(t)=-i theta(t)<[b_i(t),b_j^\dagger(0)]>`;
-- densidade espectral aproximada `-Im G^R(omega)/pi`.
+- densidade espectral aproximada `-Im G^R(omega)/pi`;
 - função de Green anômala de Gor'kov
   `F^R_ij(t)=-i theta(t)<[b_i(t),b_j(0)]>`;
-- densidade espectral anômala aproximada `-Im F^R(omega)/pi`.
+- densidade espectral anômala aproximada `-Im F^R(omega)/pi`;
 - matriz de Gor'kov em base Nambu, combinando canais normais e anômalos:
   `[[G,F],[Fdag,Gdag]]`;
-- traço espectral aproximado `-Im Tr G_Nambu(omega)/pi`.
+- traço espectral aproximado `-Im Tr G_Nambu(omega)/pi`;
 - ocupações de pares estimadas por contagens de medição em Qiskit Aer;
-- comparação entre statevector, shots ideais e ruído depolarizante.
-- energia por decomposição Pauli `E=sum_k c_k <P_k>` estimada por shots.
+- comparação entre statevector, shots ideais e ruído depolarizante;
+- energia por decomposição Pauli `E=sum_k c_k <P_k>` estimada por shots;
 - energia mitigada por extrapolação zero-noise linear.
 
 Esses observáveis permitem discutir coerência coletiva dos pares mesmo em um
@@ -356,7 +357,16 @@ decomposição Pauli, incluindo uma primeira mitigação zero-noise. A etapa
 seguinte natural é aplicar mitigação de leitura e alocação adaptativa de shots
 por termo.
 
-# 8. Arquivos principais
+# 8. Disponibilidade de código, dados e licença
+
+O código, os experimentos, os resultados tabulados, as figuras e os artefatos
+renderizados estão organizados no repositório público:
+
+```text
+https://github.com/aocbaeta/quantum_comp
+```
+
+Os principais componentes para reprodução são:
 
 - `src/bcs.py`;
 - `src/bcs_qiskit.py`;
@@ -370,16 +380,35 @@ por termo.
 - `experiments/15_bcs_qiskit_energy_shots.py`;
 - `experiments/16_bcs_qiskit_error_mitigation.py`;
 - `docs/bcs_paper_reproducibility.md`;
-- `results/tables/bcs_paper_observables.csv`.
-- `results/tables/bcs_pair_green_retarded.csv`.
-- `results/tables/bcs_pair_green_spectral_density.csv`.
-- `results/tables/bcs_gorkov_anomalous_time.csv`.
-- `results/tables/bcs_gorkov_anomalous_spectrum.csv`.
-- `results/tables/bcs_gorkov_nambu_time.csv`.
-- `results/tables/bcs_gorkov_nambu_spectral_trace.csv`.
-- `results/tables/bcs_qiskit_shots_noise.csv`.
-- `results/tables/bcs_qiskit_energy_shots.csv`.
-- `results/tables/bcs_qiskit_error_mitigation.csv`.
+- `notebooks/bcs_paper_reproduction.ipynb`;
+- `results/notebooks/bcs_paper_reproduction.pdf`.
+
+A validação automatizada do pacote é feita por:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m pytest -q tests
+.venv/bin/python scripts/validate_bcs_paper_artifacts.py
+```
+
+O código-fonte é distribuído sob a licença BSD-3-Clause. A documentação, o
+manuscrito, as figuras, os notebooks, as tabelas e os artefatos renderizados são
+distribuídos sob CC BY 4.0. O arquivo `CITATION.cff` contém os metadados de
+citação recomendados. Como esta pesquisa é independente, qualquer uso acadêmico
+ou derivado dos resultados deve citar o projeto e preservar a atribuição ao
+autor.
+
+# 9. Declaração de citação
+
+Se este repositório, seus resultados, figuras, tabelas, código ou ideias forem
+usados em trabalhos acadêmicos, relatórios, apresentações ou software, cite:
+
+```text
+Andre Baeta, "Quantum IC: reduced BCS Hamiltonian quantum simulation workflow",
+GitHub repository, https://github.com/aocbaeta/quantum_comp.
+```
+
+Para ferramentas que reconhecem metadados formais, use o arquivo
+`CITATION.cff` no repositório.
 
 # Referências iniciais
 
