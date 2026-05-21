@@ -197,8 +197,8 @@ Validar a correspondência entre:
 - a estimativa da energia fundamental via VQE em diferentes frameworks.
 - a dinâmica temporal exata contra Trotterização;
 - a validação do circuito Qiskit Trotterizado contra a evolução matricial;
-- observáveis físicos para paper: ocupações de pares, `C_ij=<b_i^\dagger b_j>`,
-  autovalor condensado e proxy de gap efetivo.
+- observáveis físicos para paper: ocupações de pares,
+  $C_{ij}=\langle b_i^\dagger b_j\rangle$, autovalor condensado e proxy de gap efetivo.
 - função de Green retardada de pares e espectro aproximado.
 - função de Green anômala de Gor'kov e espectro anômalo aproximado.
 - matriz de Gor'kov em base Nambu e traço espectral.

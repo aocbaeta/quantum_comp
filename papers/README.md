@@ -39,10 +39,9 @@ LICENSE-DOCS
 Gerar HTML/PDF:
 
 ```bash
-pandoc papers/bcs_quantum_simulation.md -s -o papers/bcs_quantum_simulation.html
-google-chrome --headless --disable-gpu --no-sandbox \
-  --print-to-pdf="$PWD/papers/bcs_quantum_simulation.pdf" \
-  "file://$PWD/papers/bcs_quantum_simulation.html"
+pandoc papers/bcs_quantum_simulation.md -s --mathjax -o papers/bcs_quantum_simulation.html
+pandoc papers/bcs_quantum_simulation.md -s --resource-path=papers:. --pdf-engine=pdflatex \
+  -o papers/bcs_quantum_simulation.pdf
 ```
 
 Regenerar dados antes do paper:

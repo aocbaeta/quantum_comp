@@ -49,7 +49,7 @@ As seguintes lacunas foram endereçadas na implementação posterior:
 - decomposição Trotterizada para termos não comutativos;
 - validação de circuito Qiskit para a dinâmica Trotterizada;
 - tabela de normas de comutadores entre termos do Hamiltoniano.
-- observáveis físicos de pares: ocupações, matriz `C_ij=<b_i^\dagger b_j>`,
+- observáveis físicos de pares: ocupações, matriz $C_{ij}=\langle b_i^\dagger b_j\rangle$,
   autovalor condensado e proxy de gap efetivo.
 - função de Green retardada de pares e densidade espectral aproximada.
 - função de Green anômala de Gor'kov em estado produto BCS.

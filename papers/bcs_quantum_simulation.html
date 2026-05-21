@@ -163,7 +163,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { line-height: 1.25; }
@@ -229,6 +228,9 @@
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
 </head>
 <body>
 <header id="title-block-header">
@@ -245,17 +247,18 @@ Trotterização de primeira e segunda ordem. A implementação compara a
 dinâmica matricial com uma realização em circuito Qiskit, mede
 conservação do número de pares e extrai observáveis físicos úteis para
 análise de supercondutividade em espaço de Hilbert pequeno: ocupações de
-pares, matriz de correlação <code>C_ij=&lt;b_i^\dagger b_j&gt;</code>,
-autovalor condensado, um proxy efetivo de gap, uma função de Green
-retardada de pares e um canal anômalo de Gor’kov organizado em uma
-matriz de resposta Nambu. Também é avaliada uma versão medida do
-circuito em Qiskit Aer, com amostragem por shots, ruído depolarizante
-simples, estimativa de energia termo a termo e mitigação por
-extrapolação zero-noise. Para o caso de quatro qubits estudado, a
-Trotterização de segunda ordem com 64 passos atinge fidelidade
-<code>0.9999989</code> em <code>t=2.5</code>, e a série temporal até
-<code>t=6.0</code> preserva o número total de pares com erro da ordem de
-<code>10^-13</code>.</p>
+pares, matriz de correlação <span class="math inline">\(C_{ij}=\langle
+b_i^\dagger b_j\rangle\)</span>, autovalor condensado, um proxy efetivo
+de gap, uma função de Green retardada de pares e um canal anômalo de
+Gor’kov organizado em uma matriz de resposta Nambu. Também é avaliada
+uma versão medida do circuito em Qiskit Aer, com amostragem por shots,
+ruído depolarizante simples, estimativa de energia termo a termo e
+mitigação por extrapolação zero-noise. Para o caso de quatro qubits
+estudado, a Trotterização de segunda ordem com 64 passos atinge
+fidelidade <code>0.9999989</code> em <span
+class="math inline">\(t=2.5\)</span>, e a série temporal até <span
+class="math inline">\(t=6.0\)</span> preserva o número total de pares
+com erro da ordem de <span class="math inline">\(10^{-13}\)</span>.</p>
 <h1 id="introdução">1. Introdução</h1>
 <p>O modelo BCS descreve a formação coletiva de pares de Cooper em
 sistemas fermiônicos. Na formulação reduzida, pares de estados temporais
@@ -272,30 +275,45 @@ desenvolvido como pesquisa independente e acompanhado por artefatos de
 reprodução, validação automatizada e metadados de citação.</p>
 <h1 id="modelo">2. Modelo</h1>
 <p>Cada qubit representa um modo de par:</p>
-<pre class="text"><code>|0&gt; = modo sem par
-|1&gt; = modo ocupado por um par de Cooper</code></pre>
+<p><span class="math display">\[
+\lvert 0\rangle = \text{modo sem par}, \qquad
+\lvert 1\rangle = \text{modo ocupado por um par de Cooper}.
+\]</span></p>
 <p>O Hamiltoniano BCS reduzido usado nos experimentos é</p>
-<pre class="text"><code>H = sum_k xi_k Z_k - g/2 sum_{i&lt;j} (X_i X_j + Y_i Y_j).</code></pre>
+<p><span class="math display">\[
+H = \sum_k \xi_k Z_k - \frac{g}{2}\sum_{i&lt;j}(X_iX_j+Y_iY_j).
+\]</span></p>
 <p>O primeiro termo representa energias de pseudospin associadas aos
 níveis <code>xi_k</code>. O segundo termo troca pares entre modos,
 preservando o número total de pares. O operador de número usado no
 código é</p>
-<pre class="text"><code>N = sum_i (I - Z_i)/2.</code></pre>
-<p>Como <code>[H, N] = 0</code>, a conservação de número de pares é uma
-verificação direta da consistência da implementação.</p>
+<p><span class="math display">\[
+N = \sum_i \frac{I-Z_i}{2}.
+\]</span></p>
+<p>Como <span class="math inline">\([H,N]=0\)</span>, a conservação de
+número de pares é uma verificação direta da consistência da
+implementação.</p>
 <h1 id="métodos-computacionais">3. Métodos computacionais</h1>
 <h2 id="evolução-exata">3.1 Evolução exata</h2>
 <p>A evolução de referência é calculada por</p>
-<pre class="text"><code>|psi(t)&gt; = exp(-i H t) |psi(0)&gt;.</code></pre>
+<p><span class="math display">\[
+\lvert\psi(t)\rangle = \exp(-iHt)\lvert\psi(0)\rangle.
+\]</span></p>
 <p>Ela é implementada em <code>src/bcs.py</code> sobre matrizes densas.
 Essa escolha é adequada para o caso de validação com quatro qubits e
 permite comparação direta com aproximações Trotterizadas.</p>
 <h2 id="trotterização">3.2 Trotterização</h2>
 <p>A decomposição de primeira ordem aplica sequencialmente a exponencial
 de cada termo do Hamiltoniano:</p>
-<pre class="text"><code>U_1(dt) = prod_a exp(-i H_a dt).</code></pre>
+<p><span class="math display">\[
+U_1(\Delta t)=\prod_a \exp(-iH_a\Delta t).
+\]</span></p>
 <p>A decomposição de segunda ordem usa a forma simétrica:</p>
-<pre class="text"><code>U_2(dt) = prod_a exp(-i H_a dt/2) prod_a^reverse exp(-i H_a dt/2).</code></pre>
+<p><span class="math display">\[
+U_2(\Delta t)=
+\prod_a \exp\left(-iH_a\frac{\Delta t}{2}\right)
+\prod_a^{\mathrm{rev}} \exp\left(-iH_a\frac{\Delta t}{2}\right).
+\]</span></p>
 <p>O erro é medido por fidelidade e norma do vetor diferença entre
 estado exato e estado Trotterizado.</p>
 <h2 id="circuito-qiskit">3.3 Circuito Qiskit</h2>
@@ -308,29 +326,33 @@ qubits.</p>
 <p>Além de energia, fidelidade e número total de pares, são
 extraídos:</p>
 <ul>
-<li>ocupações <code>n_i=&lt;b_i^\dagger b_i&gt;</code>;</li>
-<li>matriz de correlação de pares
-<code>C_ij=&lt;b_i^\dagger b_j&gt;</code>;</li>
-<li>autovalor condensado <code>lambda_max(C)</code>;</li>
-<li>proxy de gap efetivo
-<code>Delta_eff=g sqrt(lambda_max(C))</code>;</li>
-<li>função de Green retardada de pares
-<code>G^R_ij(t)=-i theta(t)&lt;[b_i(t),b_j^\dagger(0)]&gt;</code>;</li>
-<li>densidade espectral aproximada <code>-Im G^R(omega)/pi</code>;</li>
-<li>função de Green anômala de Gor’kov
-<code>F^R_ij(t)=-i theta(t)&lt;[b_i(t),b_j(0)]&gt;</code>;</li>
-<li>densidade espectral anômala aproximada
-<code>-Im F^R(omega)/pi</code>;</li>
+<li>ocupações <span class="math inline">\(n_i=\langle b_i^\dagger
+b_i\rangle\)</span>;</li>
+<li>matriz de correlação de pares <span
+class="math inline">\(C_{ij}=\langle b_i^\dagger
+b_j\rangle\)</span>;</li>
+<li>autovalor condensado <span
+class="math inline">\(\lambda_{\max}(C)\)</span>;</li>
+<li>proxy de gap efetivo <span
+class="math inline">\(\Delta_{\mathrm{eff}}=g\sqrt{\lambda_{\max}(C)}\)</span>;</li>
+<li>função de Green retardada de pares <span
+class="math inline">\(G^R_{ij}(t)=-i\theta(t)\langle[b_i(t),b_j^\dagger(0)]\rangle\)</span>;</li>
+<li>densidade espectral aproximada <span
+class="math inline">\(-\operatorname{Im}G^R(\omega)/\pi\)</span>;</li>
+<li>função de Green anômala de Gor’kov <span
+class="math inline">\(F^R_{ij}(t)=-i\theta(t)\langle[b_i(t),b_j(0)]\rangle\)</span>;</li>
+<li>densidade espectral anômala aproximada <span
+class="math inline">\(-\operatorname{Im}F^R(\omega)/\pi\)</span>;</li>
 <li>matriz de Gor’kov em base Nambu, combinando canais normais e
 anômalos: <code>[[G,F],[Fdag,Gdag]]</code>;</li>
-<li>traço espectral aproximado
-<code>-Im Tr G_Nambu(omega)/pi</code>;</li>
+<li>traço espectral aproximado <span
+class="math inline">\(-\operatorname{Im}\operatorname{Tr}G_{\mathrm{Nambu}}(\omega)/\pi\)</span>;</li>
 <li>ocupações de pares estimadas por contagens de medição em Qiskit
 Aer;</li>
 <li>comparação entre statevector, shots ideais e ruído
 depolarizante;</li>
-<li>energia por decomposição Pauli <code>E=sum_k c_k &lt;P_k&gt;</code>
-estimada por shots;</li>
+<li>energia por decomposição Pauli <span class="math inline">\(E=\sum_k
+c_k\langle P_k\rangle\)</span> estimada por shots;</li>
 <li>energia mitigada por extrapolação zero-noise linear.</li>
 </ul>
 <p>Esses observáveis permitem discutir coerência coletiva dos pares
@@ -340,7 +362,8 @@ mesmo em um modelo pequeno.</p>
 <ul>
 <li><code>xi = [-1.0, -0.35, 0.35, 1.0]</code>;</li>
 <li><code>g = 0.8</code>;</li>
-<li>estado inicial <code>|1100&gt;</code>;</li>
+<li>estado inicial <span class="math inline">\(\lvert
+1100\rangle\)</span>;</li>
 <li>quatro qubits;</li>
 <li>tempo final <code>t = 6.0</code>;</li>
 <li>Trotterização de segunda ordem com <code>64</code> passos para as
@@ -351,14 +374,15 @@ séries temporais.</li>
 <h1 id="resultados">5. Resultados</h1>
 <h2 id="erro-de-trotterização">5.1 Erro de Trotterização</h2>
 <p>A Figura 1 mostra a queda do erro de estado conforme aumenta o número
-de passos de Trotter. Para <code>t=2.5</code>, a melhor linha da tabela
-usa ordem 2 e 64 passos, com fidelidade <code>0.9999988959</code> e erro
-de estado <code>0.0016610647</code>.</p>
+de passos de Trotter. Para <span class="math inline">\(t=2.5\)</span>, a
+melhor linha da tabela usa ordem 2 e 64 passos, com fidelidade
+<code>0.9999988959</code> e erro de estado
+<code>0.0016610647</code>.</p>
 <figure>
 <img src="../results/figures/bcs_trotter_error.png"
-alt="Figura 1: erro de estado entre evolução exata e Trotterizada." />
-<figcaption aria-hidden="true">Figura 1: erro de estado entre evolução
-exata e Trotterizada.</figcaption>
+alt="Erro de estado entre evolução exata e Trotterizada." />
+<figcaption aria-hidden="true">Erro de estado entre evolução exata e
+Trotterizada.</figcaption>
 </figure>
 <h2 id="validação-do-circuito-qiskit">5.2 Validação do circuito
 Qiskit</h2>
@@ -370,14 +394,15 @@ qubits e a decomposição em portas para o caso estudado.</p>
 <h2 id="gap-efetivo-e-ordem-condensada">5.3 Gap efetivo e ordem
 condensada</h2>
 <p>A Figura 2 mostra a evolução temporal do proxy de gap efetivo e do
-maior autovalor da matriz de correlação de pares. No tempo final
-<code>t=6.0</code>, o gap exato é <code>0.8262711774</code>, enquanto o
-valor Trotterizado é <code>0.8248334652</code>.</p>
+maior autovalor da matriz de correlação de pares. No tempo final <span
+class="math inline">\(t=6.0\)</span>, o gap exato é
+<code>0.8262711774</code>, enquanto o valor Trotterizado é
+<code>0.8248334652</code>.</p>
 <figure>
 <img src="../results/figures/bcs_gap_condensate_time.png"
-alt="Figura 2: proxy de gap efetivo e autovalor condensado." />
-<figcaption aria-hidden="true">Figura 2: proxy de gap efetivo e
-autovalor condensado.</figcaption>
+alt="Proxy de gap efetivo e autovalor condensado." />
+<figcaption aria-hidden="true">Proxy de gap efetivo e autovalor
+condensado.</figcaption>
 </figure>
 <h2 id="ocupações-de-pares">5.4 Ocupações de pares</h2>
 <p>A Figura 3 mostra a transferência de ocupação entre os modos de par.
@@ -390,106 +415,121 @@ n3 = 0.1487</code></pre>
 esperado pela simetria do Hamiltoniano.</p>
 <figure>
 <img src="../results/figures/bcs_pair_occupations_time.png"
-alt="Figura 3: ocupações exatas dos modos de par." />
-<figcaption aria-hidden="true">Figura 3: ocupações exatas dos modos de
+alt="Ocupações exatas dos modos de par." />
+<figcaption aria-hidden="true">Ocupações exatas dos modos de
 par.</figcaption>
 </figure>
 <h2 id="matriz-de-correlação-de-pares">5.5 Matriz de correlação de
 pares</h2>
-<p>As Figuras 4 e 5 mostram os mapas finais de <code>|C_ij|</code> para
-evolução exata e Trotterizada. A semelhança visual entre os mapas
-reforça que a dinâmica Trotterizada preserva não apenas fidelidade
-global, mas também a estrutura de correlação de pares.</p>
+<p>As Figuras 4 e 5 mostram os mapas finais de <span
+class="math inline">\(\lvert C_{ij}\rvert\)</span> para evolução exata e
+Trotterizada. A semelhança visual entre os mapas reforça que a dinâmica
+Trotterizada preserva não apenas fidelidade global, mas também a
+estrutura de correlação de pares.</p>
 <figure>
 <img src="../results/figures/bcs_pair_correlation_exact_final.png"
-alt="Figura 4: matriz final de correlação de pares para evolução exata." />
-<figcaption aria-hidden="true">Figura 4: matriz final de correlação de
-pares para evolução exata.</figcaption>
+alt="Matriz final de correlação de pares para evolução exata." />
+<figcaption aria-hidden="true">Matriz final de correlação de pares para
+evolução exata.</figcaption>
 </figure>
 <figure>
 <img src="../results/figures/bcs_pair_correlation_trotter_final.png"
-alt="Figura 5: matriz final de correlação de pares para evolução Trotterizada." />
-<figcaption aria-hidden="true">Figura 5: matriz final de correlação de
-pares para evolução Trotterizada.</figcaption>
+alt="Matriz final de correlação de pares para evolução Trotterizada." />
+<figcaption aria-hidden="true">Matriz final de correlação de pares para
+evolução Trotterizada.</figcaption>
 </figure>
 <h2 id="função-de-green-retardada">5.6 Função de Green retardada</h2>
 <p>A próxima camada de resposta dinâmica é a função de Green retardada
 de pares:</p>
-<pre class="text"><code>G^R_ij(t) = -i theta(t) &lt;[b_i(t), b_j^\dagger(0)]&gt;.</code></pre>
-<p>No experimento atual, foi calculado o canal local
-<code>G^R_00(t)</code> com amortecimento suave <code>eta=0.04</code>
-para estabilizar a transformada discreta. A Figura 6 mostra as partes
-real e imaginária da resposta no tempo.</p>
+<p><span class="math display">\[
+G^R_{ij}(t)=-i\theta(t)\langle[b_i(t),b_j^\dagger(0)]\rangle.
+\]</span></p>
+<p>No experimento atual, foi calculado o canal local <span
+class="math inline">\(G^R_{00}(t)\)</span> com amortecimento suave
+<code>eta=0.04</code> para estabilizar a transformada discreta. A Figura
+6 mostra as partes real e imaginária da resposta no tempo.</p>
 <figure>
 <img src="../results/figures/bcs_pair_green_time.png"
-alt="Figura 6: função de Green retardada local de pares." />
-<figcaption aria-hidden="true">Figura 6: função de Green retardada local
-de pares.</figcaption>
+alt="Função de Green retardada local de pares." />
+<figcaption aria-hidden="true">Função de Green retardada local de
+pares.</figcaption>
 </figure>
 <p>A Figura 7 mostra a densidade espectral aproximada obtida por FFT. O
-maior pico positivo da janela calculada aparece em
-<code>omega=-1.0443</code>, com peso espectral aproximado
-<code>0.04078</code>. Essa etapa conecta a simulação digital a
-observáveis de resposta linear e abre caminho para versões anômalas e
+maior pico positivo da janela calculada aparece em <span
+class="math inline">\(\omega=-1.0443\)</span>, com peso espectral
+aproximado <code>0.04078</code>. Essa etapa conecta a simulação digital
+a observáveis de resposta linear e abre caminho para versões anômalas e
 equações de Gor’kov.</p>
 <figure>
 <img src="../results/figures/bcs_pair_green_spectrum.png"
-alt="Figura 7: densidade espectral aproximada da resposta de pares." />
-<figcaption aria-hidden="true">Figura 7: densidade espectral aproximada
-da resposta de pares.</figcaption>
+alt="Densidade espectral aproximada da resposta de pares." />
+<figcaption aria-hidden="true">Densidade espectral aproximada da
+resposta de pares.</figcaption>
 </figure>
 <h2 id="canal-anômalo-de-gorkov">5.7 Canal anômalo de Gor’kov</h2>
 <p>Para acessar uma resposta diretamente supercondutora, também
 calculamos</p>
-<pre class="text"><code>F^R_ij(t) = -i theta(t) &lt;[b_i(t), b_j(0)]&gt;.</code></pre>
+<p><span class="math display">\[
+F^R_{ij}(t)=-i\theta(t)\langle[b_i(t),b_j(0)]\rangle.
+\]</span></p>
 <p>Em um estado de número fixo essa quantidade tende a zerar por
 conservação de número. Por isso, o experimento usa um estado produto BCS
-<code>prod_i (u_i|0&gt; + v_i|1&gt;)</code>, com fases relativas nos
-coeficientes <code>v_i</code>, que representa uma ordem de fase efetiva
-em espaço pequeno.</p>
-<p>A Figura 8 mostra o canal local <code>F^R_00(t)</code>. Para os
-parâmetros usados, a amplitude máxima foi <code>|F|=0.27904</code>.</p>
+<span
+class="math inline">\(\prod_i(u_i\lvert0\rangle+v_i\lvert1\rangle)\)</span>,
+com fases relativas nos coeficientes <span
+class="math inline">\(v_i\)</span>, que representa uma ordem de fase
+efetiva em espaço pequeno.</p>
+<p>A Figura 8 mostra o canal local <span
+class="math inline">\(F^R_{00}(t)\)</span>. Para os parâmetros usados, a
+amplitude máxima foi <code>|F|=0.27904</code>.</p>
 <figure>
 <img src="../results/figures/bcs_gorkov_anomalous_time.png"
-alt="Figura 8: função de Green anômala de Gor’kov no tempo." />
-<figcaption aria-hidden="true">Figura 8: função de Green anômala de
-Gor’kov no tempo.</figcaption>
+alt="Função de Green anômala de Gor’kov no tempo." />
+<figcaption aria-hidden="true">Função de Green anômala de Gor’kov no
+tempo.</figcaption>
 </figure>
 <p>A Figura 9 mostra o espectro anômalo aproximado. O pico principal
-aparece em <code>omega=3.1329</code>, com peso espectral aproximado
-<code>0.23245</code>.</p>
+aparece em <span class="math inline">\(\omega=3.1329\)</span>, com peso
+espectral aproximado <code>0.23245</code>.</p>
 <figure>
 <img src="../results/figures/bcs_gorkov_anomalous_spectrum.png"
-alt="Figura 9: espectro anômalo aproximado de Gor’kov." />
-<figcaption aria-hidden="true">Figura 9: espectro anômalo aproximado de
+alt="Espectro anômalo aproximado de Gor’kov." />
+<figcaption aria-hidden="true">Espectro anômalo aproximado de
 Gor’kov.</figcaption>
 </figure>
 <h2 id="matriz-de-gorkov-em-base-nambu">5.8 Matriz de Gor’kov em base
 Nambu</h2>
 <p>Os canais normal e anômalo podem ser organizados como uma matriz
 retardada em base Nambu:</p>
-<pre class="text"><code>G_Nambu^R(t) =
-[ G(t)      F(t)    ]
-[ Fdag(t)  Gdag(t) ]</code></pre>
+<p><span class="math display">\[
+G_{\mathrm{Nambu}}^R(t)=
+\begin{pmatrix}
+G(t) &amp; F(t)\\
+F^\dagger(t) &amp; G^\dagger(t)
+\end{pmatrix}.
+\]</span></p>
 <p>Essa forma coloca a resposta de quasipartícula de par e a resposta
 supercondutora anômala no mesmo objeto. A Figura 10 compara as
 magnitudes dos quatro canais para <code>i=j=0</code>.</p>
 <figure>
 <img src="../results/figures/bcs_gorkov_nambu_channels.png"
-alt="Figura 10: canais da matriz de Gor’kov-Nambu." />
-<figcaption aria-hidden="true">Figura 10: canais da matriz de
+alt="Canais da matriz de Gor’kov-Nambu." />
+<figcaption aria-hidden="true">Canais da matriz de
 Gor’kov-Nambu.</figcaption>
 </figure>
 <p>A Figura 11 mostra o traço espectral aproximado da matriz Nambu. O
-pico principal do traço aparece em <code>omega=-2.4367</code>, com peso
-espectral aproximado <code>0.67376</code>. O máximo temporal de
-<code>|Tr G_Nambu|</code> foi <code>1.03543</code>, e o máximo de
-<code>|det G_Nambu|</code> foi <code>0.20646</code>.</p>
+pico principal do traço aparece em <span
+class="math inline">\(\omega=-2.4367\)</span>, com peso espectral
+aproximado <code>0.67376</code>. O máximo temporal de <span
+class="math inline">\(\lvert\operatorname{Tr}G_{\mathrm{Nambu}}\rvert\)</span>
+foi <code>1.03543</code>, e o máximo de <span
+class="math inline">\(\lvert\det G_{\mathrm{Nambu}}\rvert\)</span> foi
+<code>0.20646</code>.</p>
 <figure>
 <img src="../results/figures/bcs_gorkov_nambu_spectral_trace.png"
-alt="Figura 11: traço espectral aproximado da matriz de Gor’kov-Nambu." />
-<figcaption aria-hidden="true">Figura 11: traço espectral aproximado da
-matriz de Gor’kov-Nambu.</figcaption>
+alt="Traço espectral aproximado da matriz de Gor’kov-Nambu." />
+<figcaption aria-hidden="true">Traço espectral aproximado da matriz de
+Gor’kov-Nambu.</figcaption>
 </figure>
 <h2 id="medição-por-shots-e-ruído">5.9 Medição por shots e ruído</h2>
 <p>Para aproximar a simulação de um fluxo experimental de computação
@@ -504,9 +544,9 @@ informação de ocupação por modo, porém, é fortemente degradada pelo
 ruído.</p>
 <figure>
 <img src="../results/figures/bcs_qiskit_shots_noise_total_pairs.png"
-alt="Figura 12: número total de pares estimado por shots." />
-<figcaption aria-hidden="true">Figura 12: número total de pares estimado
-por shots.</figcaption>
+alt="Número total de pares estimado por shots." />
+<figcaption aria-hidden="true">Número total de pares estimado por
+shots.</figcaption>
 </figure>
 <p>A Figura 13 compara as ocupações de pares no maior orçamento de
 shots. Com <code>8192</code> shots ideais, as ocupações ficam próximas
@@ -515,15 +555,17 @@ ocupações próximas de <code>0.5</code>, como esperado em um canal
 depolarizante forte.</p>
 <figure>
 <img src="../results/figures/bcs_qiskit_shots_noise_occupations.png"
-alt="Figura 13: ocupações por statevector, shots ideais e shots ruidosos." />
-<figcaption aria-hidden="true">Figura 13: ocupações por statevector,
-shots ideais e shots ruidosos.</figcaption>
+alt="Ocupações por statevector, shots ideais e shots ruidosos." />
+<figcaption aria-hidden="true">Ocupações por statevector, shots ideais e
+shots ruidosos.</figcaption>
 </figure>
 <h2 id="energia-por-decomposição-pauli-e-shots">5.10 Energia por
 decomposição Pauli e shots</h2>
 <p>O Hamiltoniano BCS reduzido já está escrito como soma de strings de
 Pauli:</p>
-<pre class="text"><code>E = sum_k c_k &lt;P_k&gt;.</code></pre>
+<p><span class="math display">\[
+E=\sum_k c_k\langle P_k\rangle.
+\]</span></p>
 <p>Cada termo foi medido em sua base própria: termos <code>Z</code>
 diretamente na base computacional, termos <code>X</code> após rotações
 <code>H</code>, e termos <code>Y</code> após <code>S^\dagger H</code>. O
@@ -536,9 +578,9 @@ energia fica próxima do statevector; com ruído depolarizante, a energia
 é fortemente subestimada.</p>
 <figure>
 <img src="../results/figures/bcs_qiskit_energy_shots_values.png"
-alt="Figura 14: energia BCS estimada por decomposição Pauli e shots." />
-<figcaption aria-hidden="true">Figura 14: energia BCS estimada por
-decomposição Pauli e shots.</figcaption>
+alt="Energia BCS estimada por decomposição Pauli e shots." />
+<figcaption aria-hidden="true">Energia BCS estimada por decomposição
+Pauli e shots.</figcaption>
 </figure>
 <p>A Figura 15 mostra o erro absoluto em relação ao statevector
 Trotterizado. No maior orçamento usado (<code>8192</code> shots por
@@ -546,28 +588,29 @@ termo), o erro ideal foi <code>0.00656</code>, enquanto o erro ruidoso
 ficou em <code>2.40108</code>.</p>
 <figure>
 <img src="../results/figures/bcs_qiskit_energy_shots_error.png"
-alt="Figura 15: erro absoluto da energia por shots." />
-<figcaption aria-hidden="true">Figura 15: erro absoluto da energia por
+alt="Erro absoluto da energia por shots." />
+<figcaption aria-hidden="true">Erro absoluto da energia por
 shots.</figcaption>
 </figure>
 <h2 id="mitigação-por-extrapolação-zero-noise">5.11 Mitigação por
 extrapolação zero-noise</h2>
 <p>Como demonstração de mitigação simples, a energia ruidosa foi medida
-em três escalas artificiais de ruído depolarizante:
-<code>lambda=1,2,3</code>, com base <code>p1=0.0005</code> para portas
-de um qubit e <code>p2=0.005</code> para portas de dois qubits. Um
-ajuste linear <code>E(lambda)=a lambda + b</code> foi usado para estimar
-o limite de ruído zero <code>b</code>.</p>
+em três escalas artificiais de ruído depolarizante: <span
+class="math inline">\(\lambda=1,2,3\)</span>, com base
+<code>p1=0.0005</code> para portas de um qubit e <code>p2=0.005</code>
+para portas de dois qubits. Um ajuste linear <span
+class="math inline">\(E(\lambda)=a\lambda+b\)</span> foi usado para
+estimar o limite de ruído zero <code>b</code>.</p>
 <p>A Figura 16 mostra os pontos ruidosos e a extrapolação linear. Para
-<code>4096</code> shots por termo de Pauli, a energia ruidosa em
-<code>lambda=1</code> foi <code>1.42524</code>, enquanto a energia
-mitigada foi <code>1.85809</code>. O valor de statevector Trotterizado é
-<code>2.61166</code>.</p>
+<code>4096</code> shots por termo de Pauli, a energia ruidosa em <span
+class="math inline">\(\lambda=1\)</span> foi <code>1.42524</code>,
+enquanto a energia mitigada foi <code>1.85809</code>. O valor de
+statevector Trotterizado é <code>2.61166</code>.</p>
 <figure>
 <img src="../results/figures/bcs_qiskit_error_mitigation_zne.png"
-alt="Figura 16: extrapolação zero-noise linear da energia BCS." />
-<figcaption aria-hidden="true">Figura 16: extrapolação zero-noise linear
-da energia BCS.</figcaption>
+alt="Extrapolação zero-noise linear da energia BCS." />
+<figcaption aria-hidden="true">Extrapolação zero-noise linear da energia
+BCS.</figcaption>
 </figure>
 <p>A Figura 17 compara o erro antes/depois da mitigação. O erro contra o
 statevector foi reduzido de <code>1.18642</code> para
@@ -576,9 +619,9 @@ que o regime de ruído não é perfeitamente linear e que técnicas mais
 robustas podem ser investigadas.</p>
 <figure>
 <img src="../results/figures/bcs_qiskit_error_mitigation_errors.png"
-alt="Figura 17: erro de energia antes e depois da mitigação." />
-<figcaption aria-hidden="true">Figura 17: erro de energia antes e depois
-da mitigação.</figcaption>
+alt="Erro de energia antes e depois da mitigação." />
+<figcaption aria-hidden="true">Erro de energia antes e depois da
+mitigação.</figcaption>
 </figure>
 <h1 id="discussão">6. Discussão</h1>
 <p>Os resultados mostram três pontos principais. Primeiro, a conservação
@@ -624,9 +667,9 @@ artefatos renderizados estão organizados no repositório público:</p>
 <li><code>results/notebooks/bcs_paper_reproduction.pdf</code>.</li>
 </ul>
 <p>A validação automatizada do pacote é feita por:</p>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">PYTHONPATH</span><span class="op">=</span>src <span class="ex">.venv/bin/python</span> <span class="at">-m</span> pytest <span class="at">-q</span> tests</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> scripts/validate_bcs_paper_artifacts.py</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">PYTHONPATH</span><span class="op">=</span>src <span class="ex">.venv/bin/python</span> <span class="at">-m</span> pytest <span class="at">-q</span> tests</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> scripts/validate_bcs_paper_artifacts.py</span></code></pre></div>
 <p>O código-fonte é distribuído sob a licença BSD-3-Clause. A
 documentação, o manuscrito, as figuras, os notebooks, as tabelas e os
 artefatos renderizados são distribuídos sob CC BY 4.0. O arquivo

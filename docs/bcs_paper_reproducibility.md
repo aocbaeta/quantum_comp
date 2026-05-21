@@ -9,9 +9,9 @@ Para citação e licenças, consulte `CITATION.cff`, `LICENSE` e `LICENSE-DOCS`.
 
 ## Modelo
 
-```text
-H = sum_k xi_k Z_k - g/2 sum_{i<j} (X_i X_j + Y_i Y_j)
-```
+$$
+H = \sum_k \xi_k Z_k - \frac{g}{2}\sum_{i<j}(X_iX_j+Y_iY_j).
+$$
 
 Parâmetros padrão:
 
@@ -110,18 +110,18 @@ python scripts/validate_bcs_paper_artifacts.py
 - Erro vetorial de estado.
 - Energia e número total de pares.
 - Ocupações `n_i`.
-- Matriz de correlação de pares `C_ij=<b_i^\dagger b_j>`.
-- Autovalor condensado `lambda_max(C)`.
-- Proxy de gap efetivo `Delta_eff=g sqrt(lambda_max(C))`.
-- Função de Green retardada de pares `G^R_ij(t)=-i theta(t)<[b_i(t),b_j^\dagger(0)]>`.
-- Densidade espectral aproximada `-Im G^R(omega)/pi`.
-- Função de Green anômala `F^R_ij(t)=-i theta(t)<[b_i(t),b_j(0)]>`.
-- Espectro anômalo aproximado `-Im F^R(omega)/pi`.
+- Matriz de correlação de pares $C_{ij}=\langle b_i^\dagger b_j\rangle$.
+- Autovalor condensado $\lambda_{\max}(C)$.
+- Proxy de gap efetivo $\Delta_{\mathrm{eff}}=g\sqrt{\lambda_{\max}(C)}$.
+- Função de Green retardada de pares $G^R_{ij}(t)=-i\theta(t)\langle[b_i(t),b_j^\dagger(0)]\rangle$.
+- Densidade espectral aproximada $-\operatorname{Im}G^R(\omega)/\pi$.
+- Função de Green anômala $F^R_{ij}(t)=-i\theta(t)\langle[b_i(t),b_j(0)]\rangle$.
+- Espectro anômalo aproximado $-\operatorname{Im}F^R(\omega)/\pi$.
 - Matriz de Gor'kov em base Nambu com canais `G`, `F`, `Fdag` e `Gdag`.
-- Traço espectral aproximado `-Im Tr G_Nambu(omega)/pi`.
+- Traço espectral aproximado $-\operatorname{Im}\operatorname{Tr}G_{\mathrm{Nambu}}(\omega)/\pi$.
 - Ocupações medidas por shots em Qiskit Aer.
 - Comparação entre statevector, shots ideais e ruído depolarizante simples.
-- Energia por decomposição Pauli `E=sum_k c_k <P_k>`.
+- Energia por decomposição Pauli $E=\sum_k c_k\langle P_k\rangle$.
 - Erro absoluto da energia por shots ideal e ruidosa.
 - Extrapolação zero-noise linear com escalas de ruído depolarizante.
 - Erro antes/depois de mitigação.

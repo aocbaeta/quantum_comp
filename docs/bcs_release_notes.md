@@ -23,6 +23,7 @@ correspondem a incrementos reprodutíveis do código, resultados e documentaçã
 | `v1.4-bcs-license-policy` | `27c1b9b` | Licença BSD-3-Clause para código e CC BY 4.0 para documentação/resultados. |
 | `v1.5-bcs-manuscript-ready` | `fd11559` | Manuscrito revisado com disponibilidade, citação, licenças e PDF regenerado. |
 | `v1.6-bcs-release-package` | `27fb0bc` | Resumo de release, notas v1.5 e pacote ZIP de distribuição. |
+| `v1.7-bcs-latex-review` | `TBD` | Revisão técnica, matemática em LaTeX e PDFs recompilados por Pandoc/LaTeX. |
 
 ## Estado em `v1.0`
 
@@ -42,7 +43,8 @@ O pacote BCS inclui:
 - metadados de citação em `CITATION.cff`;
 - checklist editorial em `docs/bcs_publication_checklist.md`;
 - licenças em `LICENSE` e `LICENSE-DOCS`;
-- pacote de distribuição em `results/releases/bcs_quantum_simulation_v1.5.zip`.
+- pacote de distribuição em `results/releases/bcs_quantum_simulation_v1.5.zip`;
+- revisão técnica em `docs/project_review_2026-05-21.md`.
 
 ## Comandos de auditoria
 

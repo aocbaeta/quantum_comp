@@ -54,6 +54,7 @@ bin/                utilitários e wrappers locais
 - `docs/BCS_QC_comparacao.md` — análise de compatibilidade entre teoria e implementação.
 - `docs/bcs_release_abstract.md` — resumo curto para release/distribuição do pacote BCS.
 - `docs/bcs_publication_checklist.md` — checklist de publicação e auditoria do pacote BCS.
+- `docs/project_review_2026-05-21.md` — revisão técnica com riscos e otimizações recomendadas.
 - `docs/bcs_release_notes.md` — linha do tempo dos marcos versionados do paper BCS.
 - `docs/tutoriais_quantum.md` — guia unificado de tutoriais do laboratório.
 - `notebooks/bcs_paper_reproduction.ipynb` — notebook interativo para revisar tabelas, figuras e métricas do paper BCS.
@@ -94,10 +95,9 @@ scripts/run_research_suite.sh
 ### Manuscrito BCS
 
 ```bash
-pandoc papers/bcs_quantum_simulation.md -s -o papers/bcs_quantum_simulation.html
-google-chrome --headless --disable-gpu --no-sandbox \
-  --print-to-pdf="$PWD/papers/bcs_quantum_simulation.pdf" \
-  "file://$PWD/papers/bcs_quantum_simulation.html"
+pandoc papers/bcs_quantum_simulation.md -s --mathjax -o papers/bcs_quantum_simulation.html
+pandoc papers/bcs_quantum_simulation.md -s --resource-path=papers:. --pdf-engine=pdflatex \
+  -o papers/bcs_quantum_simulation.pdf
 ```
 
 ### Simulação da hipótese de Riemann
