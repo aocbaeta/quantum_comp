@@ -19,6 +19,8 @@ class Artifact:
 
 REQUIRED_ARTIFACTS = [
     Artifact("CITATION.cff", "text", 100),
+    Artifact("LICENSE", "text", 1_000),
+    Artifact("LICENSE-DOCS", "text", 1_000),
     Artifact("docs/bcs_publication_checklist.md", "text", 1_000),
     Artifact("docs/bcs_release_notes.md", "text", 1_000),
     Artifact("papers/bcs_quantum_simulation.md", "text", 1_000),

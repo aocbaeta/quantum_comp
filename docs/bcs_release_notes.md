@@ -37,7 +37,8 @@ O pacote BCS inclui:
 - validação em `scripts/validate_bcs_paper_artifacts.py`;
 - CI em `.github/workflows/ci.yml`;
 - metadados de citação em `CITATION.cff`;
-- checklist editorial em `docs/bcs_publication_checklist.md`.
+- checklist editorial em `docs/bcs_publication_checklist.md`;
+- licenças em `LICENSE` e `LICENSE-DOCS`.
 
 ## Comandos de auditoria
 

@@ -26,6 +26,8 @@ o trabalho de simulação quântica do Hamiltoniano BCS reduzido.
 - [x] Roteiro de reprodutibilidade em `docs/bcs_paper_reproducibility.md`.
 - [x] Marcos versionados em `docs/bcs_release_notes.md`.
 - [x] Metadados de citação em `CITATION.cff`.
+- [x] Licença de código em `LICENSE` usando BSD-3-Clause.
+- [x] Licença de documentação/resultados em `LICENSE-DOCS` usando CC BY 4.0.
 
 ## Auditoria antes de compartilhar
 
@@ -38,6 +40,5 @@ gh run list --repo aocbaeta/quantum_comp --limit 3
 ## Pendências editoriais
 
 - [ ] Revisar linguagem e formatação final do manuscrito.
-- [ ] Decidir licença formal do repositório.
 - [ ] Adicionar DOI quando houver depósito em Zenodo, OSF ou plataforma equivalente.
 - [ ] Adaptar o manuscrito ao template do periódico ou conferência escolhida.

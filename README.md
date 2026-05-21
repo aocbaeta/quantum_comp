@@ -9,6 +9,24 @@ O repositório integra:
 - implementações em QCL, Qiskit, PennyLane e Cirq;
 - tutoriais, documentação técnica e resultados reproduzíveis.
 
+## Como citar e licenças
+
+Esta é uma pesquisa independente de Andre Baeta. Se você usar o código,
+resultados, figuras, notebooks, tutoriais ou ideias derivadas deste repositório
+em trabalhos acadêmicos, relatórios, apresentações ou software, cite o projeto
+usando os metadados em `CITATION.cff`.
+
+- Código-fonte: `LICENSE`, BSD-3-Clause.
+- Documentação, manuscritos, tutoriais, notebooks, figuras, tabelas e artefatos
+  renderizados: `LICENSE-DOCS`, CC BY 4.0.
+
+Citação recomendada:
+
+```text
+Andre Baeta, "Quantum IC: reduced BCS Hamiltonian quantum simulation workflow",
+GitHub repository, https://github.com/aocbaeta/quantum_comp.
+```
+
 ## Pré-requisitos
 
 ```bash

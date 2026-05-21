@@ -5,6 +5,7 @@ no projeto.
 
 Para a linha do tempo de versões, consulte `docs/bcs_release_notes.md`.
 Para a checklist de publicação, consulte `docs/bcs_publication_checklist.md`.
+Para citação e licenças, consulte `CITATION.cff`, `LICENSE` e `LICENSE-DOCS`.
 
 ## Modelo
 

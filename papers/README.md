@@ -28,6 +28,14 @@ Checklist de publicação:
 docs/bcs_publication_checklist.md
 ```
 
+Citação e licenças:
+
+```bash
+CITATION.cff
+LICENSE
+LICENSE-DOCS
+```
+
 Gerar HTML/PDF:
 
 ```bash
