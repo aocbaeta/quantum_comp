@@ -20,6 +20,7 @@ correspondem a incrementos reprodutíveis do código, resultados e documentaçã
 | `v1.1-bcs-release-notes` | `73e5f6d` | Changelog dos marcos BCS e comandos de auditoria. |
 | `v1.2-bcs-ci` | `d62f136` | CI no GitHub Actions para testes e validação dos artefatos BCS. |
 | `v1.3-bcs-citation-package` | `cc8ff38` | Metadados de citação, checklist editorial e validação ampliada do pacote. |
+| `v1.4-bcs-license-policy` | `27c1b9b` | Licença BSD-3-Clause para código e CC BY 4.0 para documentação/resultados. |
 
 ## Estado em `v1.0`
 
