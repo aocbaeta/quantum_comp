@@ -6,7 +6,7 @@ VQE, operadores de Pauli e ligacao com hardware IBM.
 ## Rodar
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/qiskit/algorithms_qiskit.py
 ```

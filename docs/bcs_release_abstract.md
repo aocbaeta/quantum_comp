@@ -2,7 +2,7 @@
 
 ## Projeto
 
-`Quantum IC` inclui um fluxo reprodutível para simulação quântica do
+`Quantum Comp` inclui um fluxo reprodutível para simulação quântica do
 Hamiltoniano BCS reduzido em qubits. O pacote combina evolução exata,
 Trotterização, circuitos Qiskit, funções de Green, canais anômalos de Gor'kov,
 matriz Nambu, medições por shots, ruído depolarizante e mitigação por
@@ -40,7 +40,7 @@ derivado deve citar o projeto conforme `CITATION.cff`.
 ## Como citar
 
 ```text
-Andre Baeta, "Quantum IC: reduced BCS Hamiltonian quantum simulation workflow",
+Andre Baeta, "Quantum Comp: reduced BCS Hamiltonian quantum simulation workflow",
 GitHub repository, https://github.com/aocbaeta/quantum_comp.
 ```
 

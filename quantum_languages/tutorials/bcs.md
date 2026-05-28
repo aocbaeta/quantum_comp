@@ -51,7 +51,7 @@ Demonstrar a correspondência entre:
 ## Execução
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/scripts/bcs_project.py
 ```

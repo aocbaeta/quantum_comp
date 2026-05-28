@@ -1,6 +1,6 @@
-# Quantum IC
+# Quantum Comp
 
-Quantum IC é um laboratório Python para pesquisa, desenvolvimento e validação de modelos de muitos corpos e simulação quântica.
+Quantum Comp é um laboratório Python para pesquisa, desenvolvimento e validação de modelos de muitos corpos e simulação quântica.
 
 O repositório integra:
 
@@ -23,14 +23,14 @@ usando os metadados em `CITATION.cff`.
 Citação recomendada:
 
 ```text
-Andre Baeta, "Quantum IC: reduced BCS Hamiltonian quantum simulation workflow",
+Andre Baeta, "Quantum Comp: reduced BCS Hamiltonian quantum simulation workflow",
 GitHub repository, https://github.com/aocbaeta/quantum_comp.
 ```
 
 ## Pré-requisitos
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 ```
 
@@ -64,7 +64,7 @@ bin/                utilitários e wrappers locais
 ### Frameworks quânticos
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 quantum_languages/scripts/run_framework_examples.sh
 ```
@@ -72,7 +72,7 @@ quantum_languages/scripts/run_framework_examples.sh
 ### Exemplos QCL
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 quantum_languages/scripts/run_qcl_examples.sh
 ```
@@ -80,7 +80,7 @@ quantum_languages/scripts/run_qcl_examples.sh
 ### Experimentos principais
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python experiments/run_all.py
 ```
@@ -88,7 +88,7 @@ python experiments/run_all.py
 ### Suíte completa de pesquisa
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 scripts/run_research_suite.sh
 ```
 
@@ -125,7 +125,7 @@ pandoc papers/bcs_quantum_simulation.md -s --resource-path=papers:. --pdf-engine
 Abrir o notebook:
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 jupyter notebook notebooks/bcs_paper_reproduction.ipynb
 ```
@@ -154,7 +154,7 @@ bin/qcl quantum_languages/qcl/01_bell_pauli.qcl
 ## Dependências
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
@@ -162,14 +162,14 @@ python -m pip install -r requirements.txt
 ## Testes
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 PYTHONPATH=src .venv/bin/python -m pytest -q tests
 ```
 
 ## CI local
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 PYTHONPATH=src .venv/bin/python -m pytest -q tests
 .venv/bin/python scripts/validate_bcs_paper_artifacts.py
 ```

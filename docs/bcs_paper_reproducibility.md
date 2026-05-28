@@ -24,7 +24,7 @@ Parâmetros padrão:
 ## Comandos
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python experiments/08_bcs_dynamics_trotter.py
 python experiments/09_bcs_qiskit_trotter_circuit.py

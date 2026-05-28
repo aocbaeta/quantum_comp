@@ -38,7 +38,7 @@ PYTHONPATH=src .venv/bin/python -m pytest -q tests
 ## Citação
 
 ```text
-Andre Baeta, "Quantum IC: reduced BCS Hamiltonian quantum simulation workflow",
+Andre Baeta, "Quantum Comp: reduced BCS Hamiltonian quantum simulation workflow",
 GitHub repository, https://github.com/aocbaeta/quantum_comp.
 ```
 

@@ -407,7 +407,7 @@ Se este repositório, seus resultados, figuras, tabelas, código ou ideias forem
 usados em trabalhos acadêmicos, relatórios, apresentações ou software, cite:
 
 ```text
-Andre Baeta, "Quantum IC: reduced BCS Hamiltonian quantum simulation workflow",
+Andre Baeta, "Quantum Comp: reduced BCS Hamiltonian quantum simulation workflow",
 GitHub repository, https://github.com/aocbaeta/quantum_comp.
 ```
 

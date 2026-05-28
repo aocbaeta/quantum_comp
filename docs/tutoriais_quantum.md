@@ -1,5 +1,5 @@
 ---
-title: "Tutoriais do Laboratorio Quantum IC"
+title: "Tutoriais do Laboratorio Quantum Comp"
 author: "Andre Baeta"
 date: "2026-05-20"
 lang: pt-BR
@@ -14,18 +14,18 @@ urlcolor: blue
 
 <!-- markdownlint-disable MD025 -->
 
-# Tutoriais do Laboratorio Quantum IC
+# Tutoriais do Laboratorio Quantum Comp
 
 ## Visao geral
 
-Este documento reune os tutoriais praticos do laboratorio `quantum_ic`.
+Este documento reune os tutoriais praticos do laboratorio `quantum_comp`.
 O objetivo e manter um guia unico para executar os exemplos em QCL, Qiskit,
 Cirq, PennyLane, OpenQASM, QML e BCS.
 
 ### Preparar ambiente geral
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 ```
 
@@ -46,7 +46,7 @@ quanticos.
 ### Rodar QCL
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 bin/qcl quantum_languages/qcl/01_bell_pauli.qcl
 ```
 
@@ -81,7 +81,7 @@ VQE, operadores de Pauli e ligacao com hardware IBM.
 ### Rodar Qiskit
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/qiskit/algorithms_qiskit.py
 ```
@@ -112,7 +112,7 @@ Cirq e bom para circuitos explicitos, controle fino de portas e estilo Google-li
 ### Rodar Cirq
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/cirq/algorithms_cirq.py
 ```
@@ -137,7 +137,7 @@ PennyLane e a melhor ponte entre circuitos quanticos e otimizacao/diferenciacao.
 ### Rodar circuitos basicos
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/pennylane/algorithms_pennylane.py
 ```
@@ -164,7 +164,7 @@ quanticos e modelos hibridos classico-quanticos.
 
 ## BCS Quantum Project
 
-Este tutorial descreve a integração do modelo BCS ao laboratório `quantum_ic`.
+Este tutorial descreve a integração do modelo BCS ao laboratório `quantum_comp`.
 A fundamentação teórica está disponível em `docs/BCS_QC.pdf` e a implementação prática
 está dividida entre `src/bcs.py`, `src/bcs_qiskit.py` e
 `quantum_languages/scripts/bcs_project.py`.
@@ -172,7 +172,7 @@ está dividida entre `src/bcs.py`, `src/bcs_qiskit.py` e
 ### Execução
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/scripts/bcs_project.py
 python experiments/08_bcs_dynamics_trotter.py

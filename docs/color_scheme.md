@@ -1,4 +1,4 @@
-# Quantum IC Color Scheme
+# Quantum Comp Color Scheme
 
 Paleta inspirada em quadro negro, espectro, Hamiltonianos e notacao BCS.
 

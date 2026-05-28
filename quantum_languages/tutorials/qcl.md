@@ -6,7 +6,7 @@ quanticos.
 ## Rodar
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 bin/qcl quantum_languages/qcl/01_bell_pauli.qcl
 ```
 

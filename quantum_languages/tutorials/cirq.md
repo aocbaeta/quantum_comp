@@ -5,7 +5,7 @@ Cirq e bom para circuitos explicitos, controle fino de portas e estilo Google-li
 ## Rodar
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/cirq/algorithms_cirq.py
 ```

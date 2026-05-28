@@ -1,6 +1,6 @@
-# Comparação entre `BCS_QC` e o projeto `quantum_ic`
+# Comparação entre `BCS_QC` e o projeto `quantum_comp`
 
-Este documento documenta a relação entre o material teórico presente em `docs/BCS_QC.pdf` e a implementação prática do modelo BCS no repositório `quantum_ic`.
+Este documento documenta a relação entre o material teórico presente em `docs/BCS_QC.pdf` e a implementação prática do modelo BCS no repositório `quantum_comp`.
 
 ## Objetivo
 
@@ -60,7 +60,7 @@ As seguintes lacunas foram endereçadas na implementação posterior:
 
 ## Conclusão
 
-A abordagem teórica de `BCS_QC.pdf` é compatível com o escopo prático do projeto `quantum_ic`.
+A abordagem teórica de `BCS_QC.pdf` é compatível com o escopo prático do projeto `quantum_comp`.
 
 - A implementação atual materializa o Hamiltoniano reduzido BCS, a comparação
   VQE, a dinâmica Trotterizada e observáveis físicos de pares.

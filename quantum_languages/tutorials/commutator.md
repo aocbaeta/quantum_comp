@@ -26,7 +26,7 @@ A implementação central está em `src/algebra.py`.
 Use o `PYTHONPATH=src` para importar o módulo do diretório raiz.
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 PYTHONPATH=src python - <<'PY'
 import numpy as np
@@ -45,7 +45,7 @@ PY
 No Qiskit, o commutador pode ser calculado a partir das matrizes de operadores Pauli.
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python - <<'PY'
 import numpy as np
@@ -68,7 +68,7 @@ PY
 Em Cirq, use as matrizes unitárias de Pauli e calcule o commutador diretamente.
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python - <<'PY'
 import numpy as np
@@ -91,7 +91,7 @@ PY
 Em PennyLane, basta usar arrays NumPy para os operadores de Pauli.
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python - <<'PY'
 import numpy as np
@@ -168,7 +168,7 @@ def comm(v1, v2):
 O script abaixo implementa e executa exatamente esse commutador:
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/scripts/commutator_symbolic.py
 ```
@@ -182,7 +182,7 @@ Em Qiskit/Cirq/PennyLane, você pode rodar o mesmo script quando estiver no ambi
 pois o resultado não depende de circuitos:
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/scripts/commutator_symbolic.py
 ```

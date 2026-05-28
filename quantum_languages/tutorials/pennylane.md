@@ -5,7 +5,7 @@ PennyLane e a melhor ponte entre circuitos quanticos e otimizacao/diferenciacao.
 ## Rodar circuitos basicos
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 python quantum_languages/pennylane/algorithms_pennylane.py
 ```

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "Se este repositório for útil para sua pesquisa, cite-o usando estes metadados."
-title: "Quantum IC: reduced BCS Hamiltonian quantum simulation workflow"
+title: "Quantum Comp: reduced BCS Hamiltonian quantum simulation workflow"
 type: software
 authors:
   - family-names: "Baeta"

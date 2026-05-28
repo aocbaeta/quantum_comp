@@ -4,10 +4,10 @@ Versoes em linguagens de computacao quantica dos experimentos do projeto.
 
 ## QCL
 
-QCL e a linguagem historica instalada em `~/quantum_ic/bin/qcl`.
+QCL e a linguagem historica instalada em `~/quantum_comp/bin/qcl`.
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 quantum_languages/scripts/run_qcl_examples.sh
 ```
 
@@ -45,7 +45,7 @@ openqasm/grover_2q_mark_3.qasm
 ## Frameworks Modernos
 
 ```bash
-cd ~/quantum_ic
+cd ~/quantum_comp
 source .venv/bin/activate
 quantum_languages/scripts/run_framework_examples.sh
 ```

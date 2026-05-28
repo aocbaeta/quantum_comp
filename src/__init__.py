@@ -1,1 +1,1 @@
-"""Reusable code for the Quantum IC project."""
+"""Reusable code for the Quantum Comp project."""
