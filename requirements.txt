@@ -19,3 +19,18 @@ pylatexenc
 networkx
 tqdm
 pytest
+
+# Security floors for transitive notebook and visualization dependencies.
+# Keep these constraints until all direct parents require patched releases.
+bleach>=6.4.0
+cryptography>=48.0.1
+grpcio-status>=1.75.1
+jupyter-server>=2.20.0
+jupyterlab>=4.6.2
+mistune>=3.3.0
+pillow>=12.3.0
+pyasn1>=0.6.4
+requests>=2.33.0
+setuptools>=83.0.0
+soupsieve>=2.8.4
+tornado>=6.5.7

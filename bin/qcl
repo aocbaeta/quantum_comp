@@ -2,4 +2,26 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-exec "$ROOT/tools/qcl/qcl-0.6.4/qcl" -I "$ROOT/tools/qcl/qcl-0.6.4/lib" "$@"
+QCL_BINARY="$ROOT/tools/qcl/qcl-0.6.4/qcl"
+EXPECTED_SHA256="eade8fd3718cd6f98b4e15a1d3c33341ba72e147f5a43c0ec200ce8225f9d9ef"
+
+if [[ ! -f "$QCL_BINARY" ]]; then
+  printf 'QCL binary is missing: %s\n' "$QCL_BINARY" >&2
+  exit 1
+fi
+
+actual_sha256="$(sha256sum "$QCL_BINARY" | awk '{print $1}')"
+if [[ "$actual_sha256" != "$EXPECTED_SHA256" ]]; then
+  printf 'QCL binary integrity check failed; refusing to execute.\n' >&2
+  exit 1
+fi
+
+if [[ "${QCL_ALLOW_UNVERIFIED_BINARY:-}" != "1" ]]; then
+  printf '%s\n' \
+    'QCL 0.6.4 is a legacy vendored binary without verified upstream provenance.' \
+    'Execution is blocked by default. Review docs/QCL_BINARY_SECURITY.md and set' \
+    'QCL_ALLOW_UNVERIFIED_BINARY=1 only inside an isolated environment.' >&2
+  exit 1
+fi
+
+exec "$QCL_BINARY" -I "$ROOT/tools/qcl/qcl-0.6.4/lib" "$@"
