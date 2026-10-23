@@ -92,7 +92,7 @@ parso==0.8.7
 pennylane==0.45.0
 pennylane_lightning==0.45.0
 pexpect==4.9.0
-pillow==12.2.0
+pillow==13.0.0
 platformdirs==4.9.6
 pluggy==1.6.0
 prometheus_client==0.25.0
